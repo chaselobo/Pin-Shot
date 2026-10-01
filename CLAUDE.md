@@ -20,6 +20,7 @@ Explain Git steps to the user in plain language. They don't need the commands, j
 - `docs/` is the live website, served by GitHub Pages from the `main` branch's `/docs` folder: https://chaselobo.github.io/Pin-Shot/
   - `docs/index.html` is the whole site (one file: HTML, CSS and JS). Images are in `docs/img/` (web-sized copies).
   - Changes go live about a minute after pushing.
+- `docs/waitlist/index.html` is the one-screen waitlist page (no scrolling). Bottles there are transparent PNG cutouts in `docs/waitlist/img/`. Signups only save once `WAITLIST_ENDPOINT` at the top of its script is set to a form service URL (for example Formspree).
 - `assets/` holds the full-size product images, named `pin-shot-<flavor>.jpeg` and `pin-shot-group-<scene>.jpeg`. `pin-shot-template.jpeg` is the blank bottle used to make new flavors.
 - `output/` holds design and engineering work:
   - `pin-shot-a2-concept/` is the chosen mechanism (A2 Flap-Back Gate): concept sheet, approved mockups, `FLAVOR-PROMPTS.md` and `GEMINI-SHOT-PROMPTS.md` for image generation.

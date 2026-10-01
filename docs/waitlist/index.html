@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pin Shot is coming. Eight cocktails with the shot sealed in the cap. Join the waitlist. 21+.">
+<meta name="theme-color" content="#0b0706">
+<title>Pin Shot Waitlist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap">
+<style>
+/* Layout: one fixed screen. Back-bar wall on top, polished wood counter below; bottles rotate on the counter with the current flavor front and center. Waitlist form sits left on desktop, on the counter front on mobile. */
+@property --fc{syntax:"<color>";inherits:true;initial-value:#c6ef3a}
+:root{
+  --night:#0b0706; --wall:#160d09; --wood:#3a2215; --wood-dark:#1a0e07; --rim:#9a6238;
+  --text:#f5efe9; --soft:rgba(245,239,233,.72); --faint:rgba(245,239,233,.45);
+  --lime:#c6ef3a; --copper:#d0703a; --fc:#c6ef3a;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Manrope", "Helvetica Neue", Arial, sans-serif;
+  --hz:66dvh;
+  color-scheme:dark;
+  transition:--fc 1.1s ease;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{background:var(--night);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased;touch-action:manipulation}
+.scene{position:fixed;inset:0;overflow:hidden;isolation:isolate}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* back bar */
+.wall{position:absolute;left:0;right:0;top:0;height:var(--hz);z-index:-3;
+  background:
+    radial-gradient(90vw 60dvh at 62% 100%,color-mix(in srgb,var(--fc) 16%,transparent),transparent 70%),
+    radial-gradient(120vw 70dvh at 50% -10%,#2b170d,transparent 70%),
+    linear-gradient(180deg,#120a07,var(--wall))}
+.shelf{position:absolute;left:-5%;right:-5%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,180,110,.35),rgba(255,200,140,.55),rgba(255,180,110,.35),transparent);filter:blur(1px);box-shadow:0 0 24px 6px rgba(255,150,80,.12)}
+.shelf.s1{top:28%}.shelf.s2{top:56%}
+.pend{position:absolute;top:-2dvh;width:12px;height:18dvh;transform:translateX(-50%)}
+.pend::before{content:"";position:absolute;left:50%;top:0;bottom:22px;width:1px;background:rgba(255,220,180,.18)}
+.pend::after{content:"";position:absolute;left:50%;bottom:0;width:46px;height:26px;transform:translateX(-50%);border-radius:46px 46px 6px 6px;background:radial-gradient(ellipse at 50% 100%,#ffd8a0,#b8642c 55%,#3a1d0c);box-shadow:0 18px 60px 18px rgba(255,170,90,.22)}
+.bokeh{position:absolute;inset:0;overflow:hidden}
+.bokeh i{position:absolute;border-radius:50%;filter:blur(var(--b));opacity:var(--o);background:var(--c);animation:drift var(--d) ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(var(--dx),var(--dy))}}
+
+/* counter */
+.counter{position:absolute;left:0;right:0;top:var(--hz);bottom:0;z-index:-2}
+.top{position:absolute;left:0;right:0;top:0;height:42%;
+  background:
+    radial-gradient(40vw 10dvh at 62% 8%,color-mix(in srgb,var(--fc) 28%,transparent),transparent 70%),
+    linear-gradient(180deg,rgba(255,255,255,.07),transparent 30%,rgba(255,255,255,.04) 62%,transparent 80%),
+    repeating-linear-gradient(88deg,rgba(0,0,0,.18) 0 2px,transparent 2px 9px,rgba(255,200,150,.04) 9px 11px,transparent 11px 23px),
+    linear-gradient(180deg,#4a2c1b,var(--wood) 55%,#2a180d)}
+.top::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,220,180,.4),transparent)}
+.rim{position:absolute;left:0;right:0;top:42%;height:12px;background:linear-gradient(180deg,#c58652,var(--rim) 30%,#4a2a16 70%,#22120a);box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.front{position:absolute;left:0;right:0;top:calc(42% + 12px);bottom:0;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 160px),
+  linear-gradient(180deg,#1d100a,var(--wood-dark) 40%,#0b0604)}
+
+/* stage + bottles */
+.stage{position:absolute;left:36vw;right:0;top:0;height:var(--hz);z-index:1;touch-action:pan-y;cursor:grab}
+.stage:active{cursor:grabbing}
+.giant{position:absolute;left:0;right:0;top:12%;text-align:center;font-family:var(--display);line-height:.85;white-space:nowrap;text-transform:uppercase;pointer-events:none;z-index:0;
+  color:transparent;background:linear-gradient(180deg,var(--fc) 0%,color-mix(in srgb,var(--fc) 55%,transparent) 55%,transparent 100%);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 0 40px color-mix(in srgb,var(--fc) 35%,transparent));transition:opacity .45s ease,transform .45s ease}
+.giant.out{opacity:0;transform:translateY(12px)}
+.halo{position:absolute;left:50%;bottom:-2dvh;width:calc(var(--bh) * 1.25);height:calc(var(--bh) * 1.1);transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--fc) 26%,transparent),transparent);filter:blur(28px);z-index:0;pointer-events:none}
+.b{position:absolute;left:50%;bottom:0;height:var(--bh);aspect-ratio:605/980;transform-origin:50% 100%;
+  transition:transform .95s cubic-bezier(.2,.75,.2,1),filter .95s ease,opacity .6s ease;will-change:transform}
+.b img{display:block;width:100%;height:100%;object-fit:contain;-webkit-user-drag:none;user-select:none}
+.b .refl{position:absolute;left:0;top:100%;width:100%;height:100%;transform:scaleY(-1);opacity:.28;filter:blur(1.5px);
+  -webkit-mask-image:linear-gradient(0deg,rgba(0,0,0,.9),transparent 38%);mask-image:linear-gradient(0deg,rgba(0,0,0,.9),transparent 38%);pointer-events:none}
+.b::after{content:"";position:absolute;left:8%;right:8%;bottom:-6px;height:14px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.65),transparent);z-index:-1}
+.b button{position:absolute;inset:0;background:none;border:0;cursor:pointer;border-radius:30px}
+.b button:focus-visible{outline:3px solid var(--fc);outline-offset:6px}
+
+.info{position:absolute;left:36vw;right:0;top:calc(var(--hz) + 7.5dvh);display:flex;flex-direction:column;align-items:center;gap:12px;z-index:2;text-align:center;padding-inline:16px}
+.mix{font-weight:800;font-size:clamp(11px,1.1vw,13px);letter-spacing:.24em;text-transform:uppercase;color:var(--soft);transition:opacity .45s}
+.mix b{color:var(--fc);font-weight:800}
+.nav{display:flex;align-items:center;gap:14px}
+.arrow{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(245,239,233,.28);background:rgba(11,7,6,.4);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:border-color .2s,background .2s}
+.arrow:hover{border-color:var(--fc)}
+.arrow:focus-visible{outline:3px solid var(--fc);outline-offset:2px}
+.arrow svg{width:16px;height:16px}
+.dots{display:flex;gap:7px}
+.dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;background:rgba(245,239,233,.25);cursor:pointer;transition:background .3s,transform .3s}
+.dots button[aria-current="true"]{background:var(--fc);transform:scale(1.4);box-shadow:0 0 10px var(--fc)}
+
+/* top bar */
+.bar{position:absolute;left:0;right:0;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 18px) clamp(18px,4vw,48px) 0}
+.logo{font-family:var(--display);font-size:26px;letter-spacing:.02em;text-decoration:none;color:var(--text)}
+.age{font-weight:800;font-size:12px;letter-spacing:.12em;border:1.5px solid var(--faint);border-radius:999px;padding:3px 10px;color:var(--soft)}
+.bar a.more{font-weight:600;font-size:14px;color:var(--soft);text-decoration:none;margin-right:18px}
+.bar a.more:hover{color:var(--text)}
+.bar .r{display:flex;align-items:center}
+
+/* pitch + form */
+.pitch{position:absolute;left:clamp(18px,5vw,72px);top:0;height:var(--hz);width:min(34vw,470px);display:flex;flex-direction:column;justify-content:center;gap:18px;z-index:3;padding-top:40px}
+.eyebrow{font-weight:800;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--fc)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,5.6vw,88px);line-height:.9;text-transform:uppercase;margin:0}
+h1 em{font-style:normal;color:var(--fc);text-shadow:0 0 30px color-mix(in srgb,var(--fc) 45%,transparent)}
+.pitch p.lede{color:var(--soft);font-size:clamp(15px,1.2vw,17px);line-height:1.5;margin:0;max-width:36ch}
+form{display:grid;gap:10px;margin-top:6px}
+.row{display:flex;gap:8px;background:rgba(245,239,233,.07);border:1.5px solid rgba(245,239,233,.18);border-radius:999px;padding:5px;transition:border-color .2s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.row:focus-within{border-color:var(--fc)}
+.row input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font:600 16px var(--body);padding:10px 14px}
+.row input::placeholder{color:var(--faint)}
+.row button{flex:none;border:0;border-radius:999px;background:var(--fc);color:#120a06;font:800 14px var(--body);letter-spacing:.02em;padding:12px 20px;cursor:pointer;transition:transform .15s,box-shadow .2s,background-color 1.1s}
+.row button:hover{transform:translateY(-1px);box-shadow:0 8px 30px -8px var(--fc)}
+.row button:focus-visible{outline:3px solid var(--text);outline-offset:2px}
+.check{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--soft);cursor:pointer;padding-left:6px}
+.check input{width:17px;height:17px;accent-color:var(--fc);margin:0}
+.msg{font-size:14px;font-weight:600;min-height:1.3em;margin:0;padding-left:6px}
+.msg.err{color:#ff9a8a}
+.msg.ok{color:var(--fc)}
+.done{display:none;font-family:var(--display);font-size:clamp(26px,2.6vw,36px);line-height:1;text-transform:uppercase}
+.joined .row,.joined .check{display:none}
+.joined .done{display:block}
+.legal{position:absolute;left:clamp(18px,5vw,72px);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);font-size:12px;color:var(--faint);z-index:3}
+
+/* phones and narrow screens */
+@media (max-width:860px), (orientation:portrait){
+  :root{--hz:62dvh}
+  .bar a.more{display:none}
+  .pitch{left:0;right:0;width:auto;height:auto;top:calc(env(safe-area-inset-top,0px) + 62px);padding:0 20px;justify-content:flex-start;gap:8px;text-align:center;align-items:center}
+  .pitch .eyebrow,.pitch p.lede{display:none}
+  h1{font-size:clamp(34px,10vw,60px)}
+  .stage{left:0;top:16dvh}
+  .stage{height:calc(var(--hz) - 16dvh)}
+  .giant{top:2%}
+  .info{left:0;top:calc(var(--hz) + 4.6dvh);gap:8px}
+  .arrow{display:none}
+  .formwrap{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);z-index:4;background:rgba(18,11,8,.62);border:1px solid rgba(245,239,233,.12);border-radius:22px;padding:14px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .formwrap form{margin:0}
+  .row button{padding:12px 16px}
+  .legal{display:none}
+  .check{justify-content:center;padding-left:0}
+  .msg{text-align:center;padding-left:0}
+  .done{text-align:center;font-size:26px}
+}
+@media (max-height:560px) and (orientation:portrait){.stage,.info{opacity:.25}}
+@media (prefers-reduced-motion: reduce){
+  .b{transition-duration:.01s}
+  .bokeh i{animation:none}
+  :root{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="wall" aria-hidden="true">
+    <div class="bokeh" id="bokeh"></div>
+    <div class="shelf s1"></div><div class="shelf s2"></div>
+    <div class="pend" style="left:22%"></div><div class="pend" style="left:58%"></div><div class="pend" style="left:86%"></div>
+  </div>
+  <div class="counter" aria-hidden="true"><div class="top"></div><div class="rim"></div><div class="front"></div></div>
+
+  <header class="bar">
+    <a class="logo" href="../">PIN SHOT</a>
+    <div class="r"><a class="more" href="../#pull">How the pull works</a><span class="age">21+</span></div>
+  </header>
+
+  <section class="stage" id="stage" aria-roledescription="carousel" aria-label="Pin Shot flavors">
+    <div class="giant" id="giant" aria-hidden="true">VSL</div>
+    <div class="halo" aria-hidden="true"></div>
+  </section>
+
+  <div class="info">
+    <div class="mix" id="mix"></div>
+    <div class="nav">
+      <button class="arrow" id="prev" type="button" aria-label="Previous flavor"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg></button>
+      <div class="dots" id="dots" role="group" aria-label="Choose a flavor"></div>
+      <button class="arrow" id="next" type="button" aria-label="Next flavor"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3l5 5-5 5"/></svg></button>
+    </div>
+    <p class="sr" id="live" aria-live="polite"></p>
+  </div>
+
+  <div class="pitch">
+    <div class="eyebrow">Coming soon</div>
+    <h1>Pull the pin.<br><em>Be first.</em></h1>
+    <p class="lede">Eight cocktails with a real shot sealed in the cap. One pull drops it into the mix. Join the waitlist for first drops and launch news.</p>
+    <div class="formwrap">
+      <form id="wl" novalidate>
+        <label class="sr" for="email">Email address</label>
+        <div class="row"><input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email" required><button type="submit">Join the waitlist</button></div>
+        <label class="check"><input type="checkbox" id="of-age" name="age_confirmed" required> I'm 21 or older</label>
+        <p class="msg" id="msg" role="status"></p>
+        <div class="done">You're on the list.</div>
+      </form>
+    </div>
+  </div>
+  <p class="legal">21+ only. Please drink responsibly. Bottles shown are renders.</p>
+</div>
+
+<script>
+(function(){
+/* Paste a form endpoint here to start collecting signups (for example a Formspree URL like https://formspree.io/f/abcdwxyz). */
+const WAITLIST_ENDPOINT = '';
+
+const FLAVORS=[
+  {id:'gin-and-tonic',name:'Gin & Tonic',mix:'Gin · tonic · lime',c:'#bdf0e2'},
+  {id:'vsl',name:'VSL',mix:'Vodka · soda · lime',c:'#c6ef3a'},
+  {id:'moscow-mule',name:'Moscow Mule',mix:'Vodka · ginger beer · lime',c:'#f0c860'},
+  {id:'rum-punch',name:'Rum Punch',mix:'Light rum · pineapple · orange · passion fruit',c:'#ff8a3d'},
+  {id:'paloma',name:'Paloma',mix:'Blanco tequila · grapefruit soda',c:'#ff9e8f'},
+  {id:'hard-shirley',name:'Hard Shirley',mix:'Vodka · lemon-lime soda · cherry',c:'#ff5a85'},
+  {id:'vodka-cran',name:'Vodka Cran',mix:'Vodka · cranberry · lime',c:'#ff4058'},
+  {id:'whiskey-cola',name:'Whiskey Cola',mix:'Whiskey · cola',c:'#e8955a'}
+];
+const N=FLAVORS.length, stage=document.getElementById('stage'), giant=document.getElementById('giant'), mix=document.getElementById('mix'), dots=document.getElementById('dots'), live=document.getElementById('live');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur=1, timer=null, paused=false;
+
+/* bokeh */
+const bk=document.getElementById('bokeh'), warm=['#ffb36b','#ff8f4a','#ffd29a','#e8643a','#ffcf7a'];
+for(let i=0;i<18;i++){const e=document.createElement('i'),s=10+Math.random()*60;
+  e.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*92}%;width:${s}px;height:${s}px;--c:${warm[i%warm.length]};--o:${(.08+Math.random()*.22).toFixed(2)};--b:${(4+Math.random()*10).toFixed(0)}px;--d:${(9+Math.random()*12).toFixed(0)}s;--dx:${(Math.random()*40-20).toFixed(0)}px;--dy:${(Math.random()*24-12).toFixed(0)}px`;
+  bk.appendChild(e);}
+
+/* bottles */
+const items=FLAVORS.map((fl,i)=>{
+  const b=document.createElement('div');b.className='b';
+  b.innerHTML=`<img src="img/${fl.id}.png" alt="Pin Shot ${fl.name} bottle" draggable="false" ${i===cur?'':'loading="lazy"'}><img class="refl" src="img/${fl.id}.png" alt="" aria-hidden="true" draggable="false"><button type="button" aria-label="Show ${fl.name}"></button>`;
+  b.querySelector('button').addEventListener('click',()=>{go(i,true);});
+  stage.appendChild(b);
+  const d=document.createElement('button');d.type='button';d.setAttribute('aria-label',fl.name);d.addEventListener('click',()=>go(i,true));dots.appendChild(d);
+  return b;
+});
+
+function layout(){
+  const W=stage.clientWidth, H=window.innerHeight, mobile=W<700;
+  const bh=mobile?Math.min(H*.36,(stage.clientHeight)*.86,340):Math.min(H*.52,stage.clientHeight*.8,560);
+  stage.style.setProperty('--bh',bh+'px');
+  const X=mobile?[0,.31,.5,.66]:[0,.27,.44,.58], S=[1,.64,.44,.36], L=mobile?[0,0,-.008,-.01]:[0,0,-.012,-.016], BR=[1,.5,.3,.2], BL=[0,0,1.6,3];
+  items.forEach((b,i)=>{
+    let o=((i-cur)%N+N)%N; if(o>N/2)o-=N;
+    const a=Math.min(Math.abs(o),3), sg=Math.sign(o);
+    const y=a===0?H*.03:H*L[a];
+    b.style.transform=`translateX(-50%) translate(${(sg*X[a]*W).toFixed(1)}px,${y.toFixed(1)}px) scale(${S[a]})`;
+    b.style.filter=`brightness(${BR[a]}) saturate(${a?0.8:1}) blur(${BL[a]}px)`;
+    b.style.opacity=Math.abs(o)>2?0:1;
+    b.style.zIndex=10-a;
+    b.querySelector('button').tabIndex=a===0?-1:(a===1?0:-1);
+    b.setAttribute('aria-hidden',a>1?'true':'false');
+  });
+  fitGiant();
+}
+function fitGiant(){
+  const W=stage.clientWidth, maxH=stage.clientHeight*.34;
+  giant.style.fontSize='100px';
+  const w=giant.scrollWidth||1;
+  giant.style.fontSize=Math.min(100*(W*.94)/w,maxH)+'px';
+}
+function paint(announce){
+  const fl=FLAVORS[cur];
+  document.documentElement.style.setProperty('--fc',fl.c);
+  giant.classList.add('out');
+  setTimeout(()=>{giant.textContent=fl.name;fitGiant();giant.classList.remove('out');},reduce?0:260);
+  mix.innerHTML=`<b>${String(cur+1).padStart(2,'0')}</b> / ${String(N).padStart(2,'0')} &nbsp; ${fl.mix}`;
+  [...dots.children].forEach((d,i)=>d.setAttribute('aria-current',i===cur?'true':'false'));
+  if(announce)live.textContent=`${fl.name}: ${fl.mix}`;
+}
+function go(i,manual){cur=((i%N)+N)%N;layout();paint(manual);if(manual)restart();}
+function restart(){clearInterval(timer);if(reduce)return;timer=setInterval(()=>{if(!paused&&!document.hidden)go(cur+1,false);},3400);}
+
+document.getElementById('prev').addEventListener('click',()=>go(cur-1,true));
+document.getElementById('next').addEventListener('click',()=>go(cur+1,true));
+document.addEventListener('keydown',e=>{if(e.target.closest('input'))return;if(e.key==='ArrowLeft')go(cur-1,true);if(e.key==='ArrowRight')go(cur+1,true);});
+stage.addEventListener('mouseenter',()=>paused=true);stage.addEventListener('mouseleave',()=>paused=false);
+let sx=null;
+stage.addEventListener('pointerdown',e=>{sx=e.clientX;});
+stage.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1),true);});
+stage.addEventListener('pointercancel',()=>sx=null);
+window.addEventListener('resize',layout);
+
+/* form */
+const form=document.getElementById('wl'), email=document.getElementById('email'), age=document.getElementById('of-age'), msg=document.getElementById('msg');
+form.addEventListener('focusin',()=>paused=true);form.addEventListener('focusout',()=>paused=false);
+form.addEventListener('submit',async e=>{
+  e.preventDefault();msg.className='msg';msg.textContent='';
+  const v=email.value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){msg.className='msg err';msg.textContent='Enter a valid email address.';email.focus();return;}
+  if(!age.checked){msg.className='msg err';msg.textContent='Please confirm you are 21 or older.';age.focus();return;}
+  if(!WAITLIST_ENDPOINT){msg.className='msg err';msg.textContent="Signups aren't open yet. Check back soon.";return;}
+  const btn=form.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Joining…';
+  try{
+    const r=await fetch(WAITLIST_ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});
+    if(!r.ok)throw new Error(r.status);
+    form.classList.add('joined');msg.className='msg ok';msg.textContent="We'll email you when it's ready to pull.";
+  }catch(err){msg.className='msg err';msg.textContent="That didn't go through. Try again in a moment.";btn.disabled=false;btn.textContent='Join the waitlist';}
+});
+
+layout();paint(false);restart();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitGiant);
+})();
+</script>
+</body>
+</html>
