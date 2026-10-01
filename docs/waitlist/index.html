@@ -116,6 +116,7 @@ form{display:grid;gap:10px;margin-top:6px}
 @media (max-width:860px), (orientation:portrait){
   :root{--hz:62dvh}
   .bar a.more{display:none}
+  .pend.mid{display:none}
   .pitch{left:0;right:0;width:auto;height:auto;top:calc(env(safe-area-inset-top,0px) + 62px);padding:0 20px;justify-content:flex-start;gap:8px;text-align:center;align-items:center}
   .pitch .eyebrow,.pitch p.lede{display:none}
   h1{font-size:clamp(34px,10vw,60px)}
@@ -144,7 +145,7 @@ form{display:grid;gap:10px;margin-top:6px}
   <div class="wall" aria-hidden="true">
     <div class="bokeh" id="bokeh"></div>
     <div class="shelf s1"></div><div class="shelf s2"></div>
-    <div class="pend" style="left:22%"></div><div class="pend" style="left:58%"></div><div class="pend" style="left:86%"></div>
+    <div class="pend" style="left:22%"></div><div class="pend mid" style="left:58%"></div><div class="pend" style="left:86%"></div>
   </div>
   <div class="counter" aria-hidden="true"><div class="top"></div><div class="rim"></div><div class="front"></div></div>
 
