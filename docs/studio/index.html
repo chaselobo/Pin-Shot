@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="studio.css?v=clear-liquid-1">
+  <link rel="stylesheet" href="studio.css?v=pin-gate-1">
   <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
 </head>
 <body>
@@ -20,10 +20,12 @@
       <div class="stage-top"><span><i></i> VSL / <span id="view-status">LIVE 3D</span></span><span>360°</span></div>
       <div class="stage-word" aria-hidden="true">VSL</div>
       <div id="viewport" tabindex="0" role="region" aria-label="VSL 3D bottle. Drag to rotate. Scroll or pinch to zoom. Arrow keys rotate, plus and minus zoom, Home resets."><div id="source-view" hidden><img src="vsl-source.jpeg" alt="Unchanged original VSL product image"></div></div>
+      <div id="gate-caption" hidden aria-live="polite"><b id="gate-title">PIN IN · LIQUIDS SEPARATE</b><span id="gate-copy">The pin's flat paddle is clamped between two gaskets, sealing the shot above the soda.</span></div>
+      <div id="gate-labels" hidden aria-hidden="true"><span data-anchor="shot">SHOT CHAMBER</span><span data-anchor="gate">PIN + SEALING PADDLE</span><span data-anchor="gaskets">TWO SEALING GASKETS</span><span data-anchor="soda">LIME SODA</span></div>
       <div id="loading" role="status">Building your bottle…</div>
       <div id="fallback" hidden><img src="../img/vsl.jpg" alt="Original VSL bottle reference"><p>3D could not start. Reload or try a browser with WebGL enabled.</p><button id="retry">Reload studio</button></div>
       <div class="zoom"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="reset" aria-label="Reset view">↺</button></div>
-      <div class="stage-bottom"><span>DRAG TO ROTATE · SCROLL / PINCH TO ZOOM</span><button id="spin" aria-pressed="false"><span aria-hidden="true">⟳</span> Auto rotate</button></div>
+      <div class="stage-bottom"><span>DRAG TO ROTATE · SCROLL / PINCH TO ZOOM</span><button id="spin" aria-pressed="false"><span aria-hidden="true">⟳</span> Auto rotate</button><div id="gate-quick" hidden><button id="quick-pull">Pull pin</button><input id="quick-progress" aria-label="Pin pull position" type="range" min="0" max="100" value="0" step="1"><button id="quick-reset" aria-label="Reset pin demonstration">↺</button></div></div>
     </section>
     <aside>
       <p class="eyebrow">THE FLAVOR. EVERY ANGLE.</p>
@@ -32,15 +34,16 @@
       <div class="rule"></div>
       <p class="label">CHOOSE YOUR VIEW</p>
       <div class="views"><button data-view="front" aria-pressed="true">Front</button><button data-view="angle" aria-pressed="false">¾ view</button><button data-view="side" aria-pressed="false">Ring side</button><button data-view="left" aria-pressed="false">Left side</button><button data-view="back" aria-pressed="false">Back</button><button data-view="top" aria-pressed="false">Top</button><button data-view="base" aria-pressed="false">Base</button></div>
+      <div class="mechanism-controls"><span class="label">HOW THE PIN KEEPS THEM SEPARATE</span><button id="cutaway" aria-pressed="false">Show pin cutaway</button><div id="gate-controls" hidden><div class="gate-actions"><button id="pull-pin">Pull pin</button><button id="reset-pin">Reset pin</button></div><label for="pin-progress">Inspect the sequence <output id="pin-value">0%</output></label><input id="pin-progress" type="range" min="0" max="100" value="0" step="1"><p>Sealed → paddle slides out → shot drains.<br>A2 concept demonstration. Clear spirit is tinted blue for visibility; seal performance is not yet validated.</p></div></div>
       <div class="liquid-controls"><span class="label">LIME SODA INSIDE</span><div><button id="swirl">Swirl soda</button><button id="liquid-motion" aria-pressed="true">Pause liquid</button></div><p>Drag to stir. Limes stay printed on the glass.</p></div>
       <button id="compare" aria-pressed="false">Compare original image</button>
       <div class="theme-row"><span class="label">STUDIO BACKGROUND</span><div><button data-theme="dark" aria-pressed="true" aria-label="Dark studio" title="Dark studio"><i class="dark-dot"></i></button><button data-theme="light" aria-pressed="false" aria-label="Light studio" title="Light studio"><i class="light-dot"></i></button></div></div>
-      <a class="download" href="models/pin-shot-vsl.glb?v=clear-liquid-1" download>Download 3D bottle <span>↓</span></a>
+      <a class="download" href="models/pin-shot-vsl.glb?v=pin-gate-1" download>Download 3D bottle <span>↓</span></a>
       <details><summary>Original reference</summary><img class="reference" src="../img/vsl.jpg" alt="VSL bottle render used as the reference" loading="lazy"></details>
       <p class="note">Clear glass, printed lime artwork and animated soda. The lid reveals the separate shot chamber. Geometry is inferred from the reference; the 3D download contains a still liquid pose.</p>
     </aside>
   </main>
   <footer><span>PULL · SWIRL · SIP</span><span>Product in development. 21+ only. Drink responsibly.</span></footer>
-  <script type="module" src="studio.js?v=clear-liquid-1"></script>
+  <script type="module" src="studio.js?v=pin-gate-1"></script>
 </body>
 </html>

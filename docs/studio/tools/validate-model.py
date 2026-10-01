@@ -70,7 +70,7 @@ for name in ['Clear bottle glass', 'Transparent lid all around', 'Clear internal
     assert material.get('alphaMode') == 'BLEND', name + ' must be transparent'
     assert material['pbrMetallicRoughness']['baseColorFactor'][3] <= .35
     assert 'baseColorTexture' not in material['pbrMetallicRoughness'], 'Glass must not contain photographed soda'
-for name in ['Contained soda volume', 'Dynamic liquid surface', 'Rising carbonation', 'Visible internal shot cup']:
+for name in ['Contained soda volume', 'Dynamic liquid surface', 'Rising carbonation', 'Visible internal shot cup', 'Flat sealing paddle on pin', 'Upper shot-side gasket', 'Lower mixer-side gasket', 'Internal pin stem']:
     assert any(n.get('name') == name for n in doc['nodes']), name
 for name in ['Original front printed ink and limes', 'Rear printed lime artwork']:
     material = next(m for m in doc['materials'] if m.get('name') == name)

@@ -2,12 +2,13 @@
 <script type="importmap">{"imports":{"three":"../vendor/three.module.js"}}</script>
 <h1>Export the photo-textured VSL model</h1><p id="status">Ready.</p><button id="export">Export GLB</button>
 <script type="module">
-import {createBottle} from '../model.js?v=clear-liquid-1';
+import {createBottle} from '../model.js?v=pin-gate-1';
 import {GLTFExporter} from '../vendor/GLTFExporter.js';
 document.querySelector('#export').onclick=async()=>{
  const status=document.querySelector('#status');status.textContent='Exporting…';
  try{
  const {group}=await createBottle();
+ group.traverse(o=>{if(['Flat sealing paddle on pin','Internal pin stem','A2 gate and gasket assembly'].includes(o.name))o.visible=true;});
  const data=await new GLTFExporter().parseAsync(group,{binary:true});
  const url=URL.createObjectURL(new Blob([data],{type:'model/gltf-binary'}));
  const a=document.createElement('a');a.href=url;a.download='pin-shot-vsl.glb';a.textContent='Download exported GLB';document.body.append(a);a.click();

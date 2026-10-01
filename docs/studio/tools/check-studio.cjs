@@ -49,13 +49,13 @@ const url = process.env.STUDIO_URL || 'http://127.0.0.1:8140/studio/';
     await page.locator('#liquid-motion').click();const paused=await frame();assert.equal(await frame(),paused,'Paused soda must remain still');
     const base64=await page.evaluate(async()=>{
       const {createBottle}=await import('./model.js');const {GLTFExporter}=await import('./vendor/GLTFExporter.js');
-      const {group}=await createBottle();const glb=await new GLTFExporter().parseAsync(group,{binary:true});
+      const {group}=await createBottle();group.traverse(o=>{if(['Flat sealing paddle on pin','Internal pin stem','A2 gate and gasket assembly'].includes(o.name))o.visible=true;});const glb=await new GLTFExporter().parseAsync(group,{binary:true});
       const bytes=new Uint8Array(glb);let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s);
     });
     const glb=Buffer.from(base64,'base64');
     assert.equal(glb.toString('ascii',0,4),'glTF');assert.equal(glb.readUInt32LE(8),glb.length);
     const data=JSON.parse(glb.subarray(20,20+glb.readUInt32LE(12)).toString());
-    for(const name of ['Original-image bottle surface','Exact source-image front','Original-image copper pull ring','Transparent cap and visible shot chamber','Photographed copper ring'])assert.ok(data.nodes.some(n=>n.name===name),name);
+    for(const name of ['Original-image bottle surface','Exact source-image front','Original-image copper pull ring','Transparent cap and visible shot chamber','Photographed copper ring','Flat sealing paddle on pin','Upper shot-side gasket','Lower mixer-side gasket'])assert.ok(data.nodes.some(n=>n.name===name),name);
     assert.ok(data.images.length===3&&data.images.every(i=>i.bufferView!==undefined),'The original photograph must be embedded');
     assert.ok(data.materials.filter(m=>m.name==='Unchanged original VSL photograph').every(m=>m.extensions?.KHR_materials_unlit),'Lighting must not alter the photographed colors');
     assert.deepEqual(await fs.readFile(path.resolve(__dirname,'../vsl-source.jpeg')),await fs.readFile(path.resolve(__dirname,'../../..','assets/pin-shot-vsl.jpeg')),'The source photograph must remain byte-identical');

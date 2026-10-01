@@ -14,6 +14,12 @@ Drag or touch to orbit; scroll or pinch to zoom. Seven view presets expose the f
 
 `models/pin-shot-vsl.glb` contains all geometry, embedded original/print textures, clear materials, instanced bubbles and a **static liquid pose**. The interactive simulation runs in `liquid-motion.mjs` and `model.js`, not in the GLB. Three.js dependencies are vendored with their license.
 
+## Pin mechanism cutaway
+
+**Show pin cutaway** opens a section through the cap and neck. The A2 reference in `output/pin-shot-a2-concept/README.md` and `a2-concept.html` defines a one-piece pin with a flat sealing paddle clamped between two gaskets. The model includes the paddle, stem, upper/lower gasket rings, exit seal lips and retained flap. The funnel now terminates in an open throat resting on that gate.
+
+**Pull pin** animates withdrawal and draining. Inline and sidebar sliders scrub the same timeline; pause/resume and reset are supported. Flow begins only after the paddle exposes the throat and stops once the shot is empty. The shot is tinted blue in the cutaway for clarity. This explains the unvalidated concept; the seal, carbonation performance and drainage timing are not engineering test results. Returning to the whole bottle restores the original clear spirit and locked pose. The GLB includes the mechanism in its locked pose; animation and labels are website features.
+
 ## Preview, export and verify
 
 ```sh
@@ -24,6 +30,7 @@ Open `/studio/` for the viewer, or `/studio/tools/export.html` and click **Expor
 
 ```sh
 node docs/studio/tools/check-liquid.mjs
+node docs/studio/tools/check-mechanism.mjs
 python3 docs/studio/tools/validate-model.py
 # Optional automated browser check with Playwright available:
 node docs/studio/tools/check-studio.cjs

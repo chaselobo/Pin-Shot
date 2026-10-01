@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { addMechanism } from './mechanism.js?v=pin-gate-1';
 import { createMotion, stir, advance, waveAt } from './liquid-motion.mjs?v=clear-liquid-1';
 
 // Camera projection is defined in the original photograph's pixel coordinates.
@@ -203,9 +204,9 @@ export async function createBottle() {
   const cx=X(412);
   const crown=lathe([[.578,Y(70)],[.54,Y(54)],[.45,Y(43)],[.32,Y(37)],[.16,Y(35)],[0,Y(35)]],smoke,'Smooth transparent lid crown',cx);crown.renderOrder=20;cap.add(crown);
   const chamberGlass=glass.clone();chamberGlass.opacity=.33;chamberGlass.side=THREE.DoubleSide;chamberGlass.name='Clear internal shot chamber';
-  const chamber=lathe([[0,3.02],[.16,3.025],[.29,3.07],[.39,3.17],[.445,3.34],[.445,3.74]],chamberGlass,'Visible internal shot cup',cx);chamber.renderOrder=12;cap.add(chamber);
+  const chamber=lathe([[.222,2.803],[.222,2.92],[.29,3.07],[.39,3.17],[.445,3.34],[.445,3.74]],chamberGlass,'Visible internal shot cup',cx);chamber.renderOrder=12;cap.add(chamber);
   const shot=glass.clone();shot.color.set('#f1f3e8');shot.opacity=.24;shot.side=THREE.DoubleSide;shot.name='Clear spirit in shot chamber';
-  const spirit=lathe([[0,3.065],[.13,3.067],[.26,3.11],[.35,3.2],[.4,3.34],[.4,3.57],[0,3.57]],shot,'Sealed clear shot',cx);spirit.renderOrder=11;cap.add(spirit);
+  const spirit=lathe([[0,2.809],[.208,2.809],[.208,2.92],[.26,3.11],[.35,3.2],[.4,3.34],[.4,3.57],[0,3.57]],shot,'Sealed clear shot',cx);spirit.renderOrder=11;cap.add(spirit);
   cap.add(ring(.449,.012,3.735,chamberGlass,'Shot chamber rim',cx));
   cap.add(ring(.574,.009,Y(94),dark,'Lid parting line',cx));
   cap.add(ring(.584,.01,Y(109),smoke,'Lid rolled rim',cx));
@@ -235,5 +236,6 @@ export async function createBottle() {
     object.geometry.setIndex(frontIndices);back.geometry.setIndex(backIndices);back.name=object.name+' copper rear';backs.push(back);
   }
   pin.add(...backs);
-  return {group,cap,pin,liquid};
+  const mechanism=addMechanism({group,cap,pin,liquid});
+  return {group,cap,pin,liquid,mechanism};
 }
