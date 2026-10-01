@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createMotion, stir, advance, waveAt } from './liquid-motion.mjs';
 
 // Camera projection is defined in the original photograph's pixel coordinates.
 // The source JPEG is copied byte-for-byte; the central front label is never redrawn.
@@ -69,21 +70,6 @@ function layer(material, order) {
   m.polygonOffsetFactor = -order; m.polygonOffsetUnits = -order;
   return m;
 }
-function surface(name, outline, photo, baseMaterial, wrap = null) {
-  const group = new THREE.Group(); group.name = name;
-  group.add(mesh(shell(outline, 0, 2 * Math.PI), baseMaterial, name + ' solid'));
-  if (wrap) {
-    const artwork = mesh(shell(outline, 0, 2 * Math.PI, false,
-      (_, y) => smooth(y, 396, 460) * (1 - smooth(y, 875, 975))), layer(wrap, 1), 'Continuous cylindrical rear artwork');
-    artwork.renderOrder = 1; group.add(artwork);
-  }
-  const isBody = !!wrap;
-  const front = mesh(shell(outline, -Math.PI / 2, Math.PI / 2, true,
-    (theta, y) => (1 - smooth(Math.abs(theta), .78, 1.53)) *
-      (isBody ? 1 - smooth(y, 926, 982) : smooth(y, 54, 105))), layer(photo, 2), 'Exact source-image front');
-  front.renderOrder = 2; group.add(front);
-  return group;
-}
 function lathe(points, material, name, centerX = 0) {
   const g = new THREE.LatheGeometry(points.map(([r,y]) => new THREE.Vector2(r,y)), 128);
   g.translate(centerX,0,0);
@@ -109,65 +95,145 @@ function extrudedOutline(points, depth, z, name, material) {
   object.material=[material,edge];
   return object;
 }
+// Derive a runtime print mask while retaining the reference's RGB pixels.
+// Dark ink and saturated lime remain; pale photographed soda becomes transparent.
+function printedArtwork(texture, front) {
+  const image=texture.image, canvas=document.createElement('canvas');
+  canvas.width=image.width;canvas.height=image.height;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);
+  const pixels=ctx.getImageData(0,0,canvas.width,canvas.height),data=pixels.data;
+  for(let i=0;i<data.length;i+=4) {
+    const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;
+    const x=(i/4)%canvas.width,y=Math.floor(i/4/canvas.width);
+    const luminance=.2126*r+.7152*g+.0722*b;
+    const ink=front && x>248 && x<571 && y>431 && y<933 ? 1-smooth(luminance,.21,.48) : 0;
+    const lime=smooth(g-b,.13,.31)*smooth(g-r,-.05,.015)*(1-smooth(luminance,.81,.94));
+    const vertical=front?smooth(y,446,482)*(1-smooth(y,854,917)):1;
+    data[i+3]=Math.round(255*Math.max(ink,lime*vertical));
+  }
+  ctx.putImageData(pixels,0,0);
+  const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.anisotropy=16;
+  map.name=front?'Original front ink and lime print':'Reconstructed rear lime print';
+  return new THREE.MeshBasicMaterial({map,transparent:true,depthWrite:false,side:THREE.FrontSide,toneMapped:false});
+}
+function makeLiquid() {
+  const state=createMotion(),group=new THREE.Group();group.name='Animated lime soda';
+  const level=2.29;
+  const material=new THREE.MeshPhysicalMaterial({color:'#d7e898',roughness:.16,metalness:0,transparent:true,opacity:.48,depthWrite:false,side:THREE.DoubleSide,clearcoat:1,clearcoatRoughness:.08});
+  material.name='Translucent lime soda';
+  const points=[[0,.205],[.65,.205]];
+  for(let py=962;py>=452;py-=6) {
+    const [left,right]=interpolate(bodyOutline,py);points.push([(right-left)/500-.043,Y(py)]);
+  }
+  const [left,right]=interpolate(bodyOutline,1024-level*250),radius=(right-left)/500-.043;
+  points.push([radius,level]);
+  const volume=lathe(points,material,'Contained soda volume');volume.renderOrder=5;group.add(volume);
+  const positions=[0,level,0],indices=[],rings=20,segments=96;
+  for(let r=1;r<=rings;r++)for(let col=0;col<=segments;col++) {
+    const angle=col/segments*Math.PI*2,rad=radius*r/rings;
+    positions.push(Math.sin(angle)*rad,level,Math.cos(angle)*rad);
+  }
+  for(let col=0;col<segments;col++)indices.push(0,1+col,2+col);
+  for(let r=1;r<rings;r++)for(let col=0;col<segments;col++) {
+    const a=1+(r-1)*(segments+1)+col,b=a+segments+1;indices.push(a,b,a+1,b,b+1,a+1);
+  }
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeVertexNormals();
+  const surfaceMaterial=material.clone();surfaceMaterial.opacity=.62;surfaceMaterial.color.set('#e4efb7');surfaceMaterial.roughness=.11;surfaceMaterial.name='Moving soda meniscus';
+  const surface=mesh(geometry,surfaceMaterial,'Dynamic liquid surface');surface.renderOrder=6;group.add(surface);
+  const bubbleMaterial=new THREE.MeshPhysicalMaterial({color:'#f9ffe8',roughness:.08,metalness:.1,transparent:true,opacity:.65,depthWrite:false});bubbleMaterial.name='Carbonation bubbles';
+  const bubbles=new THREE.InstancedMesh(new THREE.SphereGeometry(1,8,6),bubbleMaterial,100);bubbles.name='Rising carbonation';bubbles.renderOrder=8;group.add(bubbles);
+  const dummy=new THREE.Object3D(),seeds=Array.from({length:100},(_,i)=>({phase:((i*61)%101)/101,angle:i*2.399963,rad:.15+((i*37)%97)/97*.77,size:.008+((i*17)%31)/31*.014,speed:.09+((i*13)%41)/41*.17}));
+  const rest=volume.geometry.attributes.position.array.slice(),topRest=geometry.attributes.position.array.slice();
+  const innerRadius=y=>{const [a,b]=interpolate(bodyOutline,1024-y*250);return (b-a)/500-.043;};
+  function update(delta,playing=true) {
+    advance(state,delta,playing);
+    const top=geometry.attributes.position;
+    for(let i=0;i<top.count;i++) {
+      const x=topRest[i*3],z=topRest[i*3+2],y=level+waveAt(state,x,z);
+      const scale=Math.min(1,innerRadius(y)/(Math.hypot(x,z)||1));top.setXYZ(i,x*scale,y,z*scale);
+    }
+    top.needsUpdate=true;geometry.computeVertexNormals();
+    const side=volume.geometry.attributes.position;
+    for(let i=0;i<side.count;i++) {
+      const y=rest[i*3+1],weight=smooth(y,level-.45,level);
+      const x=rest[i*3],z=rest[i*3+2],movedY=y+waveAt(state,x,z)*weight;
+      const scale=weight?Math.min(1,innerRadius(movedY)/(Math.hypot(x,z)||1)):1;
+      side.setXYZ(i,x*scale,movedY,z*scale);
+    }
+    side.needsUpdate=true;volume.geometry.computeVertexNormals();
+    seeds.forEach((seed,i)=>{
+      const progress=(seed.phase+state.time*seed.speed)%1,y=.26+progress*(level-.29);
+      const [a,b]=interpolate(bodyOutline,1024-y*250),available=(b-a)/500-.095;
+      const angle=seed.angle+Math.sin(state.time*.6+seed.phase*7)*(.025+state.energy*.14);
+      const bx=Math.sin(angle)*available*seed.rad,bz=Math.cos(angle)*available*seed.rad;
+      dummy.position.set(bx,y+waveAt(state,bx,bz)*Math.pow(progress,4),bz);
+      const fade=Math.min(1,progress*12,(1-progress)*15);dummy.scale.setScalar(Math.max(.0001,seed.size*fade));dummy.updateMatrix();bubbles.setMatrixAt(i,dummy.matrix);
+    });bubbles.instanceMatrix.needsUpdate=true;
+  }
+  update(0);
+  return {group,state,update,stir:(x,z)=>stir(state,x,z),level};
+}
 export async function createBottle() {
-  const map = await new THREE.TextureLoader().loadAsync(new URL('./vsl-source.jpeg',import.meta.url).href);
-  map.colorSpace=THREE.SRGBColorSpace;map.anisotropy=16;
-  const material=new THREE.MeshBasicMaterial({map,side:THREE.FrontSide,toneMapped:false});
-  const rearMap=await new THREE.TextureLoader().loadAsync(new URL('./vsl-rear-texture.png',import.meta.url).href);
-  rearMap.colorSpace=THREE.SRGBColorSpace;rearMap.anisotropy=16;
-  const rear=new THREE.MeshBasicMaterial({map:rearMap,toneMapped:false});rear.name='Reconstructed lime soda wrap';
-  const glass=new THREE.MeshPhysicalMaterial({color:'#e7ecd9',roughness:.22,metalness:0,clearcoat:1,clearcoatRoughness:.12});glass.name='Pale glass rounded foot and shoulder';
-  const smoke=new THREE.MeshPhysicalMaterial({color:'#626459',roughness:.3,metalness:.18,clearcoat:.6});smoke.name='Smoky molded cap';
-  const dark=smoke.clone();dark.color.set('#34382f');dark.name='Cap molded seams';
+  const loader=new THREE.TextureLoader();
+  const [map,rearMap]=await Promise.all([loader.loadAsync(new URL('./vsl-source.jpeg',import.meta.url).href),loader.loadAsync(new URL('./vsl-rear-texture.png',import.meta.url).href)]);
+  for(const texture of [map,rearMap]){texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=16;}
+  const material=new THREE.MeshBasicMaterial({map,side:THREE.FrontSide,toneMapped:false});material.name='Unchanged original VSL photograph';
+  const frontPrint=printedArtwork(map,true),rearPrint=printedArtwork(rearMap,false);
+  frontPrint.name='Original front printed ink and limes';rearPrint.name='Rear printed lime artwork';
+  const glass=new THREE.MeshPhysicalMaterial({color:'#edf3ef',roughness:.09,metalness:.05,transparent:true,opacity:.17,depthWrite:false,side:THREE.FrontSide,clearcoat:1,clearcoatRoughness:.06,ior:1.46});glass.name='Clear bottle glass';
+  const smoke=glass.clone();smoke.color.set('#cbd3cd');smoke.opacity=.23;smoke.roughness=.13;smoke.name='Transparent lid all around';
+  const dark=new THREE.MeshStandardMaterial({color:'#555c52',roughness:.32,metalness:.1,transparent:true,opacity:.64,depthWrite:false});dark.name='Cap molded seals';
   const copper=new THREE.MeshStandardMaterial({color:'#a56536',metalness:.65,roughness:.3});copper.name='Copper edges and rear';
-  material.name='Unchanged original VSL photograph';
-  const group=new THREE.Group();group.name='VSL photo-textured 3D reconstruction';
-  group.userData={source:'assets/pin-shot-vsl.jpeg',method:'Original front artwork with feathered projection, continuous generated lime-soda rear texture, and independent molded cap and glass base surfaces.',limitation:'Depth and hidden surfaces are inferred from one front image. Reflections and transparency are baked into the photograph. Not a scan or engineering model.'};
-  group.add(surface('Original-image bottle surface',bodyOutline,material,glass,rear));
-  const cap=new THREE.Group();cap.name='Original-image cap';
-  cap.add(surface('Smoky cap and shot chamber',capOutline,material,smoke));
-  group.add(cap);
-  // The hinge and right latch are real extruded solids with their photographed faces.
+  const group=new THREE.Group();group.name='VSL clear bottle with animated soda';
+  group.userData={source:'assets/pin-shot-vsl.jpeg',method:'Clear glass and lid, source-image printed artwork, separate lime soda volume and animated carbonation.',limitation:'Hidden geometry and print masks are inferred from one reference. Liquid motion is a visual wave simulation, not computational fluid dynamics. Export contains a static liquid pose.'};
+  const body=new THREE.Group();body.name='Original-image bottle surface';
+  const bodyGlass=mesh(shell(bodyOutline,0,Math.PI*2),glass,'Clear bottle wall');bodyGlass.renderOrder=20;body.add(bodyGlass);
+  const rear=mesh(shell(bodyOutline,0,Math.PI*2,false,(_,y)=>smooth(y,396,460)*(1-smooth(y,875,975))),layer(rearPrint,1),'Continuous cylindrical rear artwork');rear.renderOrder=25;
+  // Fade rear printing out under the front artwork; the beverage itself has no texture.
+  const rearColor=rear.geometry.attributes.color;
+  for(let i=0;i<rearColor.count;i++) {
+    const u=rear.geometry.attributes.uv.getX(i),theta=Math.min(u,1-u)*Math.PI*2;
+    rearColor.setW(i,rearColor.getW(i)*smooth(theta,.68,1.45));
+  }
+  body.add(rear);
+  const front=mesh(shell(bodyOutline,-Math.PI/2,Math.PI/2,true,(theta,y)=>(1-smooth(Math.abs(theta),.78,1.53))*(1-smooth(y,926,982))),layer(frontPrint,2),'Exact source-image front');front.renderOrder=26;body.add(front);group.add(body);
+  const liquid=makeLiquid();group.add(liquid.group);
+  const cap=new THREE.Group();cap.name='Transparent cap and visible shot chamber';group.add(cap);
+  const capWall=mesh(shell(capOutline,0,Math.PI*2),smoke,'Transparent cap wall');capWall.renderOrder=20;cap.add(capWall);
+  const cx=X(412);
+  const crown=lathe([[.578,Y(70)],[.54,Y(54)],[.45,Y(43)],[.32,Y(37)],[.16,Y(35)],[0,Y(35)]],smoke,'Smooth transparent lid crown',cx);crown.renderOrder=20;cap.add(crown);
+  const chamberGlass=glass.clone();chamberGlass.opacity=.33;chamberGlass.side=THREE.DoubleSide;chamberGlass.name='Clear internal shot chamber';
+  const chamber=lathe([[0,3.02],[.16,3.025],[.29,3.07],[.39,3.17],[.445,3.34],[.445,3.74]],chamberGlass,'Visible internal shot cup',cx);chamber.renderOrder=12;cap.add(chamber);
+  const shot=glass.clone();shot.color.set('#f1f3e8');shot.opacity=.24;shot.side=THREE.DoubleSide;shot.name='Clear spirit in shot chamber';
+  const spirit=lathe([[0,3.065],[.13,3.067],[.26,3.11],[.35,3.2],[.4,3.34],[.4,3.57],[0,3.57]],shot,'Sealed clear shot',cx);spirit.renderOrder=11;cap.add(spirit);
+  cap.add(ring(.449,.012,3.735,chamberGlass,'Shot chamber rim',cx));
+  cap.add(ring(.574,.009,Y(94),dark,'Lid parting line',cx));
+  cap.add(ring(.584,.01,Y(109),smoke,'Lid rolled rim',cx));
+  const collar=lathe([[.565,Y(348)],[.579,Y(345)],[.583,Y(313)],[.57,Y(309)]],dark,'Cap lower seal collar',cx);collar.renderOrder=21;cap.add(collar);
+  for(let i=0;i<64;i++) {
+    const theta=i*Math.PI*2/64;
+    const rib=new THREE.Mesh(new THREE.CapsuleGeometry(.006,.57,3,6),smoke);
+    rib.position.set(cx+.596*Math.sin(theta),Y(215),.596*Math.cos(theta));rib.renderOrder=21;
+    rib.name='Transparent cap grip rib';cap.add(rib);
+  }
   cap.add(extrudedOutline([[266,96],[253,98],[246,105],[243,116],[247,127],[256,132],[268,130]],.12,.03,'Lid hinge',material));
   cap.add(extrudedOutline([[557,89],[575,92],[586,100],[591,111],[592,293],[590,305],[579,309],[569,302],[567,129],[558,128]],.13,.055,'Rear latch rail',material));
   cap.add(extrudedOutline([[556,126],[568,127],[574,136],[575,345],[579,351],[589,355],[596,365],[596,373],[591,382],[582,387],[567,387],[558,381],[552,368],[553,351]],.15,.15,'Pull-pin latch',material));
-  const pin=new THREE.Group();pin.name='Original-image copper pull ring';
-  group.add(pin);
+  const pin=new THREE.Group();pin.name='Original-image copper pull ring';group.add(pin);
   const stemGeometry=new THREE.CylinderGeometry(.046,.046,.138,32);stemGeometry.rotateZ(Math.PI/2);
   pin.add(projectGeometry(stemGeometry,[X(592),Y(332),.085],'Copper stem',material));
-  const ringGeometry=new THREE.TorusGeometry(65/250,10.5/250,24,144);
-  ringGeometry.scale(1,1.005,1);
+  const ringGeometry=new THREE.TorusGeometry(65/250,10.5/250,24,144);ringGeometry.scale(1,1.005,1);
   pin.add(projectGeometry(ringGeometry,[X(675.5),Y(332.5),.085],'Photographed copper ring',material));
-  // Independent molded crown: no photograph reaches its pole.
-  const cx=X(412);
-  cap.add(lathe([[.578,Y(70)],[.54,Y(54)],[.45,Y(43)],[.32,Y(37)],[.16,Y(35)],[0,Y(35)]],smoke,'Smooth molded lid crown',cx));
-  cap.add(ring(.574,.013,Y(94),dark,'Lid parting line',cx));
-  cap.add(ring(.584,.008,Y(109),smoke,'Lid rolled rim',cx));
-  cap.add(ring(.575,.014,Y(310),dark,'Cap lower collar',cx));
-  // Restrict added ribs to the reconstructed half so the original front stays intact.
-  for(let i=0;i<35;i++) {
-    const theta=1.48+i*(2*Math.PI-2*1.48)/34;
-    const rib=new THREE.Mesh(new THREE.CapsuleGeometry(.008,.57,4,8),dark);
-    rib.position.set(cx+.596*Math.sin(theta),Y(215),.596*Math.cos(theta));
-    rib.name='Molded cap grip rib';cap.add(rib);
-  }
-  // A recessed underside and circular contact ring replace the image-textured pole.
-  const foot=glass.clone();foot.color.set('#e2e8cf');foot.roughness=.24;foot.name='Glass underside';
-  group.add(lathe([[0,Y(978)],[.4,Y(978)],[.53,Y(985)],[.59,Y(991)],[.69,Y(987)],[.76,Y(978)],[.802,Y(964)]],foot,'Recessed glass underside',X(417)));
+  const foot=glass.clone();foot.opacity=.28;foot.name='Clear glass underside';
+  const bottom=lathe([[0,Y(978)],[.4,Y(978)],[.53,Y(985)],[.59,Y(991)],[.69,Y(987)],[.76,Y(978)],[.802,Y(964)]],foot,'Recessed glass underside',X(417));bottom.renderOrder=20;group.add(bottom);
   group.add(ring(.63,.012,Y(989),glass,'Glass base contact ring',X(417)));
-  // The back of the photographed torus has its own copper finish.
+  const backs=[];
   for(const object of pin.children) {
     const back=object.clone();back.geometry=object.geometry.clone();back.material=copper;
-    // Keep the photograph only on forward-facing triangles of this solid.
-    const normals=object.geometry.getAttribute('normal'),index=object.geometry.index;
-    const frontIndices=[],backIndices=[];
-    for(let i=0;i<index.count;i+=3){const a=index.getX(i),b=index.getX(i+1),c=index.getX(i+2);
-      (normals.getZ(a)+normals.getZ(b)+normals.getZ(c)>1.2?frontIndices:backIndices).push(a,b,c);}
-    object.geometry.setIndex(frontIndices);back.geometry.setIndex(backIndices);back.name=object.name+' copper rear';
-    // Append after the traversal below to avoid revisiting the new meshes.
-    object.userData.rear=back;
+    const normals=object.geometry.getAttribute('normal'),index=object.geometry.index,frontIndices=[],backIndices=[];
+    for(let i=0;i<index.count;i+=3){const a=index.getX(i),b=index.getX(i+1),c=index.getX(i+2);(normals.getZ(a)+normals.getZ(b)+normals.getZ(c)>1.2?frontIndices:backIndices).push(a,b,c);}
+    object.geometry.setIndex(frontIndices);back.geometry.setIndex(backIndices);back.name=object.name+' copper rear';backs.push(back);
   }
-  const backs=pin.children.map(o=>o.userData.rear);
-  pin.children.forEach(o=>delete o.userData.rear);pin.add(...backs);
-  return {group,cap,pin};
+  pin.add(...backs);
+  return {group,cap,pin,liquid};
 }

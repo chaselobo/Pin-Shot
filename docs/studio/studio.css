@@ -10,3 +10,5 @@ aside{padding:48px 32px 30px;align-self:center}.eyebrow{font-size:10px;letter-sp
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 #source-view{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;background:#f3f3f3}#source-view[hidden]{display:none}#source-view img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:none;object-fit:fill}#compare{display:block;width:100%;padding:11px 14px;margin:-10px 0 22px;text-align:left;color:var(--muted)}#compare[aria-pressed=true]{color:var(--lime);border-color:var(--lime)}.stage.light{background:#f3f3f3}.stage.light .stage-word{display:none}
 @media(min-width:681px){.stage{height:calc(100svh - 82px);min-height:540px;align-self:start;position:sticky;top:0}}
+
+.liquid-controls{border-top:1px solid var(--line);padding:17px 0 22px;margin-bottom:12px}.liquid-controls>div{display:flex;gap:8px;margin-top:11px}.liquid-controls button{padding:10px 14px}.liquid-controls #swirl{background:var(--lime);color:var(--night);border-color:var(--lime)}.liquid-controls p{font-size:10px;line-height:1.6;color:var(--muted);margin:10px 0 0}

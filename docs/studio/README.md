@@ -2,15 +2,17 @@
 
 Static GitHub Pages route: `/Pin-Shot/studio/`. No backend or build step.
 
-The VSL bottle preserves the central front artwork from **the actual approved image**, `assets/pin-shot-vsl.jpeg`. `vsl-source.jpeg` is a byte-for-byte copy. A feathered front projection preserves the typography and central artwork. The side/rear surface uses a continuous cylindrical wrap (`vsl-rear-texture.png`) generated from the reference using the built-in imagegen tool. See `tools/rear-texture-prompt.txt` for the generation prompt.
+The bottle is rendered in Three.js with separate layers: clear glass, fixed printed artwork, translucent lime soda, rising carbonation, and a clear lid containing a separate shot cup. The original `assets/pin-shot-vsl.jpeg` remains untouched and is copied byte-for-byte as `vsl-source.jpeg`.
 
-The reconstructed cap has a smooth closed crown, grip ribs and molded seams. The recessed glass underside and circular contact ring have independent geometry and materials. Neither pole stretches the source photograph. Copper hardware uses the photographed front and a separate copper rear material.
+The front print is sampled from the original image. A runtime alpha mask retains dark lettering and saturated lime areas while removing the pale photographed drink. The rear print uses the previously generated `vsl-rear-texture.png` with the same background separation. RGB artwork is sampled from those images; the mask is approximate because the source is a flattened product render, not a print production file. Hidden geometry remains inferred. See `tools/rear-texture-prompt.txt` for the rear texture provenance.
 
-The bottle has full depth and rotates through 360 degrees. A single image cannot establish exact depth or hidden surfaces. These are inferred, including the generated rear texture; this is a visual reconstruction, not a scan or manufacturing model. Source-image reflections remain baked into the front. Studio lights illuminate the newly modeled surfaces without recoloring the unlit front artwork.
+The clear lid has no opaque photo wrapped around it. Its inner shot cup, clear spirit, ribs, seals and crown are actual geometry. Softbox reflections reveal the transparent wall and base on both light and dark backgrounds.
 
-Drag or touch to orbit; scroll or pinch to zoom. Buttons provide front, three-quarter, ring side, left side, back, top and base views. The focused viewport accepts arrow keys, plus/minus and Home. Auto rotation starts only when requested. **Compare original image** shows the unchanged photograph at the front camera's matching size and position. Light/dark controls change the background while preserving product colors.
+The soda is an independent tinted volume with a moving meniscus and 100 instanced bubbles. Dragging or **Swirl soda** adds an impulse to a damped wave model. **Pause liquid** freezes waves and carbonation. Reduced-motion preferences start the liquid paused. This is a bounded visual simulation, not CFD; orbiting the camera does not simulate inverting the bottle under gravity. The artwork stays fixed on the glass.
 
-`models/pin-shot-vsl.glb` is a self-contained binary glTF with both images embedded, unlit artwork and physical materials for the reconstructed surfaces. Three.js dependencies are vendored with their license. Google Fonts supply page typography only; they do not affect the product.
+Drag or touch to orbit; scroll or pinch to zoom. Seven view presets expose the front, quarter, both sides, rear, top and base. Arrow keys rotate, plus/minus zoom and Home resets. **Compare original image** displays the untouched reference. Bottle auto rotation is independently controlled.
+
+`models/pin-shot-vsl.glb` contains all geometry, embedded original/print textures, clear materials, instanced bubbles and a **static liquid pose**. The interactive simulation runs in `liquid-motion.mjs` and `model.js`, not in the GLB. Three.js dependencies are vendored with their license.
 
 ## Preview, export and verify
 
@@ -21,9 +23,10 @@ python3 -m http.server 8140 --directory docs
 Open `/studio/` for the viewer, or `/studio/tools/export.html` and click **Export GLB** after editing `model.js`. Save the result to `docs/studio/models/pin-shot-vsl.glb`.
 
 ```sh
+node docs/studio/tools/check-liquid.mjs
 python3 docs/studio/tools/validate-model.py
 # Optional automated browser check with Playwright available:
 node docs/studio/tools/check-studio.cjs
 ```
 
-The offline validator checks the GLB, compares the embedded source-image texture against the original photograph (accounting for glTF's vertical texture orientation), verifies the front UV projection, checks actual 3D depth, monotonic wrap UVs and separate untextured end surfaces. The browser check exercises the seven camera views, pointer/keyboard rotation, comparison, zoom, auto rotation, backgrounds, mobile overflow, and model export. Set `CHROMIUM_EXECUTABLE` to use an installed Chromium browser or `STUDIO_URL` to check another server.
+The motion test checks pause, frame-rate independence, bounds under repeated impulses and settling. The offline model validator checks GLB integrity, unchanged original image pixels, source-aligned front UVs, continuous rear UVs, transparent glass/lid/print materials, separate liquid geometry and closed ends. The optional browser check also exercises camera controls, comparison, liquid motion/pause, mobile layout and export. Set `CHROMIUM_EXECUTABLE` to use an installed Chromium browser or `STUDIO_URL` to check another server.
