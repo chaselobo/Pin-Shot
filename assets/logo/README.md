@@ -1,0 +1,9 @@
+# Pin Shot logo
+
+`pin-shot-logo.png` is a transparent PNG recreation of the stacked black wordmark on the bottle mockups. It is 1222 × 1287 pixels. It preserves the heavy condensed lettering and upward-right angle; it omits the label slogans, flavor text, and tiny trademark-like text. This is raster artwork recreated from the mockups, rather than an original vector master.
+
+Created with the built-in image generation tool using `assets/pin-shot-template.jpeg` and `assets/pin-shot-vsl.jpeg` as references. Transparency and lettering were verified, including a visual review against white.
+
+## Generation prompt
+
+Use case: background-extraction / logo-brand. Recreate only the existing PIN SHOT wordmark printed on the two supplied bottle reference images as one clean standalone high resolution logo on a genuinely transparent background. This is a faithful recreation of their typography, not a redesign. Exact text: PIN on the top line and SHOT on the second line. Match the extremely heavy tall condensed black uppercase sans-serif letters, the close spacing, the proportions and distinctive narrow vertical counters of the P and O, and the slight upward-right angle of both lines, as visible on the bottle label. PIN and SHOT form one unified stacked block, SHOT slightly wider than PIN, preserving reference alignment. Crisp solid black artwork with clean smooth edges and transparent holes inside the letter counters, no photographic shading, no glass reflections or texture. Main wordmark only: omit the tiny trademark-like letters, omit PULL SWIRL SIP, omit FLAVOR NAME and VSL, omit alcoholic cocktail and all other label text. No bottle, no pin icon, no ring, no slogan, no extra symbol, no shadows, no gradients, no background fill, no mockup. Center the single large logo with moderate transparent margin, suitable as a usable brand asset.
