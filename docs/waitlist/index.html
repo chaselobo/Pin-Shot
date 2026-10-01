@@ -103,6 +103,7 @@ form{display:grid;gap:10px;margin-top:6px}
 .check{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--soft);cursor:pointer;padding-left:6px}
 .check input{width:17px;height:17px;accent-color:var(--fc);margin:0}
 .msg{font-size:14px;font-weight:600;min-height:1.3em;margin:0;padding-left:6px}
+.msg:empty{display:none}
 .msg.err{color:#ff9a8a}
 .msg.ok{color:var(--fc)}
 .done{display:none;font-family:var(--display);font-size:clamp(26px,2.6vw,36px);line-height:1;text-transform:uppercase}
@@ -117,8 +118,7 @@ form{display:grid;gap:10px;margin-top:6px}
   .pitch{left:0;right:0;width:auto;height:auto;top:calc(env(safe-area-inset-top,0px) + 62px);padding:0 20px;justify-content:flex-start;gap:8px;text-align:center;align-items:center}
   .pitch .eyebrow,.pitch p.lede{display:none}
   h1{font-size:clamp(34px,10vw,60px)}
-  .stage{left:0;top:16dvh}
-  .stage{height:calc(var(--hz) - 16dvh)}
+  .stage{--st:calc(env(safe-area-inset-top,0px) + 72px + clamp(34px,10vw,60px) * 1.8);left:0;top:var(--st);height:calc(var(--hz) - var(--st))}
   .giant{top:2%}
   .info{left:0;top:calc(var(--hz) + 4.6dvh);gap:8px}
   .formwrap{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);z-index:4;background:rgba(18,11,8,.62);border:1px solid rgba(245,239,233,.12);border-radius:22px;padding:14px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
