@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pin Shot store preview: singles, six-packs, twelves and cases. Prices are mockups. 21+.">
+<meta name="theme-color" content="#1c100a">
+<title>Pin Shot Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap">
+<style>
+/* Layout: the waitlist bar, turned into a back-bar shop. Hero counter with bottles, pack-size picker, flavor shelf cards, mix-your-own case builder, slide-in cart. */
+@property --fc{syntax:"<color>";inherits:true;initial-value:#c6ef3a}
+:root{
+  --wall:#160d09; --wood:#3a2215; --wood-dark:#1a0e07; --rim:#9a6238; --card:rgba(255,236,220,.045); --line:rgba(245,239,233,.11);
+  --text:#f5efe9; --soft:rgba(245,239,233,.72); --faint:rgba(245,239,233,.45);
+  --lime:#c6ef3a; --copper:#d0703a;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Manrope", "Helvetica Neue", Arial, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:#1c100a;scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(120vw 600px at 50% -100px,#2b170d,transparent 70%),linear-gradient(180deg,#1c100a 0,var(--wall) 600px,#0f0805 100%)}
+body.locked{overflow:hidden}
+img{max-width:100%}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:20px}
+.eyebrow{font-weight:800;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--lime)}
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,76px);line-height:.92;text-transform:uppercase}
+.h2 em{font-style:normal;color:var(--lime)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+/* ribbon + nav */
+.ribbon{background:var(--copper);color:#140a06;text-align:center;font-weight:800;font-size:13px;padding:8px 16px;padding-top:calc(env(safe-area-inset-top,0px) + 8px)}
+.ribbon a{text-decoration:underline;text-underline-offset:2px}
+.nav{position:sticky;top:0;z-index:30;background:rgba(22,13,9,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.logo img{display:block;height:46px;width:auto}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-weight:600;font-size:14px;color:var(--soft)}
+.nav ul a{text-decoration:none}.nav ul a:hover,.nav ul a[aria-current]{color:var(--text)}
+.cartbtn{display:inline-flex;align-items:center;gap:10px;background:rgba(245,239,233,.08);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px 8px 12px;cursor:pointer;font-weight:800;font-size:14px}
+.cartbtn:hover{border-color:var(--lime)}
+.cartbtn svg{width:20px;height:20px}
+.count{min-width:22px;height:22px;border-radius:11px;background:var(--lime);color:#140a06;font-size:12px;display:grid;place-items:center;padding:0 6px;transition:transform .2s}
+.count.bump{transform:scale(1.35)}
+@media (max-width:760px){.nav ul{display:none}.logo img{height:38px}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .bokeh{position:absolute;inset:0;pointer-events:none}
+.hero .bokeh i{position:absolute;border-radius:50%;filter:blur(8px)}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;gap:20px;padding-top:clamp(40px,7vw,90px);position:relative}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(56px,8.6vw,120px);line-height:.88;text-transform:uppercase;margin:14px 0 20px}
+.hero h1 em{font-style:normal;color:var(--lime);text-shadow:0 0 30px rgba(198,239,58,.4)}
+.hero p.lede{color:var(--soft);font-size:clamp(16px,1.5vw,19px);max-width:38ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 clamp(40px,6vw,80px)}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:14px 24px;font-weight:800;font-size:15px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn.main{background:var(--lime);color:#140a06}
+.btn.main:hover{transform:translateY(-1px);box-shadow:0 10px 36px -10px rgba(198,239,58,.7)}
+.btn.ghost{background:transparent;border:1.5px solid rgba(245,239,233,.3)}
+.btn.ghost:hover{border-color:var(--text)}
+.herobar{position:relative;height:clamp(280px,34vw,420px)}
+.herobar img{position:absolute;bottom:0;height:88%;left:50%;transform:translateX(-50%);filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
+.herobar img.l{height:62%;transform:translateX(-148%);filter:brightness(.55) drop-shadow(0 12px 20px rgba(0,0,0,.6))}
+.herobar img.r{height:62%;transform:translateX(48%);filter:brightness(.55) drop-shadow(0 12px 20px rgba(0,0,0,.6))}
+.herobar::before{content:"";position:absolute;left:50%;bottom:6%;width:70%;height:70%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(198,239,58,.22),transparent);filter:blur(20px)}
+.countertop{height:72px;background:
+  linear-gradient(180deg,rgba(255,255,255,.07),transparent 40%),
+  repeating-linear-gradient(88deg,rgba(0,0,0,.18) 0 2px,transparent 2px 9px,rgba(255,200,150,.04) 9px 11px,transparent 11px 23px),
+  linear-gradient(180deg,#4a2c1b,var(--wood) 55%,#2a180d);position:relative}
+.countertop::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;background:linear-gradient(180deg,#c58652,var(--rim) 30%,#4a2a16 70%,#22120a)}
+@media (max-width:760px){.herogrid{grid-template-columns:minmax(0,1fr)}.ctas{margin-bottom:12px}.herobar{height:260px}}
+
+/* packs */
+section.block{padding-block:clamp(64px,8vw,104px)}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px 40px;margin-bottom:32px}
+.head p{color:var(--soft);max-width:44ch}
+.packs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.packs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pack{position:relative;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:18px 18px 20px;cursor:pointer;display:grid;gap:12px;transition:border-color .2s,transform .2s,box-shadow .2s}
+.pack:hover{transform:translateY(-2px)}
+.pack[aria-pressed="true"]{border-color:var(--lime);box-shadow:0 18px 50px -24px rgba(198,239,58,.6);background:rgba(198,239,58,.06)}
+.pack .grid{display:grid;gap:4px;justify-content:start;height:54px;align-content:end}
+.pack .grid i{width:12px;height:12px;border-radius:50%;background:#3b3a36;box-shadow:inset 0 0 0 2px #59574f}
+.pack[aria-pressed="true"] .grid i{background:#4c4a44;box-shadow:inset 0 0 0 2px var(--copper)}
+.pack h3{font-family:var(--display);font-weight:400;font-size:28px;line-height:1;text-transform:uppercase}
+.pack .pp{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pack .pp b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.pack .pp span{color:var(--soft);font-size:14px;font-weight:600}
+.save{position:absolute;top:14px;right:14px;background:var(--lime);color:#140a06;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px}
+.save.alt{background:var(--copper)}
+
+/* flavor shelf */
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.shelf{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.shelf{gap:10px}}
+.fl{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s}
+.fl:hover{border-color:color-mix(in srgb,var(--c) 60%,transparent);box-shadow:0 24px 60px -30px var(--c)}
+.stand{position:relative;height:clamp(200px,24vw,280px);background:radial-gradient(70% 60% at 50% 70%,color-mix(in srgb,var(--c) 22%,transparent),transparent 70%)}
+.stand::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 40%),repeating-linear-gradient(88deg,rgba(0,0,0,.18) 0 2px,transparent 2px 9px),linear-gradient(180deg,#4a2c1b,#2a180d)}
+.stand img{position:absolute;left:50%;bottom:12%;height:80%;transform:translateX(-50%);z-index:1;transition:transform .35s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.fl:hover .stand img{transform:translateX(-50%) translateY(-6px)}
+.fl .meta{padding:14px 16px 16px;display:grid;gap:4px;flex:1}
+.fl h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1;text-transform:uppercase;display:flex;align-items:center;gap:9px}
+.fl h3 i{width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px 1px var(--c);flex:none}
+.fl .mix{color:var(--soft);font-size:13px}
+.buy{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:10px}
+.buy .pr b{display:block;font-family:var(--display);font-weight:400;font-size:26px;line-height:1;font-variant-numeric:tabular-nums}
+.buy .pr span{color:var(--faint);font-size:12px;font-weight:600}
+.add{flex:none;border:0;border-radius:999px;background:var(--text);color:#140a06;font-weight:800;font-size:13px;padding:10px 16px;cursor:pointer;transition:background .2s,transform .15s}
+.add:hover{background:var(--c);transform:translateY(-1px)}
+.add.done{background:var(--c)}
+@media (max-width:420px){.buy{flex-direction:column;align-items:stretch}.add{width:100%}}
+
+/* mixed packs */
+.mixed{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media (max-width:900px){.mixed{grid-template-columns:minmax(0,1fr)}}
+.builder,.bundle{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,28px)}
+.builder h3,.bundle h3{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.4vw,42px);line-height:1;text-transform:uppercase}
+.builder > p,.bundle > p{color:var(--soft);margin-top:6px}
+.bgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:22px;margin-top:22px;align-items:start}
+@media (max-width:560px){.bgrid{grid-template-columns:minmax(0,1fr)}}
+.case{background:linear-gradient(180deg,#4a2c1b,#2a180d);border-radius:16px;padding:14px;box-shadow:inset 0 2px 0 rgba(255,220,180,.15),0 20px 40px -20px rgba(0,0,0,.8)}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.slots i{aspect-ratio:1;border-radius:50%;background:#1a0f09;box-shadow:inset 0 3px 8px rgba(0,0,0,.7);position:relative;transition:background .25s}
+.slots i.f{background:radial-gradient(circle at 50% 50%,#55524b 0 46%,#2e2c28 48% 60%,var(--s) 62% 70%,#2e2c28 72%);box-shadow:0 0 14px -2px var(--s)}
+.prog{margin-top:12px;font-weight:800;font-size:13px;color:var(--soft);display:flex;justify-content:space-between}
+.chips{display:grid;gap:8px}
+.chip{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 8px 7px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.18)}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.chip span{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:rgba(245,239,233,.06);cursor:pointer;font-weight:800;line-height:1}
+.step button:hover:not(:disabled){border-color:var(--text)}
+.step button:disabled{opacity:.35;cursor:default}
+.step b{min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
+.bfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.bfoot b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1}
+.bfoot .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.bundle{display:flex;flex-direction:column;gap:16px}
+.bundle .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.bundle .row:first-of-type{border-top:0}
+.bundle .row h4{margin:0;font-weight:800;font-size:17px}
+.bundle .row p{color:var(--soft);font-size:13px;margin-top:2px}
+.bundle .row b{font-family:var(--display);font-weight:400;font-size:26px;display:block;text-align:right}
+.mini{display:flex;margin-top:8px}
+.mini i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);margin-right:-3px;border:2px solid #1d110b}
+
+/* notes + footer */
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid var(--line);padding-top:36px}
+@media (max-width:760px){.notes{grid-template-columns:minmax(0,1fr)}}
+.notes h4{margin:0 0 4px;font-weight:800;font-size:15px}
+.notes p{color:var(--soft);font-size:14px}
+footer{border-top:1px solid var(--line);padding-block:36px calc(env(safe-area-inset-bottom,0px) + 40px);margin-top:64px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end}
+footer img{height:56px;width:auto;display:block}
+footer small{color:var(--faint);font-size:13px;max-width:56ch}
+
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:rgba(5,3,2,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);z-index:41;background:#1a0f0a;border-left:1px solid var(--line);transform:translateX(102%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.dh h2{font-family:var(--display);font-weight:400;font-size:30px;text-transform:uppercase}
+.x{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:20px;line-height:1}
+.lines{flex:1;overflow:auto;padding:8px 22px}
+.empty{color:var(--soft);padding:40px 0;text-align:center}
+.line{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.line .th{height:64px;display:grid;place-items:center;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 30%,transparent),transparent);border-radius:12px}
+.line .th img{height:60px;width:auto}
+.line .th.mixdot{display:flex;flex-wrap:wrap;gap:2px;align-content:center;justify-content:center;padding:6px}
+.line .th.mixdot i{width:9px;height:9px;border-radius:50%;background:var(--s)}
+.line h4{margin:0;font-weight:800;font-size:15px}
+.line p{color:var(--faint);font-size:12px;margin-top:2px}
+.line .right{display:grid;justify-items:end;gap:6px}
+.line .right b{font-variant-numeric:tabular-nums}
+.df{border-top:1px solid var(--line);padding:18px 22px 22px;display:grid;gap:12px}
+.tot{display:flex;justify-content:space-between;align-items:baseline}
+.tot b{font-family:var(--display);font-weight:400;font-size:32px}
+.df small{color:var(--faint);font-size:12px}
+.df .btn{justify-content:center}
+
+/* age gate */
+.gate{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:radial-gradient(80vw 60vh at 50% 30%,#2b170d,#0d0705 70%)}
+.gate[hidden]{display:none}
+.gate .box{text-align:center;display:grid;gap:18px;justify-items:center;max-width:420px}
+.gate img{height:96px;width:auto}
+.gate h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,8vw,52px);line-height:.95;text-transform:uppercase}
+.gate p{color:var(--soft)}
+.gate .ctas{margin:6px 0 0;justify-content:center}
+</style>
+</head>
+<body>
+<div class="gate" id="gate" hidden>
+  <div class="box">
+    <img src="../waitlist/img/logo-white.png" alt="Pin Shot">
+    <h2>Are you 21<br>or older?</h2>
+    <p>You must be of legal drinking age to enter this site.</p>
+    <div class="ctas"><button class="btn main" id="gateYes" type="button">Yes, I'm 21+</button><button class="btn ghost" id="gateNo" type="button">No</button></div>
+    <p id="gateMsg" role="status"></p>
+  </div>
+</div>
+
+<div class="ribbon">Store preview. Prices are mockups and nothing is for sale yet. <a href="../waitlist/">Join the waitlist →</a></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../waitlist/img/logo-white.png" alt="Pin Shot home" width="929" height="1071"></a>
+    <ul><li><a href="#packs" aria-current="page">Shop</a></li><li><a href="#mix">Mix packs</a></li><li><a href="../#pull">The pull</a></li><li><a href="../waitlist/">Waitlist</a></li></ul>
+    <button class="cartbtn" id="cartBtn" type="button" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1.2 12.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg><span>Cart</span><span class="count" id="count">0</span></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="bokeh" id="bokeh" aria-hidden="true"></div>
+    <div class="wrap herogrid">
+      <div>
+        <div class="eyebrow">The back bar</div>
+        <h1>Stock<br>the <em>bar.</em></h1>
+        <p class="lede">Singles, six-packs, twelves and full cases. Mix and match any flavor, and every bottle has the shot sealed in the cap.</p>
+        <div class="ctas"><a class="btn main" href="#packs">Shop packs ↓</a><a class="btn ghost" href="#mix">Build a mixed case</a></div>
+      </div>
+      <div class="herobar" aria-hidden="true">
+        <img class="l" src="../waitlist/img/paloma.png" alt="">
+        <img class="r" src="../waitlist/img/whiskey-cola.png" alt="">
+        <img src="../waitlist/img/vsl.png" alt="">
+      </div>
+    </div>
+    <div class="countertop" aria-hidden="true"></div>
+  </section>
+
+  <section class="block" id="packs">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Step 1</div><h2 class="h2" style="margin-top:12px">How many<br><em>are we pulling?</em></h2></div><p>Pick a size and every flavor below updates. The more you stock, the less each bottle costs.</p></div>
+      <div class="packs" id="packPick" role="group" aria-label="Pack size"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" id="flavors">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Step 2</div><h2 class="h2" style="margin-top:12px">Pick your<br><em>pour.</em></h2></div><p id="shelfNote">Showing six-pack prices.</p></div>
+      <div class="shelf" id="shelf"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" id="mix">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Can't pick one?</div><h2 class="h2" style="margin-top:12px">Mix it<br><em>up.</em></h2></div><p>Fill a twelve-bottle case with any combination, or grab a sampler with one of everything.</p></div>
+      <div class="mixed">
+        <div class="builder">
+          <h3>Build your 12</h3>
+          <p>Any flavors, any mix. Same price as a straight twelve.</p>
+          <div class="bgrid">
+            <div><div class="case"><div class="slots" id="slots" aria-hidden="true"></div></div><div class="prog"><span id="filled">0 of 12</span><span id="left">Add 12 more</span></div></div>
+            <div class="chips" id="chips"></div>
+          </div>
+          <div class="bfoot"><b>$49.99</b><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="fill" type="button">Fill randomly</button><button class="btn main" id="addCase" type="button" disabled>Add case to cart</button></div></div>
+        </div>
+        <div class="bundle">
+          <div><h3>Ready-made</h3><p style="color:var(--soft);margin-top:6px">Picked for you. Every flavor in the box.</p></div>
+          <div id="bundles"></div>
+        </div>
+      </div>
+
+      <div class="notes" style="margin-top:56px">
+        <div><h4>Every bottle, 355 mL</h4><p>A 44 mL shot sealed in the cap above the mixer. About 5% ABV once you pull.</p></div>
+        <div><h4>Shipping</h4><p>Where we can deliver depends on state alcohol laws. An adult 21+ signs for every order.</p></div>
+        <div><h4>Not on sale yet</h4><p>This is a preview of the store. Join the waitlist to hear when the first cases ship.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="../waitlist/img/logo-white.png" alt="Pin Shot">
+    <small>For adults 21 and over. Please drink responsibly and never drink and drive. Store preview: prices are mockups, nothing is for sale, and bottles shown are renders.</small>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="dh"><h2>Your bar</h2><button class="x" id="closeCart" type="button" aria-label="Close cart">×</button></div>
+  <div class="lines" id="lines"></div>
+  <div class="df">
+    <div class="tot"><span>Subtotal</span><b id="subtotal">$0.00</b></div>
+    <small>Taxes and delivery are worked out at checkout. Prices are mockups.</small>
+    <a class="btn main" href="../waitlist/">Checkout opens at launch · Join the waitlist</a>
+  </div>
+</aside>
+<p class="sr" id="live" aria-live="polite"></p>
+
+<script>
+(function(){
+const FLAVORS=[
+  {id:'gin-and-tonic',name:'Gin & Tonic',mix:'Gin · tonic · lime',c:'#bdf0e2'},
+  {id:'vsl',name:'VSL',mix:'Vodka · soda · lime',c:'#c6ef3a'},
+  {id:'moscow-mule',name:'Moscow Mule',mix:'Vodka · ginger beer · lime',c:'#f0c860'},
+  {id:'rum-punch',name:'Rum Punch',mix:'Light rum · pineapple · orange · passion fruit',c:'#ff8a3d'},
+  {id:'paloma',name:'Paloma',mix:'Blanco tequila · grapefruit soda',c:'#ff9e8f'},
+  {id:'hard-shirley',name:'Hard Shirley',mix:'Vodka · lemon-lime soda · cherry',c:'#ff5a85'},
+  {id:'vodka-cran',name:'Vodka Cran',mix:'Vodka · cranberry · lime',c:'#ff4058'},
+  {id:'whiskey-cola',name:'Whiskey Cola',mix:'Whiskey · cola',c:'#e8955a'}
+];
+/* Mockup prices. Base single = $4.99. */
+const PACKS=[
+  {id:'single',name:'Single',n:1,price:4.99,cols:1},
+  {id:'six',name:'Six-pack',n:6,price:26.99,cols:3},
+  {id:'twelve',name:'Twelve',n:12,price:49.99,cols:6},
+  {id:'case',name:'Case of 24',n:24,price:94.99,cols:8}
+];
+const BUNDLES=[
+  {id:'sampler',name:'The Sampler',desc:'One of each flavor · 8 bottles',n:8,price:36.99,counts:FLAVORS.map(()=>1)},
+  {id:'party',name:'The Party Case',desc:'Three of each flavor · 24 bottles',n:24,price:94.99,counts:FLAVORS.map(()=>3)},
+  {id:'sparkling',name:'The Fizz Six',desc:'VSL, Gin & Tonic, Paloma · two each',n:6,price:26.99,counts:[2,2,0,0,2,0,0,0]}
+];
+const money=v=>'$'+v.toFixed(2);
+const $=id=>document.getElementById(id);
+let pack=PACKS[1];
+const cart=[]; /* {key,label,detail,qty,price,thumb|dots,c} */
+
+/* age gate (remembered for this browser) */
+const gate=$('gate');
+let ok=false;try{ok=localStorage.getItem('ps-age')==='ok';}catch(e){}
+if(!ok){gate.hidden=false;document.body.classList.add('locked');}
+$('gateYes').onclick=()=>{try{localStorage.setItem('ps-age','ok');}catch(e){}gate.hidden=true;document.body.classList.remove('locked');};
+$('gateNo').onclick=()=>{$('gateMsg').textContent="Sorry, you need to be 21 or older to visit. Come back when you are.";};
+
+/* bokeh */
+const bk=$('bokeh'),warm=['#ffb36b','#ff8f4a','#ffd29a','#e8643a'];
+for(let i=0;i<14;i++){const e=document.createElement('i'),s=12+Math.random()*50;e.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*70}%;width:${s}px;height:${s}px;background:${warm[i%4]};opacity:${(.06+Math.random()*.16).toFixed(2)}`;bk.appendChild(e);}
+
+/* pack picker */
+const pick=$('packPick');
+PACKS.forEach(p=>{
+  const b=document.createElement('button');b.type='button';b.className='pack';b.dataset.id=p.id;
+  const each=p.price/p.n, save=Math.round((1-p.price/(4.99*p.n))*100);
+  b.innerHTML=`${save>0?`<span class="save${p.n>=24?' alt':''}">Save ${save}%</span>`:''}
+    <div class="grid" style="grid-template-columns:repeat(${p.cols},12px)">${'<i></i>'.repeat(p.n)}</div>
+    <h3>${p.name}</h3><div class="pp"><b>${money(p.price)}</b><span>${p.n>1?money(each)+' a bottle':'One bottle'}</span></div>`;
+  b.onclick=()=>{pack=p;renderPacks();renderShelf();};
+  pick.appendChild(b);
+});
+function renderPacks(){[...pick.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===pack.id?'true':'false'));$('shelfNote').textContent=`Showing ${pack.name.toLowerCase()} prices. Change the size above.`;}
+
+/* shelf */
+const shelf=$('shelf');
+FLAVORS.forEach((f,i)=>{
+  const a=document.createElement('article');a.className='fl';a.style.setProperty('--c',f.c);
+  a.innerHTML=`<div class="stand"><img src="../waitlist/img/${f.id}.png" alt="Pin Shot ${f.name} bottle" loading="lazy"></div>
+    <div class="meta"><h3><i></i>${f.name}</h3><p class="mix">${f.mix}</p>
+    <div class="buy"><div class="pr"><b></b><span></span></div><button class="add" type="button">Add</button></div></div>`;
+  a.querySelector('.add').onclick=e=>{
+    addLine(`${f.id}:${pack.id}`,`${f.name}`,pack.n>1?`${pack.name} · ${pack.n} bottles`:'Single bottle',pack.price,{thumb:f.id,c:f.c});
+    const btn=e.currentTarget;btn.textContent='Added ✓';btn.classList.add('done');setTimeout(()=>{btn.textContent='Add';btn.classList.remove('done');},1300);
+  };
+  shelf.appendChild(a);
+});
+function renderShelf(){[...shelf.children].forEach(a=>{a.querySelector('.pr b').textContent=money(pack.price);a.querySelector('.pr span').textContent=pack.n>1?`${pack.name} · ${money(pack.price/pack.n)} each`:'Single bottle';a.querySelector('.add').setAttribute('aria-label',`Add ${a.querySelector('h3').textContent} ${pack.name} to cart`);});}
+
+/* builder */
+const counts=FLAVORS.map(()=>0), slots=$('slots'), chips=$('chips');
+slots.innerHTML='<i></i>'.repeat(12);
+FLAVORS.forEach((f,i)=>{
+  const c=document.createElement('div');c.className='chip';c.style.setProperty('--c',f.c);
+  c.innerHTML=`<i></i><span>${f.name}</span><div class="step"><button type="button" aria-label="Remove one ${f.name}">−</button><b>0</b><button type="button" aria-label="Add one ${f.name}">+</button></div>`;
+  const [minus,plus]=c.querySelectorAll('button');
+  minus.onclick=()=>{if(counts[i]>0){counts[i]--;renderBuilder();}};
+  plus.onclick=()=>{if(total()<12){counts[i]++;renderBuilder();}};
+  chips.appendChild(c);
+});
+const total=()=>counts.reduce((a,b)=>a+b,0);
+function renderBuilder(){
+  const t=total();let k=0;
+  [...slots.children].forEach(s=>{s.className='';s.style.removeProperty('--s');});
+  counts.forEach((n,i)=>{for(let j=0;j<n;j++){const s=slots.children[k++];s.className='f';s.style.setProperty('--s',FLAVORS[i].c);}});
+  [...chips.children].forEach((c,i)=>{const [m,p]=c.querySelectorAll('button');c.querySelector('b').textContent=counts[i];m.disabled=counts[i]===0;p.disabled=t>=12;});
+  $('filled').textContent=`${t} of 12`;$('left').textContent=t<12?`Add ${12-t} more`:'Case is full';
+  $('addCase').disabled=t<12;
+}
+$('fill').onclick=()=>{while(total()<12)counts[Math.floor(Math.random()*FLAVORS.length)]++;renderBuilder();};
+$('addCase').onclick=()=>{
+  const desc=counts.map((n,i)=>n?`${n} ${FLAVORS[i].name}`:'').filter(Boolean).join(', ');
+  addLine('mix:'+counts.join('-'),'Build your 12',desc,49.99,{dots:counts.slice(),c:'#d0703a'});
+  counts.fill(0);renderBuilder();
+};
+renderBuilder();
+
+/* bundles */
+const bwrap=$('bundles');
+BUNDLES.forEach(b=>{
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<div><h4>${b.name}</h4><p>${b.desc}</p><div class="mini">${b.counts.map((n,i)=>n?`<i style="--c:${FLAVORS[i].c}"></i>`:'').join('')}</div></div>
+    <div><b>${money(b.price)}</b><button class="add" type="button" style="--c:#c6ef3a;margin-top:6px">Add</button></div>`;
+  r.querySelector('.add').onclick=e=>{addLine('bundle:'+b.id,b.name,b.desc,b.price,{dots:b.counts,c:'#c6ef3a'});const btn=e.currentTarget;btn.textContent='Added ✓';btn.classList.add('done');setTimeout(()=>{btn.textContent='Add';btn.classList.remove('done');},1300);};
+  bwrap.appendChild(r);
+});
+
+/* cart */
+function addLine(key,label,detail,price,vis){
+  const ex=cart.find(l=>l.key===key);
+  if(ex)ex.qty++;else cart.push({key,label,detail,price,qty:1,...vis});
+  renderCart();const c=$('count');c.classList.add('bump');setTimeout(()=>c.classList.remove('bump'),200);
+  $('live').textContent=`${label} added to cart`;
+}
+function renderCart(){
+  const lines=$('lines');
+  $('count').textContent=cart.reduce((a,l)=>a+l.qty,0);
+  $('subtotal').textContent=money(cart.reduce((a,l)=>a+l.qty*l.price,0));
+  if(!cart.length){lines.innerHTML='<p class="empty">Your bar is empty. Add a pack to get started.</p>';return;}
+  lines.innerHTML='';
+  cart.forEach((l,idx)=>{
+    const d=document.createElement('div');d.className='line';d.style.setProperty('--c',l.c);
+    const th=l.thumb?`<div class="th"><img src="../waitlist/img/${l.thumb}.png" alt=""></div>`:`<div class="th mixdot">${l.dots.map((n,i)=>`<i style="--s:${FLAVORS[i].c}"></i>`.repeat(Math.min(n,3))).join('')}</div>`;
+    d.innerHTML=`${th}<div><h4>${l.label}</h4><p>${l.detail}</p></div><div class="right"><b>${money(l.price*l.qty)}</b><div class="step"><button type="button" aria-label="Remove one">−</button><b>${l.qty}</b><button type="button" aria-label="Add one">+</button></div></div>`;
+    const [m,p]=d.querySelectorAll('.step button');
+    m.onclick=()=>{l.qty--;if(!l.qty)cart.splice(idx,1);renderCart();};
+    p.onclick=()=>{l.qty++;renderCart();};
+    lines.appendChild(d);
+  });
+}
+const drawer=$('drawer'),scrim=$('scrim');
+function openCart(on){drawer.classList.toggle('on',on);scrim.classList.toggle('on',on);drawer.setAttribute('aria-hidden',on?'false':'true');document.body.classList.toggle('locked',on);if(on)$('closeCart').focus();}
+$('cartBtn').onclick=()=>openCart(true);$('closeCart').onclick=()=>openCart(false);scrim.onclick=()=>openCart(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')openCart(false);});
+
+renderPacks();renderShelf();renderCart();
+
+/* Local preview only: reload automatically when this file changes on disk. Does nothing on the live site. */
+if(['localhost','127.0.0.1'].includes(location.hostname)){let last=null;setInterval(async()=>{try{const r=await fetch(location.pathname,{method:'HEAD',cache:'no-store'});const m=r.headers.get('Last-Modified');if(last&&m&&m!==last)location.reload();last=m;}catch(e){}},1000);}
+})();
+</script>
+</body>
+</html>

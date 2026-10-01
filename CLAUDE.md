@@ -21,6 +21,7 @@ Explain Git steps to the user in plain language. They don't need the commands, j
   - `docs/index.html` is the whole site (one file: HTML, CSS and JS). Images are in `docs/img/` (web-sized copies).
   - Changes go live about a minute after pushing.
 - `docs/waitlist/index.html` is the one-screen waitlist page (no scrolling). Bottles there are transparent PNG cutouts in `docs/waitlist/img/`. Signups only save once `WAITLIST_ENDPOINT` at the top of its script is set to a form service URL (for example Formspree).
+- `docs/shop/index.html` is the store preview: pack sizes, mockup prices (single $4.99, six $26.99, twelve $49.99, case of 24 $94.99, sampler 8 $36.99), mix-your-own twelve, cart drawer and a 21+ gate. It reuses the bottle cutouts and logo from `docs/waitlist/img/`. Checkout links to the waitlist; nothing is actually sold.
 - Local preview: `.claude/launch.json` serves `docs/` at http://localhost:8770 (`python3 -m http.server 8770 --directory docs`). The waitlist page reloads itself on localhost when its file changes, so a phone simulator pointed at http://localhost:8770/waitlist/ shows edits live.
 - `assets/` holds the full-size product images, named `pin-shot-<flavor>.jpeg` and `pin-shot-group-<scene>.jpeg`. `pin-shot-template.jpeg` is the blank bottle used to make new flavors.
 - `output/` holds design and engineering work:

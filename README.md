@@ -4,6 +4,8 @@ Pull the pin. The shot's already in it.
 
 **Live site:** https://chaselobo.github.io/Pin-Shot/
 
+**Shop preview:** https://chaselobo.github.io/Pin-Shot/shop/ — mockup store with pack sizes, mockup prices, a mix-your-own case builder and a cart. Nothing is for sale.
+
 **Waitlist:** https://chaselobo.github.io/Pin-Shot/waitlist/ — single-screen launch page with the flavors rotating on a bar top and a join-the-waitlist form.
 
 **3D Studio:** https://chaselobo.github.io/Pin-Shot/studio/ — rotate and zoom the VSL bottle, inspect every side, switch backgrounds, or download the self-contained GLB model.
