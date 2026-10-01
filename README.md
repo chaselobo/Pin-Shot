@@ -4,6 +4,8 @@ Pull the pin. The shot's already in it.
 
 **Live site:** https://chaselobo.github.io/Pin-Shot/
 
+**3D Studio:** https://chaselobo.github.io/Pin-Shot/studio/ — rotate and zoom the VSL bottle, inspect every side, switch studio lighting, or download the self-contained GLB model.
+
 ## Working on this with Claude Code (easiest)
 
 1. Get access: ask Chase to add you as a collaborator on this repo.
