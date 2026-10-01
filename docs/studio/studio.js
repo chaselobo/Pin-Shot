@@ -4,6 +4,10 @@ import { createBottle, SOURCE } from './model.js';
 
 const $=s=>document.querySelector(s),viewport=$('#viewport');
 const scene=new THREE.Scene();
+scene.add(new THREE.HemisphereLight(0xffffff,0xd3dac2,2.4));
+for(const [position,intensity] of [[[4,7,6],2.2],[[-5,4,-3],1.5],[[2,-5,3],2.2]]) {
+  const light=new THREE.DirectionalLight(0xffffff,intensity);light.position.set(...position);scene.add(light);
+}
 const camera=new THREE.OrthographicCamera(-3,3,2.4,-2.4,.05,60);
 const target=new THREE.Vector3(0,(SOURCE.height-SOURCE.centerY)/SOURCE.scale,0);
 let renderer,controls,model,frame,last=0,comparing=false;
@@ -28,7 +32,7 @@ function compare(enabled){
 function stopSpin(){controls.autoRotate=false;$('#spin').setAttribute('aria-pressed','false');}
 function view(name){
   stopSpin();compare(false);controls.reset();controls.target.copy(target);camera.zoom=1;camera.updateProjectionMatrix();
-  const positions={front:[0,target.y,10],angle:[6.4,target.y+1.0,8],back:[0,target.y,-10],side:[10,target.y,0],top:[0,target.y+10,.001],base:[0,target.y-10,.001]};
+  const positions={front:[0,target.y,10],angle:[6.4,target.y+1.0,8],back:[0,target.y,-10],side:[10,target.y,0],left:[-10,target.y,0],top:[0,target.y+10,.001],base:[0,target.y-10,.001]};
   camera.position.set(...positions[name]);controls.update();
   document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));
   updateSourceSize();

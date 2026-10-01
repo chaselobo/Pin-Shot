@@ -14,8 +14,13 @@ assert struct.unpack_from('<III', raw) == (0x46546C67, 2, len(raw)), 'Invalid GL
 json_length = struct.unpack_from('<I', raw, 12)[0]
 doc = json.loads(raw[20:20 + json_length])
 binary = raw[28 + json_length:]
-assert len(doc['images']) == 1
-view = doc['bufferViews'][doc['images'][0]['bufferView']]
+assert len(doc['images']) == 2, 'Original and rear textures must both be embedded'
+source_materials = [m for m in doc['materials'] if m.get('name') == 'Unchanged original VSL photograph']
+assert source_materials
+assert all('KHR_materials_unlit' in m.get('extensions', {}) for m in source_materials)
+source_texture = source_materials[0]['pbrMetallicRoughness']['baseColorTexture']['index']
+source_image = doc['textures'][source_texture]['source']
+view = doc['bufferViews'][doc['images'][source_image]['bufferView']]
 start = view.get('byteOffset', 0)
 embedded = Image.open(io.BytesIO(binary[start:start + view['byteLength']])).convert('RGB')
 # GLTFExporter flips the image to account for glTF's texture coordinate convention.
@@ -23,7 +28,7 @@ embedded = embedded.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
 original = Image.open(source).convert('RGB')
 assert embedded.size == original.size
 assert ImageChops.difference(embedded, original).getbbox() is None, 'Original texture pixels changed'
-assert all('KHR_materials_unlit' in m.get('extensions', {}) for m in doc['materials'])
+
 
 def accessor(index):
     a = doc['accessors'][index]
@@ -46,4 +51,18 @@ for node in doc['nodes']:
     assert max(p[2] for p in positions) > .5, 'The bottle must have actual depth'
     front_count += 1
 assert front_count == 2
+wrap = next(n for n in doc['nodes'] if n.get('name') == 'Continuous cylindrical rear artwork')
+attrs = doc['meshes'][wrap['mesh']]['primitives'][0]['attributes']
+wrap_uvs = accessor(attrs['TEXCOORD_0'])
+# Every row must use the full texture width with no mirrored/narrow-strip expansion.
+row = [u for u, v in wrap_uvs if abs(v - wrap_uvs[0][1]) < 1e-6]
+assert abs(row[0]) < 1e-6 and abs(row[-1] - 1) < 1e-6
+assert all(a < b for a, b in zip(row, row[1:])), 'Rear UVs must be monotonic'
+for name in ['Smooth molded lid crown', 'Recessed glass underside']:
+    n = next(n for n in doc['nodes'] if n.get('name') == name)
+    primitive = doc['meshes'][n['mesh']]['primitives'][0]
+    mat = doc['materials'][primitive['material']]
+    assert 'baseColorTexture' not in mat['pbrMetallicRoughness'], 'End surfaces must not pinch a photograph'
+    points = accessor(primitive['attributes']['POSITION'])
+    assert min((x*x+z*z)**.5 for x, y, z in points) < .07, 'End surface must close at its center'
 print(f'PASS: {len(doc["meshes"])} meshes; original photo pixels unchanged; front UV projection matches source; full 3D depth; valid {len(raw):,}-byte GLB.')
