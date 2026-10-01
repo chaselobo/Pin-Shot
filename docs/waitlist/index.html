@@ -301,6 +301,9 @@ form.addEventListener('submit',async e=>{
 });
 
 layout();paint(false);idle();
+/* Local preview only: reload automatically when this file changes on disk. Does nothing on the live site. */
+if(['localhost','127.0.0.1'].includes(location.hostname)){let last=null;setInterval(async()=>{try{const r=await fetch(location.pathname,{method:'HEAD',cache:'no-store'});const m=r.headers.get('Last-Modified');if(last&&m&&m!==last)location.reload();last=m;}catch(e){}},1000);}
+
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitGiant);
 })();
 </script>
