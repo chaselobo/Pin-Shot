@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMotion, stir, advance, waveAt } from './liquid-motion.mjs';
+import { createMotion, stir, advance, waveAt } from './liquid-motion.mjs?v=clear-liquid-1';
 
 // Camera projection is defined in the original photograph's pixel coordinates.
 // The source JPEG is copied byte-for-byte; the central front label is never redrawn.

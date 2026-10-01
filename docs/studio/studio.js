@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { createBottle, SOURCE } from './model.js';
-import { lightStudio } from './lighting.js';
+import { createBottle, SOURCE } from './model.js?v=clear-liquid-1';
+import { lightStudio } from './lighting.js?v=clear-liquid-1';
 
 const $=s=>document.querySelector(s),viewport=$('#viewport');
 const scene=new THREE.Scene();
