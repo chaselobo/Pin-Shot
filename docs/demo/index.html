@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0d0b10">
+  <meta name="description" content="Explore the Pin Shot bottle and pull-pin mechanism. An interactive product concept, optimized for your phone. 21+.">
+  <title>Pin Shot · Interactive Demo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="demo.css?v=1">
+  <script type="importmap">{"imports":{"three":"../studio/vendor/three.module.js"}}</script>
+</head>
+<body>
+  <header><a class="wordmark" href="../">PIN SHOT<span> / DEMO</span></a><a class="studio-link" href="../studio/">Full studio ↗</a></header>
+  <main>
+    <section class="stage" aria-label="Interactive product">
+      <div id="viewport" role="region" tabindex="0" aria-label="3D bottle. Drag to rotate, pinch or scroll to zoom. Arrow keys rotate. Home resets the camera."></div>
+      <span id="mode-badge" class="badge">A2 CONCEPT · CUTAWAY</span>
+      <div class="camera-tools"><button id="home" aria-label="Reset camera" title="Reset camera">↺</button><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button></div>
+      <div id="labels" aria-hidden="true"><span data-part="shot">SHOT</span><span data-part="gate">SEALING PADDLE</span><span data-part="soda">SODA</span></div>
+      <p id="loading" role="status">Loading your bottle…</p>
+      <div id="fallback" hidden><img src="../studio/vsl-source.jpeg" alt="Pin Shot VSL bottle"><p>The 3D view couldn’t load.</p><button id="retry">Try again</button><a href="../studio/">Open full studio ↗</a></div>
+      <span class="gesture-hint">DRAG TO ROTATE · PINCH TO ZOOM</span>
+    </section>
+    <section class="controls" aria-label="Demo controls">
+      <div class="mode-switch" aria-label="Viewer mode"><button id="bottle" aria-pressed="false" disabled>Bottle</button><button id="inside" aria-pressed="true" disabled>Inside cap</button></div>
+      <div id="pin-panel">
+        <div class="status" aria-live="polite"><strong id="phase-title">PIN IN · LIQUIDS SEPARATE</strong><p id="phase-copy">The pin’s flat paddle seals the shot between two gaskets.</p></div>
+        <div class="action-row"><button id="pull" class="primary" disabled>Pull pin</button><button id="reset-pin" class="icon-button" aria-label="Reset pin" disabled>↺</button></div>
+        <div class="scrub-row"><input id="progress" type="range" min="0" max="100" value="0" step="1" aria-label="Pin pull position" disabled><output id="percent" for="progress">0%</output></div>
+      </div>
+      <div id="bottle-panel" hidden><div class="status"><strong>CLEAR GLASS. LIME SODA.</strong><p>Rotate the bottle or give the soda a swirl.</p></div><div class="action-row"><button id="swirl" class="primary" disabled>Swirl soda</button><button id="motion" aria-pressed="true" disabled>Pause liquid</button></div></div>
+      <p class="fine-print"><span id="concept-note">Concept demonstration · blue tint identifies the shot.</span><span>21+ · Drink responsibly.</span></p>
+    </section>
+  </main>
+  <script type="module" src="demo.js?v=1"></script>
+</body>
+</html>
