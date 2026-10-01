@@ -1,0 +1,447 @@
+<title>Pin Shot Mechanics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: packaging-engineering board. Each concept = live cutaway (left) + spec sheet (right), then a comparison and a build plan. */
+:root{
+  --paper:#f3f4ec; --card:#fbfcf7; --ink:#151612; --muted:#5d6155; --line:#d6d9ca;
+  --lime:#c6ef3a; --orange:#ff6514; --shot:#e39a2d; --mixer:#e1f2ae;
+  --cap:#1d1e1b; --capline:transparent; --cap2:#4a4d45; --wall:#9aa38b; --clear:#8ea2ac;
+  --seal:#767b72; --foil:#a9b0b7; --air:#2b86d1;
+  --good:#2b7a37; --good-bg:#e1f0dc; --bad:#b4400e; --bad-bg:#fae3d5; --mid:#8a6a0a; --mid-bg:#f6edcc;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Barlow", "Helvetica Neue", Arial, sans-serif;
+  --label:"Barlow Condensed", "Arial Narrow", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11120f; --card:#191b16; --ink:#eef0e5; --muted:#a4a999; --line:#2f3229;
+  --mixer:#3c4720; --shot:#e8a33c; --orange:#ff7a2e;
+  --cap:#2b2d28; --capline:#5d6155; --cap2:#555950; --wall:#78816b; --clear:#6e838e;
+  --seal:#9da397; --foil:#c3c8cd; --air:#5aa9ea;
+  --good:#86d792; --good-bg:#1e3321; --bad:#ff9f6b; --bad-bg:#3b2317; --mid:#e7c35a; --mid-bg:#352d14;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11120f; --card:#191b16; --ink:#eef0e5; --muted:#a4a999; --line:#2f3229;
+  --mixer:#3c4720; --shot:#e8a33c; --orange:#ff7a2e;
+  --cap:#2b2d28; --capline:#5d6155; --cap2:#555950; --wall:#78816b; --clear:#6e838e;
+  --seal:#9da397; --foil:#c3c8cd; --air:#5aa9ea;
+  --good:#86d792; --good-bg:#1e3321; --bad:#ff9f6b; --bad-bg:#3b2317; --mid:#e7c35a; --mid-bg:#352d14;
+  color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px;padding-block:40px 72px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--muted)}
+
+/* header */
+.top{display:grid;gap:18px;padding-bottom:28px;border-bottom:3px solid var(--ink)}
+.brandline{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+.mark{font-family:var(--display);font-size:clamp(52px,9vw,96px);line-height:.9;letter-spacing:.005em}
+.mark span{background:var(--lime);color:#151612;padding:0 .12em}
+.brandline h1{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(20px,2.6vw,28px)}
+.intro{max-width:68ch;color:var(--ink)}
+.intro b{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--label);font-size:15px;font-weight:500;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.toprow{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+
+/* concept */
+.concept{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px 40px;padding-block:44px;border-bottom:1px solid var(--line)}
+@media (max-width:860px){.concept{grid-template-columns:minmax(0,1fr)}}
+.chead{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px 20px;align-items:flex-end;justify-content:space-between}
+.ctitle{display:flex;gap:14px;align-items:center}
+.letter{font-family:var(--display);font-size:34px;line-height:1;width:52px;height:52px;display:grid;place-items:center;background:var(--ink);color:var(--paper);border-radius:4px;flex:none}
+.ctitle h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,42px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.ctitle p{color:var(--muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--label);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:999px}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.mid{background:var(--mid-bg);color:var(--mid)}
+
+.stage{display:grid;gap:12px;min-width:0;align-content:start}
+.stage svg{display:block;width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.controls{display:flex;align-items:center;gap:14px}
+.controls input[type=range]{flex:1;min-width:0;accent-color:var(--orange)}
+.btn{font-family:var(--label);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.06em;border:0;border-radius:4px;padding:8px 16px;background:var(--orange);color:#151612;cursor:pointer;flex:none}
+.btn:focus-visible,input:focus-visible{outline:3px solid var(--air);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.phase{font-family:var(--label);font-weight:600;font-size:17px;min-height:1.5em}
+.order{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;font-family:var(--label);font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.order b{font-weight:600;color:var(--ink)}
+
+.spec{display:grid;gap:22px;align-content:start;min-width:0}
+.spec h3{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:15px;color:var(--muted);margin-bottom:8px}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:9px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px}
+.steps li::before{content:counter(s);font-family:var(--label);font-weight:700;font-size:13px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;margin-top:1px}
+dl.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 16px;margin:0;font-size:15px}
+dl.facts dt{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-size:14px;padding-top:1px}
+dl.facts dd{margin:0}
+.callout-box{border-left:4px solid var(--orange);padding:2px 0 2px 14px}
+.callout-box + .callout-box{border-left-color:var(--air)}
+
+/* compare */
+section.compare,section.plan{padding-block:44px 0}
+.sechead{font-family:var(--display);font-weight:400;font-size:clamp(28px,4vw,40px);text-transform:uppercase;line-height:1;margin-bottom:18px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+thead th{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:15px}
+tbody th{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-size:14px;white-space:nowrap}
+td.g{color:var(--good);font-weight:600} td.b{color:var(--bad);font-weight:600} td.m{color:var(--mid);font-weight:600}
+
+.verdict{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 40px;margin-top:28px}
+@media (max-width:860px){.verdict{grid-template-columns:minmax(0,1fr)}}
+.verdict p + p{margin-top:10px}
+.big{font-size:19px;font-weight:500;max-width:60ch}
+ol.build{margin:0;padding-left:22px;display:grid;gap:9px}
+ol.build b{font-weight:600}
+.foot{margin-top:44px;color:var(--muted);font-size:14px;max-width:80ch}
+
+/* svg */
+.cap{fill:var(--cap);stroke:var(--capline);stroke-width:1}
+.cap2{fill:var(--cap2)}
+.wallS{fill:none;stroke:var(--wall);stroke-width:4;stroke-linejoin:round}
+.clearS{fill:none;stroke:var(--clear);stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.mixer{fill:var(--mixer)}
+.shot{fill:var(--shot)}
+.orange{fill:var(--orange)}
+.ringS{fill:none;stroke:var(--orange);stroke-width:7}
+.stripS{fill:none;stroke:var(--orange);stroke-width:2.6}
+.seal{fill:var(--seal)}
+.foil{fill:var(--foil)}
+.foilS{stroke:var(--foil);stroke-width:2.6;stroke-linecap:round}
+.cutter{fill:var(--seal)}
+.air{fill:none;stroke:var(--air);stroke-width:1.6}
+.airF{fill:var(--air)}
+.sleeve{stroke:var(--lime);stroke-width:6;stroke-linecap:round}
+.bub{fill:none;stroke:var(--wall);stroke-width:1;opacity:.6}
+.hint{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.hintF{fill:var(--ink)}
+.dash{stroke-dasharray:5 6;opacity:.55}
+.hole{fill:var(--card)}
+.co circle{fill:var(--ink)}
+.co text{fill:var(--paper);font-family:var(--label);font-weight:700;font-size:12px;text-anchor:middle}
+.lbl{fill:var(--ink);opacity:.45;font-family:var(--label);font-weight:700;font-size:14px;letter-spacing:.18em;text-anchor:middle}
+.big-lbl{fill:var(--ink);font-family:var(--display);font-size:24px;letter-spacing:.04em}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brandline">
+      <div class="mark"><span>PIN SHOT</span></div>
+      <h1>How the pull could work</h1>
+    </div>
+    <p class="intro">Three mechanisms that fit the bottle you already have: squat PET body, black flip lid, orange ring on the side of the cap. Each cutaway runs the full sequence. Press <b>Play</b> or drag the slider. Numbers on the drawing match the steps beside it.</p>
+    <div class="toprow">
+      <div class="legend" aria-label="Color key">
+        <span><i style="background:var(--orange)"></i>Part you pull</span>
+        <span><i style="background:var(--shot)"></i>Liquor, 44 mL (tinted)</span>
+        <span><i style="background:var(--mixer);box-shadow:inset 0 0 0 1px var(--wall)"></i>Mixer</span>
+        <span><i style="background:var(--seal)"></i>Seals and gaskets</span>
+        <span><i style="background:var(--air)"></i>Air path</span>
+        <span><i style="background:var(--cap)"></i>Cap and lid</span>
+      </div>
+      <button class="btn ghost" id="playAll" type="button">Play all three</button>
+    </div>
+  </header>
+
+  <!-- A -->
+  <section class="concept" id="gate" data-model="gate">
+    <div class="chead">
+      <div class="ctitle"><div class="letter">A</div><div><h2>Gate Pin</h2><p>The pin itself is the stopper. Your current direction.</p></div></div>
+      <div class="chips"><span class="chip good">One pull</span><span class="chip bad">Pin gets wet</span><span class="chip bad">Leaves a slot</span></div>
+    </div>
+    <div class="stage">
+      <svg viewBox="56 -96 484 412" role="img" aria-label="Cutaway of the Gate Pin mechanism"></svg>
+      <div class="controls"><button class="btn" type="button">Play</button><input type="range" min="0" max="1000" value="0" id="gate-t" aria-label="Pull progress, Gate Pin"></div>
+      <div class="phase"></div>
+      <div class="order"><b>Order:</b> air channel opens <span>→</span> outlet opens, shot drops <span>→</span> lid snaps open <span>→</span> ring comes free</div>
+    </div>
+    <div class="spec">
+      <div><h3>How it works</h3>
+        <ol class="steps">
+          <li>Ring, stem and a flat paddle are one molded piece. The whole thing comes free.</li>
+          <li>The paddle presses up against a gasket ring under the shot cup's outlet. That gasket is the only thing keeping liquor and mixer apart on the shelf.</li>
+          <li>The same paddle blocks the air-return channel, so nothing mixes if a case ships on its side.</li>
+          <li>A slit seal in the cap wall wipes the paddle on the way out and is meant to close behind it.</li>
+          <li>The stem runs through the lid's latch tab. When it clears the tab, the lid is free.</li>
+          <li>A spring hinge molded into the lid flips it open.</li>
+        </ol>
+      </div>
+      <dl class="facts">
+        <dt>Actions</dt><dd>One pull</dd>
+        <dt>Storage seal</dt><dd>Sliding gasket, under constant load for months</dd>
+        <dt>Hole left</dt><dd>Paddle-sized slot, roughly 3 × 20 mm, into the drink</dd>
+        <dt>Carbonation</dt><dd>2–4 bar from the mixer pushes on the paddle from below the whole time</dd>
+        <dt>Parts</dt><dd>Ring-paddle, gasket, slit seal, cap, lid</dd>
+      </dl>
+      <div class="callout-box"><h3>Main risk</h3><p>The slot. Once the paddle is out, tipping the bottle to drink sends liquid straight at that seal. A gasket slowly flattening over shelf life is the second risk.</p></div>
+      <div class="callout-box"><h3>First test</h3><p>Print the cap, fit a silicone slit valve in the wall, fill with dyed water, pull, then hold it at 90° for a minute and look for drips.</p></div>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="concept" id="peel" data-model="peel">
+    <div class="chead">
+      <div class="ctitle"><div class="letter">B</div><div><h2>Peel Strip</h2><p>The ring pulls a foil strip off the outlet, like opening a yogurt lid.</p></div></div>
+      <div class="chips"><span class="chip good">One pull</span><span class="chip good">Heat-sealed storage</span><span class="chip mid">Thin slit left</span></div>
+    </div>
+    <div class="stage">
+      <svg viewBox="56 -96 484 412" role="img" aria-label="Cutaway of the Peel Strip mechanism"></svg>
+      <div class="controls"><button class="btn" type="button">Play</button><input type="range" min="0" max="1000" value="0" id="peel-t" aria-label="Pull progress, Peel Strip"></div>
+      <div class="phase"></div>
+      <div class="order"><b>Order:</b> peel reaches outlet, shot drops <span>→</span> vent hole opens <span>→</span> strip clears latch, lid snaps <span>→</span> ring and strip come free</div>
+    </div>
+    <div class="spec">
+      <div><h3>How it works</h3>
+        <ol class="steps">
+          <li>The ring is bonded to a foil-laminate strip. Ring and strip come away as one piece.</li>
+          <li>The strip is heat-sealed across the bottom of the shot cup, covering the outlet and a small vent hole.</li>
+          <li>It folds back under itself, so pulling peels it at 180°. The peel front moves at half the speed of your hand, which gives a steady, low force.</li>
+          <li>The peel uncovers the outlet first, then the vent. Air enters through the vent tube and the shot drains cleanly.</li>
+          <li>The strip leaves through a thin slit with a lip seal. A 0.1 mm strip is much easier to seal around than a rigid paddle.</li>
+          <li>The strip's tail passes through the lid's latch tab last, so the lid can't open until the peel is finished. Then the spring hinge flips it.</li>
+        </ol>
+      </div>
+      <dl class="facts">
+        <dt>Actions</dt><dd>One pull, slightly longer stroke than A</dd>
+        <dt>Storage seal</dt><dd>Heat seal, the same kind used on coffee pods and yogurt cups</dd>
+        <dt>Hole left</dt><dd>Thin slit, roughly 0.3 × 15 mm</dd>
+        <dt>Carbonation</dt><dd>Heat seal holds pressure well. The lip seal around the strip is the weak point.</dd>
+        <dt>Parts</dt><dd>Ring + strip, lip seal, cap, lid</dd>
+      </dl>
+      <div class="callout-box"><h3>Main risk</h3><p>The strip tearing instead of peeling. It needs a peelable seal layer and a tough backing film. The slit seal under bottle pressure is the other unknown.</p></div>
+      <div class="callout-box"><h3>First test</h3><p>Buy peelable lidding film and an impulse sealer, seal it over a printed cup with a hole, and pull it with a luggage scale to measure force and see whether it tears.</p></div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="concept" id="punch" data-model="punch">
+    <div class="chead">
+      <div class="ctitle"><div class="letter">C</div><div><h2>Pull &amp; Slam</h2><p>The pin is a safety, like a real grenade pin. A slap on the lid cuts open a sealed shot pod.</p></div></div>
+      <div class="chips"><span class="chip bad">Two actions</span><span class="chip good">Pin stays dry</span><span class="chip good">No new hole</span></div>
+    </div>
+    <div class="stage">
+      <svg viewBox="56 -96 484 412" role="img" aria-label="Cutaway of the Pull and Slam mechanism"></svg>
+      <div class="controls"><button class="btn" type="button">Play</button><input type="range" min="0" max="1000" value="0" id="punch-t" aria-label="Pull progress, Pull and Slam"></div>
+      <div class="phase"></div>
+      <div class="order"><b>Order:</b> pull pin (safety off) <span>→</span> slam: foil cut, shot drops <span>→</span> lid flips open</div>
+    </div>
+    <div class="spec">
+      <div><h3>How it works</h3>
+        <ol class="steps">
+          <li>The pin runs through the lid's latch tab and a lug on the outside of the cap. It never touches liquid. While it's in, the lid can't move up or down.</li>
+          <li>The shot sits in a sealed pod with a flexible dome on top. The pod can be filled and sealed on its own, then pressed into the cap.</li>
+          <li>A hollow cutter hangs from the dome a few millimeters above the floor.</li>
+          <li>The pod's floor is foil. Slamming the lid inverts the dome, and the cutter slices a C-shaped flap that stays attached. The hollow cutter lets air in.</li>
+          <li>The same press unhooks the lid from the lug. The spring hinge flips it open.</li>
+          <li>The hinge is the only joint. The dome and cutter stay in the cap.</li>
+        </ol>
+      </div>
+      <dl class="facts">
+        <dt>Actions</dt><dd>Pull, then slap the top</dd>
+        <dt>Storage seal</dt><dd>Fully sealed pod, no moving seals</dd>
+        <dt>Hole left</dt><dd>None</dd>
+        <dt>Carbonation</dt><dd>Pod is isolated. The cap holds pressure like an ordinary soda closure.</dd>
+        <dt>Parts</dt><dd>Pin, pod with dome and cutter, cap, lid</dd>
+      </dl>
+      <div class="callout-box"><h3>Main risk</h3><p>It changes your one-pull idea into two moves. The dome has to invert every time from a casual palm slap, and still survive a drop without firing (the pin helps here).</p></div>
+      <div class="callout-box"><h3>First test</h3><p>Buy a few push-to-release supplement caps, which use this dome, cutter and foil layout already. Take them apart and scale the pod up to about 50 mL.</p></div>
+    </div>
+  </section>
+
+  <section class="compare">
+    <h2 class="sechead">Side by side</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th>A · Gate Pin</th><th>B · Peel Strip</th><th>C · Pull &amp; Slam</th></tr></thead>
+        <tbody>
+          <tr><th>One-pull ritual</th><td class="g">Yes</td><td class="g">Yes</td><td class="b">Pull + slap</td></tr>
+          <tr><th>Pin touches liquor</th><td class="b">Yes, comes out wet</td><td class="m">Strip yes, ring no</td><td class="g">Never</td></tr>
+          <tr><th>Opening left behind</th><td class="b">Paddle slot</td><td class="m">Thin slit</td><td class="g">None</td></tr>
+          <tr><th>Shelf seal</th><td class="b">Sliding gasket</td><td class="g">Heat seal</td><td class="g">Sealed pod</td></tr>
+          <tr><th>Carbonated mixers</th><td class="b">Weak</td><td class="m">Fair</td><td class="g">Good</td></tr>
+          <tr><th>Filling the shot</th><td>Into the cap, on the line</td><td>Into the cap, on the line</td><td>Separate pod, pressed in</td></tr>
+          <tr><th>Existing parts to borrow</th><td>Silicone slit valves</td><td>Peelable lidding film</td><td>Push-to-release dispensing caps</td></tr>
+          <tr><th>Easiest to prototype</th><td class="g">Easiest</td><td class="m">Medium</td><td class="m">Medium</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="plan">
+    <h2 class="sechead">What I'd build first</h2>
+    <div class="verdict">
+      <div>
+        <p class="big">Prototype B and C side by side. Make A as well, because it's cheap and gives a baseline.</p>
+        <p>B keeps the one-pull ritual and swaps the sliding gasket for a heat seal, which is far more trustworthy over months on a shelf. C is the safe fallback. Nothing crosses the liquid boundary and the parts are already proven in other products. The cost is a second motion. If B's slit seal leaks under pressure, C is where you land.</p>
+        <p>A is the simplest to understand, but it puts a rigid, wet part through the wall and asks one gasket to do everything.</p>
+      </div>
+      <div>
+        <h3 class="eyebrow" style="margin-bottom:10px">Bench prototypes, water and food dye</h3>
+        <ol class="build">
+          <li><b>One printed cap body</b> with swappable inserts for A, B and C, on a wide-mouth PET bottle.</li>
+          <li><b>Delivered shot:</b> fill 44 mL, pull, and measure what reaches the mixer and how long it takes.</li>
+          <li><b>Tip test:</b> after opening, hold at 90° for 60 s and check for leaks anywhere except the spout.</li>
+          <li><b>Pull or slap force:</b> luggage scale. Note what feels satisfying and what feels like a struggle.</li>
+          <li><b>Pressure:</b> use a carbonation cap and a bike pump to hold about 3 bar overnight, then check every seal.</li>
+          <li><b>Drop:</b> sealed, from waist height, five times on each face. Nothing should release.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="foot">These are schematic cross-sections. Proportions are close (about 50 mL usable shot cup, 44 mL fill) but they are not CAD. Seal performance, forces and shelf life are unproven until the bench tests above are run.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+const f=n=>(+n).toFixed(1);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const snap=x=>{if(x<=0)return 0;if(x>=1)return 1;const c1=1.6,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const tAt=(fn,v)=>{for(let t=0;t<=1;t+=.0005){if(fn(t)>=v)return t;}return 1;};
+
+const BODY="M132 182 C100 190 82 215 82 250 L82 400 C82 430 100 442 130 442 L270 442 C300 442 318 430 318 400 L318 250 C318 215 300 190 268 182 Z";
+const CUP="M190 98 L264 98 L264 150 L250 166 L208 166 L190 150 Z";
+
+const dA=t=>165*ease(seg(t,.04,.40)); const tAo=tAt(dA,30), tAl=tAt(dA,100);
+const dB=t=>200*ease(seg(t,.04,.46)); const tBo=tAt(dB,30), tBl=tAt(dB,136);
+const dC=t=>140*ease(seg(t,.04,.26));
+
+const MODELS={
+  gate:{pinY:173,tab:186,sx:225,sTop:112,
+    callouts:[[354,146],[226,198],[174,132],[260,198],[306,110],[108,62]],
+    state(t){const d=dA(t),drain=ease(seg(t,tAo,tAo+.42)),lid=snap(seg(t,tAl,tAl+.13));
+      const phase=t<.04?'Stored. The paddle seals the outlet.':d<30?'Pulling. Paddle slides out, air channel opens.':d<100?'Outlet uncovered. Shot drops into the mixer.':lid<.98?'Stem clears the latch. Lid snaps open.':drain<.99?'Shot draining. Ring is free in your hand.':'Mixed and open.';
+      return {d,drain,lid,press:0,inv:0,flap:0,phase};}},
+  peel:{pinY:174.3,tab:188,sx:225,sTop:112,
+    callouts:[[354,148],[234,198],[202,198],[256,124],[266,200],[306,110],[108,62]],
+    state(t){const d=dB(t),drain=ease(seg(t,tBo,tBo+.42)),lid=snap(seg(t,tBl,tBl+.13));
+      const phase=t<.04?'Stored. Foil strip heat-sealed under the outlet.':d<30?'Pulling. Peel front moving toward the outlet.':d<92?'Outlet open. Shot drops, then the vent opens.':d<136?'Peel done. Strip tail sliding out.':lid<.98?'Tail clears the latch. Lid snaps open.':drain<.99?'Shot draining. Ring and strip are free.':'Mixed and open.';
+      return {d,drain,lid,press:0,inv:0,flap:0,phase};}},
+  punch:{pinY:112,tab:124,sx:225,sTop:118,
+    callouts:[[350,86],[204,126],[246,142],[225,198],[316,138],[108,62]],
+    state(t){const d=dC(t);const press=ease(seg(t,.38,.45))-ease(seg(t,.49,.55));const inv=ease(seg(t,.40,.45));const flap=ease(seg(t,.43,.49));
+      const drain=ease(seg(t,.45,.86)),lid=snap(seg(t,.55,.68));
+      const phase=t<.04?'Stored. Pin locks the lid; shot sealed in its pod.':t<.30?'Pull the pin. Safety off, nothing opens yet.':t<.38?'Pin out. Lid is still latched.':t<.47?'Slam. Dome inverts, cutter opens the foil.':lid<.98?'Lid unhooks and flips open.':drain<.99?'Shot draining.':'Mixed and open.';
+      return {d,drain,lid,press,inv,flap,phase,t};}}
+};
+
+function draw(k,M,s){
+  const P=M.pinY;let g='';
+  g+=`<defs><clipPath id="${k}b"><path d="${BODY}"/></clipPath><clipPath id="${k}c"><path d="${CUP}"/></clipPath></defs>`;
+  // mixer
+  const mL=262-10*s.drain;
+  g+=`<g clip-path="url(#${k}b)"><rect class="mixer" x="70" y="${f(mL)}" width="260" height="200"/><rect class="shot" x="70" y="${f(mL)}" width="260" height="200" opacity="${(.3*s.drain).toFixed(3)}"/>`;
+  [[120,330,3],[150,300,2],[262,352,2.5],[232,402,2],[178,384,3],[290,312,2],[110,410,2],[205,320,1.6]].forEach(b=>g+=`<circle class="bub" cx="${b[0]}" cy="${b[1]}" r="${b[2]}"/>`);
+  g+=`</g><text class="lbl" x="200" y="300">MIXER</text>`;
+  g+=`<path class="sleeve" d="M78 264 V412 M322 264 V412"/>`;
+  g+=`<path class="wallS" d="${BODY}"/>`;
+  // shot in cup
+  const sL=M.sTop+(168-M.sTop)*s.drain;
+  g+=`<g clip-path="url(#${k}c)"><rect class="shot" x="186" y="${f(sL)}" width="82" height="90"/></g>`;
+  // stream
+  if(s.drain>.004&&s.drain<.996){const w=7*(1-.5*s.drain);g+=`<rect class="shot" x="${f(M.sx-w/2)}" y="167" width="${f(w)}" height="${f(mL-167)}"/><ellipse class="shot" cx="${M.sx}" cy="${f(mL)}" rx="${f(w*1.6)}" ry="2.5" opacity=".75"/>`;}
+
+  // cup walls
+  if(k==='punch'){
+    g+=`<path class="clearS" d="M190 106 L190 150 L208 166 M250 166 L264 150 L264 106"/>`;
+  } else {
+    g+=`<path class="clearS" d="M190 98 L190 150 L208 166 M250 166 L264 150 L264 98"/>`;
+  }
+
+  // concept internals
+  if(k==='gate'){
+    g+=`<path class="clearS" d="M208 166 L212 166 M238 166 L250 166"/>`;
+    g+=`<rect class="air" x="194" y="104" width="5" height="66" rx="1"/>`;
+    g+=`<rect class="seal" x="204" y="166.5" width="9" height="3.5"/><rect class="seal" x="237" y="166.5" width="9" height="3.5"/>`;
+    if(s.drain>.02&&s.drain<.9){g+=`<path class="airF" d="M196.5 132 l-3.5 6 h7z M196.5 116 l-3.5 6 h7z"/>`;}
+    g+=(192+s.d<268)?`<rect class="seal" x="263" y="165" width="5" height="5"/><rect class="seal" x="263" y="176" width="5" height="5"/>`:`<rect class="seal" x="263" y="165" width="5" height="16"/>`;
+  }
+  if(k==='peel'){
+    g+=`<path class="clearS" d="M208 166 L212 166 M238 166 L241.5 166 M246.5 166 L250 166"/>`;
+    g+=`<rect class="air" x="241.5" y="104" width="5" height="62" rx="1"/>`;
+    if(s.drain>.02&&s.drain<.9&&s.d>84){g+=`<path class="airF" d="M244 132 l-3.5 6 h7z M244 116 l-3.5 6 h7z"/>`;}
+    const e=s.d>92?250+(s.d-92):null;
+    g+=(e===null||e<268)?`<rect class="seal" x="263" y="168" width="5" height="4.6"/><rect class="seal" x="263" y="176" width="5" height="4.6"/>`:`<rect class="seal" x="263" y="168" width="5" height="12.6"/>`;
+  }
+  if(k==='punch'){
+    const yc=92+32*s.inv,peak=(212+2*yc)/4,tip=158+16*s.inv;
+    g+=`<path class="clearS" d="M190 106 Q227 ${f(yc)} 264 106"/>`;
+    g+=`<rect class="cutter" x="223.5" y="${f(peak)}" width="7" height="${f(tip-7-peak)}"/><path class="cutter" d="M223.5 ${f(tip-7)} L230.5 ${f(tip-7)} L227 ${f(tip)}Z"/>`;
+    g+=`<rect class="foil" x="206" y="166" width="6" height="2.6"/><rect class="foil" x="238" y="166" width="12" height="2.6"/>`;
+    const a=s.flap*72*Math.PI/180;
+    g+=`<line class="foilS" x1="238" y1="167.3" x2="${f(238-26*Math.cos(a))}" y2="${f(167.3+26*Math.sin(a))}"/>`;
+    g+=`<rect class="cap2" x="278" y="102" width="24" height="20" rx="3"/>`;
+  }
+
+  // collar
+  g+=`<rect class="cap" x="120" y="86" width="12" height="98"/>`;
+  if(k==='punch'){g+=`<rect class="cap" x="268" y="86" width="12" height="98"/>`;
+    g+=`<rect class="cap" x="132" y="92" width="10" height="6"/><rect class="cap" x="178" y="92" width="12" height="6"/><rect class="cap" x="264" y="92" width="4" height="6"/>`;}
+  else{g+=`<rect class="cap" x="268" y="86" width="12" height="${f(P-5-86)}"/><rect class="cap" x="268" y="${f(P+5)}" width="12" height="${f(184-P-5)}"/>`;
+    g+=`<rect class="cap" x="132" y="92" width="10" height="6"/><rect class="cap" x="178" y="92" width="90" height="6"/>`;}
+
+  // lid
+  const ang=-104*s.lid, dy=14*s.press;
+  g+=`<g transform="rotate(${f(ang)} 124 81) translate(0 ${f(dy)})">`;
+  g+=`<rect class="cap" x="118" y="76" width="174" height="10" rx="4"/><rect class="cap" x="146" y="86" width="28" height="8" rx="2"/>`;
+  if(k==='punch')g+=`<rect class="cap" x="210" y="86" width="34" height="12" rx="3"/>`;
+  g+=`<rect class="cap" x="282" y="76" width="10" height="${M.tab-76}" rx="3"/><ellipse class="hole" cx="287" cy="${P}" rx="2.2" ry="3.4"/>`;
+  g+=`<circle class="cap2" cx="124" cy="81" r="5"/></g>`;
+
+  // pulled part
+  const d=s.d;
+  if(k==='gate'){
+    g+=`<rect class="orange" x="${f(192+d)}" y="170" width="78" height="6" rx="1"/><rect class="orange" x="${f(270+d)}" y="171.5" width="36" height="3"/><circle class="ringS" cx="${f(322+d)}" cy="173" r="17"/>`;
+  }
+  if(k==='peel'){
+    const xf=204+Math.min(d,92)/2,rx=318+d-17;
+    if(d<92){
+      g+=`<rect class="orange" x="${f(xf)}" y="168" width="${f(250-xf)}" height="2.6"/>`;
+      g+=`<path class="stripS" d="M${f(xf)} 169.3 A3.2 3.2 0 0 0 ${f(xf)} 174.3"/>`;
+      g+=`<rect class="orange" x="${f(xf)}" y="173" width="${f(rx-xf)}" height="2.6"/>`;
+    } else {
+      const e=250+(d-92);
+      if(rx>e)g+=`<rect class="orange" x="${f(e)}" y="173" width="${f(rx-e)}" height="2.6"/>`;
+    }
+    g+=`<circle class="ringS" cx="${f(318+d)}" cy="174.3" r="17"/>`;
+  }
+  if(k==='punch'){
+    g+=`<rect class="orange" x="${f(280+d)}" y="110" width="30" height="4" rx="1"/><circle class="ringS" cx="${f(326+d)}" cy="112" r="16"/>`;
+    const op=seg(s.t,.31,.35)*(1-seg(s.t,.45,.48));
+    if(op>0)g+=`<g opacity="${op.toFixed(2)}"><path class="hint" d="M227 -70 V44"/><path class="hintF" d="M227 58 l-11 -16 h22z"/><text class="big-lbl" x="246" y="-14">SLAM</text></g>`;
+  }
+  // pull hint
+  if(d<2){g+=`<path class="hint" d="M350 ${P} h26"/><path class="hintF" d="M386 ${P} l-11 -7 v14z"/>`;}
+  // drink path
+  if(s.lid>.95){g+=`<path class="hint dash" d="M160 236 V112"/><path class="hintF" d="M160 100 l-7 11 h14z" opacity=".55"/>`;}
+  // callouts
+  const co=1-seg(s.t??0,.0,.04);
+  if(co>0){M.callouts.slice(0,6).forEach((c,i)=>{g+=`<g class="co" opacity="${co.toFixed(2)}"><circle cx="${c[0]}" cy="${c[1]}" r="9"/><text x="${c[0]}" y="${c[1]+4}">${i+1}</text></g>`;});}
+  return g;
+}
+
+const players=[];
+document.querySelectorAll('.concept').forEach(sec=>{
+  const k=sec.dataset.model,M=MODELS[k];
+  const svg=sec.querySelector('svg'),btn=sec.querySelector('.btn'),rng=sec.querySelector('input'),ph=sec.querySelector('.phase');
+  let t=0,playing=false,last=0;
+  function render(){const s=M.state(t);s.t=t;svg.innerHTML=draw(k,M,s);ph.textContent=s.phase;rng.value=Math.round(t*1000);
+    btn.textContent=playing?'Pause':(t>=1?'Replay':'Play');}
+  function loop(ts){if(!playing)return;if(last)t=Math.min(1,t+(ts-last)/5200);last=ts;if(t>=1){playing=false;}render();if(playing)requestAnimationFrame(loop);}
+  function play(){if(t>=1)t=0;playing=true;last=0;requestAnimationFrame(loop);}
+  btn.addEventListener('click',()=>{if(playing){playing=false;render();}else play();});
+  rng.addEventListener('input',()=>{playing=false;t=rng.value/1000;render();});
+  render();
+  players.push({play:()=>{t=0;play();}});
+});
+document.getElementById('playAll').addEventListener('click',()=>players.forEach(p=>p.play()));
+})();
+</script>

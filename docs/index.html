@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pin Shot: a real shot sealed in the cap. One pull drops it into the mix and pops the lid. 21+.">
+<meta name="theme-color" content="#0c0a0f">
+<title>Pin Shot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;800&display=swap">
+<style>
+/* Layout: After Dark. Back-bar black page; bar-photo hero; drag-the-ring mechanism demo; glowing flavor lineup; gallery; FAQ. Deliberately single dark theme. */
+:root{
+  --night:#0c0a0f; --surface:#15121a; --raise:#1d1922; --line:rgba(255,255,255,.09);
+  --text:#f3f1f5; --soft:rgba(243,241,245,.7); --faint:rgba(243,241,245,.45);
+  --lime:#c6ef3a; --cherry:#ff4f7b; --ember:#ff8a3d; --copper:#d0703a;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Manrope", "Helvetica Neue", Arial, sans-serif;
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--night);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55}
+a{color:inherit}
+img{max-width:100%}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+.eyebrow{font-weight:800;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime)}
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(44px,7vw,92px);line-height:.92;text-transform:uppercase}
+.h2 em{font-style:normal;background:linear-gradient(90deg,var(--lime),var(--cherry) 60%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(12,10,15,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.logo{font-family:var(--display);font-size:24px;letter-spacing:.02em;text-decoration:none}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-weight:600;font-size:14px;color:var(--soft)}
+.nav ul a{text-decoration:none}
+.nav ul a:hover{color:var(--text)}
+.age{font-weight:800;font-size:12px;letter-spacing:.1em;border:1.5px solid var(--soft);border-radius:999px;padding:3px 10px;color:var(--soft)}
+@media (max-width:760px){.nav ul{display:none}}
+
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .bg{position:absolute;inset:0;z-index:-1;background:url(img/group-bar.jpg) right 35%/auto 118% no-repeat}
+.hero .bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,var(--night) 34%,rgba(12,10,15,.6) 56%,rgba(12,10,15,.05) 100%),
+  linear-gradient(0deg,var(--night) 0%,rgba(12,10,15,0) 30%),
+  radial-gradient(700px 360px at 12% 110%,rgba(255,79,123,.32),transparent 70%),
+  radial-gradient(520px 300px at 0% 0%,rgba(198,239,58,.16),transparent 70%)}
+.hero .wrap{padding-block:clamp(64px,10vw,130px) 48px}
+.hero .copy{max-width:640px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(56px,9.4vw,128px);line-height:.88;text-transform:uppercase;margin:18px 0 24px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--lime),var(--cherry) 55%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:clamp(17px,1.6vw,20px);color:var(--soft);max-width:34ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:14px 26px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.btn.main{background:var(--lime);color:var(--night);box-shadow:0 0 0 0 rgba(198,239,58,.0)}
+.btn.main:hover{transform:translateY(-1px);box-shadow:0 10px 40px -10px rgba(198,239,58,.7)}
+.btn.ghost{border:1.5px solid rgba(243,241,245,.35);color:var(--text)}
+.btn.ghost:hover{border-color:var(--text)}
+.dots{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:clamp(48px,7vw,96px);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.dots a{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.dots a:hover{color:var(--text)}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 14px 2px var(--c)}
+@media (max-width:760px){
+  .hero .bg{background-size:auto 70%;background-position:right bottom;opacity:.5}
+  .hero .bg::after{background:linear-gradient(180deg,var(--night) 30%,rgba(12,10,15,.4) 70%,var(--night) 100%)}
+}
+
+/* the pull */
+.pull{padding-block:clamp(72px,10vw,130px)}
+.pullgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:start}
+@media (max-width:960px){.pullgrid{grid-template-columns:minmax(0,1fr)}}
+.pull .lede{font-size:18px;color:var(--soft);max-width:44ch;margin-top:22px}
+.steps{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:22px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;align-items:start;counter-increment:s}
+.steps li::before{content:counter(s);font-family:var(--display);font-size:40px;line-height:1;color:var(--c)}
+.steps h3{font-family:var(--display);font-weight:400;font-size:26px;text-transform:uppercase;line-height:1.05;letter-spacing:.01em}
+.steps p{color:var(--soft);margin-top:4px}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;inset:-40% -20% auto auto;width:70%;height:70%;background:radial-gradient(closest-side,rgba(198,239,58,.14),transparent);pointer-events:none}
+.stage svg{display:block;width:100%;height:auto;position:relative}
+.zoom{background:var(--night);border:1px solid var(--line);border-radius:14px;position:relative}
+.zoom span{position:absolute;top:10px;right:14px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.pullbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
+.pullbar label{font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.replay{background:none;border:1.5px solid rgba(243,241,245,.3);color:var(--text);border-radius:999px;padding:8px 14px;font:800 12px var(--body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.replay:hover{border-color:var(--text)}
+input.ring{-webkit-appearance:none;appearance:none;width:100%;height:46px;background:transparent;cursor:grab;--p:0%}
+input.ring:active{cursor:grabbing}
+input.ring::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--copper) var(--p),rgba(255,255,255,.14) var(--p))}
+input.ring::-moz-range-track{height:4px;border-radius:2px;background:rgba(255,255,255,.14)}
+input.ring::-moz-range-progress{height:4px;border-radius:2px;background:var(--copper)}
+input.ring::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:40px;height:40px;margin-top:-18px;border-radius:50%;background:transparent;border:7px solid var(--copper);box-shadow:0 0 20px rgba(208,112,58,.55)}
+input.ring::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:transparent;border:7px solid var(--copper);box-shadow:0 0 20px rgba(208,112,58,.55)}
+.phase{font-weight:600;font-size:16px;min-height:1.6em;color:var(--text)}
+.phase b{color:var(--lime);font-weight:800;letter-spacing:.12em;font-size:12px;text-transform:uppercase;margin-right:10px}
+
+/* numbers band */
+.band{border-block:1px solid var(--line);background:linear-gradient(90deg,rgba(198,239,58,.06),rgba(255,79,123,.06),rgba(255,138,61,.06))}
+.band .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.band .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.band .wrap > div:first-child{border-left:0;padding-left:0}
+.band .wrap > div{padding:34px 22px 30px;border-left:1px solid var(--line)}
+.band .wrap > div:first-child{padding-left:0}
+.band b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(40px,5vw,64px);line-height:1;font-variant-numeric:tabular-nums}
+.band span{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+
+/* lineup */
+.lineup{padding-block:clamp(72px,10vw,130px)}
+.lhead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 40px;margin-bottom:44px}
+.lhead p{color:var(--soft);max-width:42ch;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.grid{gap:12px}}
+.fl{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;scroll-margin-top:90px}
+.fl:hover,.fl:target{transform:translateY(-4px);border-color:var(--c);box-shadow:0 24px 70px -28px var(--c)}
+.fl .ph{background:var(--t);aspect-ratio:4/5;overflow:hidden}
+.fl .ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%;mix-blend-mode:multiply}
+.fl .meta{padding:16px 18px 18px;display:grid;gap:6px}
+.fl h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.fl h3 i{width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px 1px var(--c);flex:none}
+.fl p{color:var(--soft);font-size:14px}
+.fl .tag{justify-self:start;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin-top:4px}
+
+/* gallery */
+.gallery{padding-bottom:clamp(72px,10vw,130px)}
+.gal{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:18px}
+@media (max-width:860px){.gal{grid-template-columns:minmax(0,1fr)}}
+.gal figure{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);position:relative}
+.gal img{display:block;width:100%;height:100%;object-fit:cover}
+.gal .tall{aspect-ratio:4/5}
+.gal .side{display:grid;gap:18px;grid-template-rows:auto 1fr}
+.gal .shelf{background:#f4f4f2;box-shadow:0 0 80px -20px rgba(198,239,58,.35)}
+.gal .shelf img{height:auto}
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:16px}
+.quote p{font-family:var(--display);font-size:clamp(34px,4.4vw,60px);line-height:.95;text-transform:uppercase}
+.quote span{color:var(--soft)}
+.gal figcaption{position:absolute;left:16px;bottom:14px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:rgba(12,10,15,.7);padding:5px 10px;border-radius:999px}
+
+/* faq */
+.faq{padding-block:clamp(64px,9vw,110px);border-top:1px solid var(--line)}
+.faqgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:40px}
+@media (max-width:860px){.faqgrid{grid-template-columns:minmax(0,1fr)}}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:800;font-size:18px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-size:26px;line-height:1;color:var(--lime);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--soft);margin-top:10px;max-width:60ch}
+
+footer{border-top:1px solid var(--line);padding-block:40px 56px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:end}
+footer .big{font-family:var(--display);font-size:clamp(40px,6vw,72px);line-height:.9}
+footer .tagline{font-weight:800;letter-spacing:.22em;font-size:13px;color:var(--lime);margin-top:8px}
+footer small{display:block;color:var(--faint);font-size:13px;max-width:52ch;text-align:right}
+@media (max-width:640px){footer small{text-align:left}}
+
+/* svg (mechanism) */
+.cap{fill:#28252e;stroke:#4c4855;stroke-width:1}
+.cap2{fill:#5a5662}
+.wallS{fill:none;stroke:rgba(255,255,255,.34);stroke-width:4;stroke-linejoin:round}
+.clearS{fill:none;stroke:#8a95a3;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.mixer{fill:#b6d85a;fill-opacity:.62}
+.shot{fill:#eaf2f7;fill-opacity:.85}
+.orange{fill:var(--copper)}
+.ringS{fill:none;stroke:var(--copper);stroke-width:8}
+.seal{fill:#8d8a96}
+.flapS{stroke:#a9a6b2;stroke-width:2.6;stroke-linecap:round}
+.sleeve{stroke:var(--lime);stroke-width:6;stroke-linecap:round;opacity:.8}
+.bub{fill:none;stroke:rgba(255,255,255,.4);stroke-width:1}
+.hint{fill:none;stroke:rgba(243,241,245,.75);stroke-width:2.5;stroke-linecap:round}
+.hintF{fill:rgba(243,241,245,.75)}
+.dash{stroke-dasharray:5 6;opacity:.6}
+.hole{fill:var(--surface)}
+.lbl{fill:var(--text);opacity:.38;font-family:var(--body);font-weight:800;font-size:13px;letter-spacing:.2em;text-anchor:middle}
+.zt{fill:var(--text);opacity:.85;font-family:var(--body);font-weight:700;font-size:3.8px;text-anchor:middle}
+.ztw{fill:#0c0a0f;font-family:var(--body);font-weight:800;font-size:3.2px;letter-spacing:.2px;text-anchor:middle}
+.zl2{stroke:var(--text);stroke-width:.35;opacity:.45}
+</style>
+
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top">PIN SHOT</a>
+    <ul><li><a href="#pull">The pull</a></li><li><a href="#lineup">Lineup</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#faq">FAQ</a></li></ul>
+    <span class="age">21+</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="copy">
+        <div class="eyebrow">Pull · Swirl · Sip</div>
+        <h1>Pull the pin.<br><em>The shot's already in it.</em></h1>
+        <p class="sub">A real 44 mL shot, sealed in the cap. One pull drops it into the mix and pops the lid.</p>
+        <div class="ctas"><a class="btn main" href="#lineup">See the lineup →</a><a class="btn ghost" href="#pull">How the pull works</a></div>
+      </div>
+      <nav class="dots" aria-label="Flavors">
+        <a href="#fl-gt" style="--c:#dff3ee"><i></i>Gin &amp; Tonic</a>
+        <a href="#fl-vsl" style="--c:#c6ef3a"><i></i>VSL</a>
+        <a href="#fl-mule" style="--c:#e8c36a"><i></i>Moscow Mule</a>
+        <a href="#fl-rum" style="--c:#ff8a3d"><i></i>Rum Punch</a>
+        <a href="#fl-paloma" style="--c:#ffa59a"><i></i>Paloma</a>
+        <a href="#fl-shirley" style="--c:#ff4f7b"><i></i>Hard Shirley</a>
+        <a href="#fl-cran" style="--c:#e0213f"><i></i>Vodka Cran</a>
+        <a href="#fl-whiskey" style="--c:#c06a34"><i></i>Whiskey Cola</a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="pull" id="pull">
+    <div class="wrap pullgrid">
+      <div>
+        <div class="eyebrow">The pull</div>
+        <h2 class="h2" style="margin-top:14px">One pull.<br><em>Three things happen.</em></h2>
+        <p class="lede">The shot waits in its own sealed cup inside the cap, held there by a flat gate on the end of the pin. Drag the ring to see what happens inside.</p>
+        <ol class="steps">
+          <li style="--c:var(--lime)"><div><h3>The shot drops</h3><p>The gate slides out from under the cup and the shot falls through a 22 mm opening into the mixer.</p></div></li>
+          <li style="--c:var(--cherry)"><div><h3>The slot seals</h3><p>A small flap swings shut behind the gate, so nothing leaks out the side when you tip it back.</p></div></li>
+          <li style="--c:var(--ember)"><div><h3>The lid pops</h3><p>The pin holds the lid's latch until the very end. It lets go last, the lid flips open, and you drink straight from the empty shot cup.</p></div></li>
+        </ol>
+      </div>
+      <div class="stage" id="stage">
+        <svg id="mainSvg" viewBox="56 -96 494 470" role="img" aria-label="Cutaway of the Pin Shot cap and bottle showing the gate, shot and mixer"></svg>
+        <div class="zoom"><span>Inside the gate</span><svg id="zoomSvg" viewBox="148 178 180 48" role="img" aria-label="Close-up of the gate, gaskets and flap"></svg></div>
+        <div class="pullbar">
+          <label for="ring">Drag the ring</label>
+          <input class="ring" type="range" id="ring" min="0" max="1000" value="0" aria-label="Pull the pin">
+          <button class="replay" id="replay" type="button">Play</button>
+        </div>
+        <p class="phase" id="phase"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Key numbers">
+    <div class="wrap">
+      <div><b>44 mL</b><span>A real 1.5 oz shot</span></div>
+      <div><b>355 mL</b><span>Total drink</span></div>
+      <div><b>≈5%</b><span>ABV once mixed</span></div>
+      <div><b>1</b><span>Pull. No shaker.</span></div>
+    </div>
+  </section>
+
+  <section class="lineup" id="lineup">
+    <div class="wrap">
+      <div class="lhead">
+        <div><div class="eyebrow">The lineup</div><h2 class="h2" style="margin-top:14px">Eight drinks.<br><em>One pull each.</em></h2></div>
+        <p>Same bottle, same pin, eight classic mixes. Clear spirit in the cap, the mixer below, and you can see both before you pull.</p>
+      </div>
+      <div class="grid">
+        <article class="fl" id="fl-gt" style="--c:#dff3ee;--t:#eef7f4"><div class="ph"><img src="img/gin-and-tonic.jpg" alt="Pin Shot Gin & Tonic bottle" loading="lazy"></div><div class="meta"><h3><i></i>Gin &amp; Tonic</h3><p>Gin · tonic · lime</p><span class="tag">Sparkling</span></div></article>
+        <article class="fl" id="fl-vsl" style="--c:#c6ef3a;--t:#eef8cf"><div class="ph"><img src="img/vsl.jpg" alt="Pin Shot VSL bottle" loading="lazy"></div><div class="meta"><h3><i></i>VSL</h3><p>Vodka · soda · lime</p><span class="tag">Sparkling</span></div></article>
+        <article class="fl" id="fl-mule" style="--c:#e8c36a;--t:#f6ead0"><div class="ph"><img src="img/moscow-mule.jpg" alt="Pin Shot Moscow Mule bottle" loading="lazy"></div><div class="meta"><h3><i></i>Moscow Mule</h3><p>Vodka · ginger beer · lime</p><span class="tag">Sparkling</span></div></article>
+        <article class="fl" id="fl-rum" style="--c:#ff8a3d;--t:#ffe1c7"><div class="ph"><img src="img/rum-punch.jpg" alt="Pin Shot Rum Punch bottle" loading="lazy"></div><div class="meta"><h3><i></i>Rum Punch</h3><p>Light rum · pineapple · orange · passion fruit</p><span class="tag">Still</span></div></article>
+        <article class="fl" id="fl-paloma" style="--c:#ffa59a;--t:#ffe0db"><div class="ph"><img src="img/paloma.jpg" alt="Pin Shot Paloma bottle" loading="lazy"></div><div class="meta"><h3><i></i>Paloma</h3><p>Blanco tequila · grapefruit soda</p><span class="tag">Sparkling</span></div></article>
+        <article class="fl" id="fl-shirley" style="--c:#ff4f7b;--t:#ffd6e0"><div class="ph"><img src="img/hard-shirley.jpg" alt="Pin Shot Hard Shirley bottle" loading="lazy"></div><div class="meta"><h3><i></i>Hard Shirley</h3><p>Vodka · lemon-lime soda · cherry</p><span class="tag">Sparkling</span></div></article>
+        <article class="fl" id="fl-cran" style="--c:#e0213f;--t:#ffd3d9"><div class="ph"><img src="img/vodka-cran.jpg" alt="Pin Shot Vodka Cran bottle" loading="lazy"></div><div class="meta"><h3><i></i>Vodka Cran</h3><p>Vodka · cranberry · lime</p><span class="tag">Still</span></div></article>
+        <article class="fl" id="fl-whiskey" style="--c:#c06a34;--t:#efdccb"><div class="ph"><img src="img/whiskey-cola.jpg" alt="Pin Shot Whiskey Cola bottle" loading="lazy"></div><div class="meta"><h3><i></i>Whiskey Cola</h3><p>Whiskey · cola</p><span class="tag">Sparkling</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="wrap">
+      <div class="gal">
+        <figure class="tall"><img src="img/group-bar.jpg" alt="Four Pin Shot bottles on a bar counter at night, VSL opened" loading="lazy"><figcaption>Last call, first pull</figcaption></figure>
+        <div class="side">
+          <figure class="shelf"><img src="img/group-lineup.jpg" alt="All eight Pin Shot flavors in a row" loading="lazy"></figure>
+          <div class="quote"><p>No shaker.<br>No pour.<br>Just pull.</p><span>Everything a bartender would do happens inside the cap. You swirl, you sip.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap faqgrid">
+      <div><div class="eyebrow">Questions</div><h2 class="h2" style="margin-top:14px">Before<br><em>you pull.</em></h2></div>
+      <div>
+        <details open><summary>Does the shot really stay separate?</summary><p>Yes. It sits in its own sealed cup in the cap. A flat gate on the end of the pin, clamped between two gaskets, keeps it out of the mixer until you pull.</p></details>
+        <details><summary>Can I open it without pulling the pin?</summary><p>No. The pin holds the lid's latch and lets go last, so the shot always drops before the lid opens.</p></details>
+        <details><summary>What happens to the pin?</summary><p>It comes out in one piece, ring and all. Nothing loose is left inside the bottle.</p></details>
+        <details><summary>How strong is it?</summary><p>About 5% ABV once mixed: one 44 mL shot of 40% spirit in a 355 mL drink, roughly the same as a beer.</p></details>
+        <details><summary>Why swirl?</summary><p>Spirit is a little lighter than most mixers, so it sits near the top at first. A two-second swirl evens it out.</p></details>
+        <details><summary>Where can I get one?</summary><p>Not yet. Pin Shot is in development, and the bottles shown here are renders.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><div class="big">PIN SHOT</div><div class="tagline">PULL · SWIRL · SIP</div></div>
+    <small>For adults 21 and over. Please drink responsibly and never drink and drive. Concept site: Pin Shot is in development and product images are renders.</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+const f=n=>(+n).toFixed(1);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const snap=x=>{if(x<=0)return 0;if(x>=1)return 1;const c1=1.6,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const tAt=(fn,v)=>{for(let t=0;t<=1;t+=.0005){if(fn(t)>=v)return t;}return 1;};
+
+const BODYC="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206 Z";
+const BODYS="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206";
+const CUP="M139 98 L261 98 L261 166 L229 195 L171 195 L139 166 Z";
+const PY=204, RC=336, RR=30;
+const dOf=t=>172*ease(seg(t,.04,.40));
+const T={o:tAt(dOf,25),l:tAt(dOf,134),fl:tAt(dOf,90)};
+function state(t){
+  const d=dOf(t),drain=ease(seg(t,T.o,T.o+.2)),lid=snap(seg(t,T.l,T.l+.13)),flap=snap(seg(t,T.fl,T.fl+.05));
+  const phase=t<.02?['Sealed','The shot is locked in the cap.']:d<25?['Pulling','The gate starts sliding out.']:d<90?['Drop','The shot falls into the mixer.']:d<134?['Seal','The flap swings shut behind the gate.']:lid<.98?['Pop','The latch lets go and the lid flips open.']:['Ready','Swirl it, then sip from the shot cup.'];
+  return {d,drain,lid,flap,phase};
+}
+function section(id,s,zoom){
+  let g=`<defs><clipPath id="${id}b"><path d="${BODYC}"/></clipPath><clipPath id="${id}c"><path d="${CUP}"/></clipPath></defs>`;
+  const mL=300-9*s.drain;
+  g+=`<g clip-path="url(#${id}b)"><rect class="mixer" x="70" y="${f(mL)}" width="260" height="200"/><rect class="shot" x="70" y="${f(mL)}" width="260" height="200" opacity="${(.18*s.drain).toFixed(3)}"/>`;
+  [[120,350,3],[150,322,2],[262,356,2.5],[180,366,3],[290,330,2],[110,370,2],[226,340,1.6],[204,316,2.2]].forEach(b=>g+=`<circle class="bub" cx="${b[0]}" cy="${b[1]}" r="${b[2]}"/>`);
+  g+=`</g>`;
+  if(!zoom)g+=`<text class="lbl" x="200" y="352">MIXER</text>`;
+  g+=`<path class="sleeve" d="M78 300 V470 M322 300 V470"/><path class="wallS" d="${BODYS}"/>`;
+  const sL=111+(198-111)*s.drain;
+  g+=`<g clip-path="url(#${id}c)"><rect class="shot" x="136" y="${f(sL)}" width="128" height="100"/></g>`;
+  if(!zoom&&s.drain<.15)g+=`<text class="lbl" x="200" y="150" style="opacity:.55;fill:#0c0a0f">SHOT</text>`;
+  if(s.drain>.004&&s.drain<.996){const w=4+30*(1-s.drain);g+=`<rect class="shot" x="${f(200-w/2)}" y="196" width="${f(w)}" height="${f(mL-196)}"/><ellipse class="shot" cx="200" cy="${f(mL)}" rx="${f(w*.9)}" ry="3" opacity=".75"/>`;}
+  g+=`<path class="clearS" d="M139 98 V166 L171 196 M261 98 V166 L229 196"/><path class="clearS" d="M134 198 H171 M229 198 H266"/>`;
+  g+=`<rect class="seal" x="162" y="199.6" width="11" height="2"/><rect class="seal" x="227" y="199.6" width="11" height="2"/><rect class="seal" x="162" y="206.5" width="11" height="2"/><rect class="seal" x="227" y="206.5" width="11" height="2"/>`;
+  g+=`<rect class="seal" x="249.6" y="206.6" width="3" height="2.4"/>`;
+  const a=Math.PI-s.flap*Math.PI/2;
+  g+=`<line class="flapS" x1="248" y1="200.6" x2="${f(248+8*Math.cos(a))}" y2="${f(200.6+8*Math.sin(a))}"/>`;
+  g+=`<rect class="cap" x="120" y="86" width="12" height="136"/><rect class="cap" x="268" y="86" width="12" height="${PY-5-86}"/><rect class="cap" x="268" y="${PY+5}" width="12" height="${222-PY-5}"/>`;
+  g+=`<rect class="cap" x="132" y="92" width="7" height="6"/><rect class="cap" x="261" y="92" width="7" height="6"/>`;
+  g+=`<rect class="cap" x="132" y="208.5" width="30" height="6"/><rect class="cap" x="238" y="208.5" width="30" height="6"/>`;
+  g+=`<rect class="cap" x="157" y="214" width="7" height="14"/><rect class="cap" x="236" y="214" width="7" height="14"/>`;
+  const left=160+s.d;
+  g+=left<270?`<rect class="seal" x="263" y="198.6" width="5" height="2.8"/><rect class="seal" x="263" y="206.6" width="5" height="2.8"/>`:`<rect class="seal" x="263" y="198.6" width="5" height="10.8"/>`;
+  g+=`<g transform="rotate(${f(-104*s.lid)} 124 81)"><rect class="cap" x="118" y="76" width="174" height="10" rx="4"/><rect class="cap" x="143" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="251" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="282" y="76" width="10" height="${PY+12-76}" rx="3"/><ellipse class="hole" cx="287" cy="${PY}" rx="2.2" ry="3.4"/><circle class="cap2" cx="124" cy="81" r="5"/></g>`;
+  g+=`<rect class="orange" x="${f(left)}" y="201.6" width="84" height="5" rx="1"/>`;
+  if(zoom)g+=`<text class="ztw" x="${f(left+42)}" y="205.3">GATE</text>`;
+  g+=`<rect class="orange" x="${f(244+s.d)}" y="202.6" width="64" height="3"/><circle class="ringS" cx="${f(RC+s.d)}" cy="${PY}" r="${RR}"/>`;
+  if(!zoom){
+    if(s.d<2)g+=`<path class="hint" d="M378 ${PY} h26"/><path class="hintF" d="M414 ${PY} l-11 -7 v14z"/>`;
+    if(s.lid>.95)g+=`<path class="hint dash" d="M200 286 V84"/><path class="hintF" d="M200 70 l-7 11 h14z"/>`;
+  } else {
+    [['Upper gasket',158,186,166,199.6],['Lower gasket',158,222,166,208.5],['Flap',240,186,246,200.6],['Flap seat',258,222,251,208.8],['Exit seal',300,222,266,208.5],['22 mm throat',200,186,200,196]]
+      .forEach(l=>{g+=`<line class="zl2" x1="${l[1]}" y1="${l[2]+(l[2]<200?1.2:-3.2)}" x2="${l[3]}" y2="${l[4]}"/><text class="zt" x="${l[1]}" y="${l[2]}">${l[0]}</text>`;});
+  }
+  return g;
+}
+
+const mainSvg=document.getElementById('mainSvg'),zoomSvg=document.getElementById('zoomSvg'),ring=document.getElementById('ring'),btn=document.getElementById('replay'),ph=document.getElementById('phase');
+let t=0,playing=false,last=0,played=false;
+function render(){const s=state(t);mainSvg.innerHTML=section('m',s,false);zoomSvg.innerHTML=section('z',s,true);
+  ph.innerHTML=`<b>${s.phase[0]}</b>${s.phase[1]}`;ring.value=Math.round(t*1000);ring.style.setProperty('--p',(t*100).toFixed(1)+'%');btn.textContent=playing?'Pause':(t>=1?'Replay':'Play');}
+function loop(ts){if(!playing)return;if(last)t=Math.min(1,t+(ts-last)/5200);last=ts;if(t>=1)playing=false;render();if(playing)requestAnimationFrame(loop);}
+function play(){if(t>=1)t=0;playing=true;last=0;played=true;requestAnimationFrame(loop);}
+btn.addEventListener('click',()=>{if(playing){playing=false;render();}else play();});
+ring.addEventListener('input',()=>{playing=false;played=true;t=ring.value/1000;render();});
+render();
+const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if('IntersectionObserver' in window&&!reduce){
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!played){play();io.disconnect();}});},{threshold:.55});
+  io.observe(document.getElementById('stage'));
+}
+})();
+</script>
+</body>
+</html>

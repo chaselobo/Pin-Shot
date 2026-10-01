@@ -1,0 +1,476 @@
+<title>Pin Shot Flap-Back Gate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: concept sheet. Product hero, then mechanism (live cutaway + zoomed gate detail), user storyboard, parts, dimensions, factory flow, risks. */
+:root{
+  --paper:#f3f4ec; --card:#fbfcf7; --ink:#151612; --muted:#5d6155; --line:#d6d9ca;
+  --lime:#c6ef3a; --orange:#ff6514; --shot:#e39a2d; --mixer:#e1f2ae;
+  --cap:#1d1e1b; --capline:transparent; --cap2:#4a4d45; --wall:#9aa38b; --clear:#8ea2ac;
+  --seal:#767b72; --air:#2b86d1;
+  --good:#2b7a37; --good-bg:#e1f0dc; --bad:#b4400e; --bad-bg:#fae3d5; --mid:#8a6a0a; --mid-bg:#f6edcc;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Barlow", "Helvetica Neue", Arial, sans-serif;
+  --label:"Barlow Condensed", "Arial Narrow", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11120f; --card:#191b16; --ink:#eef0e5; --muted:#a4a999; --line:#2f3229;
+  --mixer:#3c4720; --shot:#e8a33c; --orange:#ff7a2e;
+  --cap:#2b2d28; --capline:#5d6155; --cap2:#555950; --wall:#78816b; --clear:#6e838e;
+  --seal:#9da397; --air:#5aa9ea;
+  --good:#86d792; --good-bg:#1e3321; --bad:#ff9f6b; --bad-bg:#3b2317; --mid:#e7c35a; --mid-bg:#352d14;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11120f; --card:#191b16; --ink:#eef0e5; --muted:#a4a999; --line:#2f3229;
+  --mixer:#3c4720; --shot:#e8a33c; --orange:#ff7a2e;
+  --cap:#2b2d28; --capline:#5d6155; --cap2:#555950; --wall:#78816b; --clear:#6e838e;
+  --seal:#9da397; --air:#5aa9ea;
+  --good:#86d792; --good-bg:#1e3321; --bad:#ff9f6b; --bad-bg:#3b2317; --mid:#e7c35a; --mid-bg:#352d14;
+  color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:36px 72px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px;color:var(--muted)}
+.sechead{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.4vw,46px);text-transform:uppercase;line-height:1}
+section{padding-block:48px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sectop{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between;margin-bottom:24px}
+.sectop p{color:var(--muted);max-width:60ch}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px 48px;align-items:center;padding-block:12px 40px;border-bottom:3px solid var(--ink)}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}}
+.hero .tag{display:inline-flex;gap:10px;align-items:center;font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+.hero .tag b{background:var(--ink);color:var(--paper);padding:2px 8px;border-radius:3px;font-weight:700}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,6.4vw,78px);line-height:.95;text-transform:uppercase;margin-top:14px}
+.hero h1 span{background:var(--lime);color:#151612;padding:0 .08em}
+.hero .lede{font-size:18px;max-width:52ch;margin-top:18px}
+.specs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:26px}
+@media (max-width:560px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.specs div{background:var(--card);padding:10px 12px}
+.specs b{display:block;font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.specs span{font-family:var(--label);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.heroart{display:grid;gap:12px;justify-items:center}
+.heroart svg{width:100%;max-width:380px;height:auto}
+.flavors{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.flv{font-family:var(--label);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.05em;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px 4px 6px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.flv i{width:14px;height:14px;border-radius:50%;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.flv[aria-pressed="true"]{border-color:var(--ink)}
+.flv:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--air);outline-offset:2px}
+
+/* mechanism */
+.mech{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px 40px}
+@media (max-width:900px){.mech{grid-template-columns:minmax(0,1fr)}}
+.stage{display:grid;gap:12px;align-content:start;min-width:0}
+.frame{background:var(--card);border:1px solid var(--line);border-radius:6px}
+.stage svg{display:block;width:100%;height:auto}
+.zoom{position:relative}
+.zoom .zl{position:absolute;top:8px;right:10px;font-family:var(--label);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:14px}
+.controls input[type=range]{flex:1;min-width:0;accent-color:var(--orange)}
+.btn{font-family:var(--label);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.06em;border:0;border-radius:4px;padding:8px 16px;background:var(--orange);color:#151612;cursor:pointer;flex:none}
+.phase{font-family:var(--label);font-weight:600;font-size:18px;min-height:1.5em}
+.spec{display:grid;gap:20px;align-content:start;min-width:0}
+.spec h3{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:15px;color:var(--muted);margin-bottom:8px}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:flex;gap:10px;align-items:flex-start}
+.steps li::before{flex:none;content:counter(s);font-family:var(--label);font-weight:700;font-size:13px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;margin-top:1px}
+.steps b{font-weight:600}
+.note{border-left:4px solid var(--orange);padding:2px 0 2px 14px}
+
+/* storyboard */
+.story{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.story{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.story figure{margin:0;display:grid;gap:10px;align-content:start}
+.story svg{display:block;width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.story figcaption{font-size:15px}
+.story figcaption b{display:block;font-family:var(--display);font-weight:400;font-size:22px;text-transform:uppercase;line-height:1.1;margin-bottom:2px}
+
+/* parts */
+.parts{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px 40px;align-items:start}
+@media (max-width:900px){.parts{grid-template-columns:minmax(0,1fr)}}
+.parts svg{display:block;width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+thead th{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:14px;color:var(--muted)}
+td.num{font-family:var(--display);font-size:20px;width:36px}
+td b{font-weight:600}
+.parts .tablewrap table{min-width:520px}
+.risk table{min-width:760px}
+.after{margin-top:14px;color:var(--muted);font-size:15px;max-width:70ch}
+
+/* dims */
+.dims{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px 40px;align-items:start}
+@media (max-width:900px){.dims{grid-template-columns:minmax(0,1fr)}}
+.dims svg{display:block;width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:6px}
+dl.dl{display:grid;grid-template-columns:minmax(0,1fr) auto;margin:0;border-top:1px solid var(--line)}
+dl.dl dt,dl.dl dd{padding:9px 0;border-bottom:1px solid var(--line);margin:0}
+dl.dl dd{font-family:var(--label);font-weight:700;font-size:18px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* factory */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;counter-reset:fl}
+.flow li{counter-increment:fl;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.flow li::before{content:counter(fl);font-family:var(--display);font-size:30px;line-height:1;color:var(--orange)}
+.flow b{display:block;margin-bottom:4px;font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:16px}
+.flow span span{font-size:15px;color:var(--muted)}
+
+.fizz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 40px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:22px 24px}
+@media (max-width:860px){.fizz{grid-template-columns:minmax(0,1fr)}}
+.fizz .eq{font-family:var(--label);font-size:20px;font-weight:600;margin:8px 0}
+.fizz .eq em{font-style:normal;color:var(--orange)}
+.fizz ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.chip{font-family:var(--label);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.mid{background:var(--mid-bg);color:var(--mid)}
+.foot{margin-top:28px;color:var(--muted);font-size:14px;max-width:80ch}
+
+/* svg classes */
+.cap{fill:var(--cap);stroke:var(--capline);stroke-width:1}
+.cap2{fill:var(--cap2)}
+.wallS{fill:none;stroke:var(--wall);stroke-width:4;stroke-linejoin:round}
+.clearS{fill:none;stroke:var(--clear);stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.mixer{fill:var(--mixer)}
+.shot{fill:var(--shot)}
+.orange{fill:var(--orange)}
+.ringS{fill:none;stroke:var(--orange);stroke-width:8}
+.seal{fill:var(--seal)}
+.flapS{stroke:var(--seal);stroke-width:2.6;stroke-linecap:round}
+.sleeve{stroke:var(--lime);stroke-width:6;stroke-linecap:round}
+.bub{fill:none;stroke:var(--wall);stroke-width:1;opacity:.6}
+.hint{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.hintF{fill:var(--ink)}
+.dash{stroke-dasharray:5 6;opacity:.55}
+.hole{fill:var(--card)}
+.co circle{fill:var(--ink)}
+.co text{fill:var(--paper);font-family:var(--label);font-weight:700;font-size:12px;text-anchor:middle}
+.lbl{fill:var(--ink);opacity:.45;font-family:var(--label);font-weight:700;font-size:14px;letter-spacing:.18em;text-anchor:middle}
+.zt{fill:var(--ink);font-family:var(--label);font-weight:600;font-size:4px;text-anchor:middle}
+.ztw{fill:#151612;font-family:var(--label);font-weight:700;font-size:3.4px;letter-spacing:.2px;text-anchor:middle}
+.zl2{stroke:var(--ink);stroke-width:.35;opacity:.55}
+.dim{stroke:var(--ink);stroke-width:1;fill:none}
+.dimx{stroke:var(--ink);stroke-width:.8;opacity:.4}
+.dt{fill:var(--ink);font-family:var(--label);font-weight:700;font-size:13px;text-anchor:middle}
+.pl{fill:var(--ink);font-family:var(--label);font-weight:700;font-size:16px}
+.ps{fill:var(--muted);font-family:var(--label);font-weight:500;font-size:13px}
+.pn{fill:var(--orange);font-family:var(--display);font-size:20px}
+.xcap{fill:#1d1e1b;stroke:var(--capline);stroke-width:1}
+.xw{fill:#151612;font-family:var(--display);font-size:60px;text-anchor:middle;letter-spacing:.5px}
+.xf{fill:#151612;font-family:var(--label);font-weight:700;font-size:17px;text-anchor:middle;letter-spacing:.5px}
+.xs{fill:#151612;font-family:var(--label);font-weight:700;font-size:8.5px;text-anchor:middle;letter-spacing:1px}
+.xring{fill:none;stroke:var(--orange);stroke-width:8}
+.xarrow{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.xarrowF{fill:var(--ink)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="tag"><b>Concept A2</b> Flap-Back Gate</div>
+      <h1>Pull the pin.<br>The shot drops.<br><span>Drink through it.</span></h1>
+      <p class="lede">The shot fills the whole cap. A flat gate on the end of the pin holds it there. Pull the ring, the shot falls through a 22 mm throat into the mixer, the lid flips open, and you drink back up through the empty shot cup. A small flap closes the slot behind the gate so nothing leaks when you tip it.</p>
+      <div class="specs">
+        <div><b>355 mL</b><span>Total fill</span></div>
+        <div><b>44 mL</b><span>Shot · 1.5 fl oz</span></div>
+        <div><b>≈5%</b><span>ABV mixed*</span></div>
+        <div><b>5</b><span>Molded parts</span></div>
+        <div><b>50 mm</b><span>Pull stroke</span></div>
+      </div>
+    </div>
+    <div class="heroart">
+      <svg id="heroSvg" viewBox="0 20 300 350" role="img" aria-label="Front view of the Pin Shot bottle"></svg>
+      <div class="flavors" role="group" aria-label="Flavor">
+        <button class="flv" type="button" data-f="0" aria-pressed="true"><i style="background:#c6ef3a"></i>Vodka Lime</button>
+        <button class="flv" type="button" data-f="1" aria-pressed="false"><i style="background:#ff7d9b"></i>Hard Shirley</button>
+        <button class="flv" type="button" data-f="2" aria-pressed="false"><i style="background:#efe3cf"></i>Whiskey Cola</button>
+        <button class="flv" type="button" data-f="3" aria-pressed="false"><i style="background:#e0a062"></i>Moscow Mule</button>
+      </div>
+    </div>
+  </header>
+
+  <section id="how">
+    <div class="sectop"><h2 class="sechead">How it works</h2><p>Section through the cap and neck. The lower panel zooms in on the gate. Both follow the slider.</p></div>
+    <div class="mech">
+      <div class="stage">
+        <div class="frame"><svg id="mainSvg" viewBox="56 -96 494 470" role="img" aria-label="Cutaway of the Flap-Back Gate"></svg></div>
+        <div class="frame zoom"><span class="zl">Gate detail · 3×</span><svg id="zoomSvg" viewBox="148 178 180 48" role="img" aria-label="Zoomed view of the gate, gaskets and flap"></svg></div>
+        <div class="controls"><button class="btn" id="play" type="button">Play</button><input type="range" min="0" max="1000" value="0" id="tRange" aria-label="Pull progress"></div>
+        <div class="phase" id="phase"></div>
+      </div>
+      <div class="spec">
+        <div><h3>The parts that move</h3>
+          <ol class="steps">
+            <li><span><b>Gate pin.</b> Ring, stem and a flat paddle in one molded piece. It comes completely free.</span></li>
+            <li><span><b>Shot cup.</b> Spans the whole cap and funnels down to a 22 mm throat. 44 mL sealed under the lid.</span></li>
+            <li><span><b>Two gaskets.</b> The paddle is clamped between an upper gasket (shot side) and a lower gasket (mixer side). That's the only seal between the two liquids on the shelf.</span></li>
+            <li><span><b>Flap.</b> Rides flat on top of the paddle while it's in. Once the paddle passes, it swings down onto its seat. When you tip the bottle, the drink pushes it harder onto the seat.</span></li>
+            <li><span><b>Exit seal.</b> A soft slit in the cap wall that closes behind the paddle. It's the second barrier after the flap.</span></li>
+            <li><span><b>Latch tab.</b> The lid's long tab runs down the side of the cap. The stem passes through it, so the lid can't open until the paddle is all the way out. The shot always drops before the lid opens.</span></li>
+            <li><span><b>Snap hinge.</b> The lid's hinge flips it open once the tab is free, the same way a sports-cap lid pops.</span></li>
+          </ol>
+        </div>
+        <div class="note"><h3>Order is set by geometry</h3><p>Throat opens at about 4 mm of pull. Flap drops at about 33 mm. Lid releases at about 50 mm. A half pull can drop the shot, but it can't open the lid.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="use">
+    <div class="sectop"><h2 class="sechead">In your hand</h2><p>Printed on the shoulder: PULL · SWIRL · SIP.</p></div>
+    <div class="story">
+      <figure><svg id="s1" viewBox="-30 -90 380 460" role="img" aria-label="Ready: bottle closed with the ring in place"></svg><figcaption><b>Ready</b>The ring sits beside the cap. The pin locks the lid and seals the shot.</figcaption></figure>
+      <figure><svg id="s2" viewBox="-30 -90 380 460" role="img" aria-label="Pull: ring and pin pulled out"></svg><figcaption><b>Pull</b>One pull, about 50 mm. The shot drops inside before the pin is out.</figcaption></figure>
+      <figure><svg id="s3" viewBox="-30 -90 380 460" role="img" aria-label="Lid flips open"></svg><figcaption><b>Lid flips</b>The pin releases the lid last, and the hinge snaps it back. Keep the ring or toss it.</figcaption></figure>
+      <figure><svg id="s4" viewBox="-30 -90 380 460" role="img" aria-label="Swirl and sip"></svg><figcaption><b>Swirl, sip</b>The spirit is lighter than the mixer and sits on top, so a two-second swirl evens it out. Drink straight from the shot cup.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="parts">
+    <div class="sectop"><h2 class="sechead">Parts</h2><p>Five molded parts. Two of them get a second soft-rubber shot molded on. No springs, no metal.</p></div>
+    <div class="parts">
+      <svg id="explode" viewBox="60 0 600 540" role="img" aria-label="Exploded view of the five parts"></svg>
+      <div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th></th><th>Part</th><th>Material</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td><b>Lid</b></td><td>PP, black</td><td>Snap hinge. A plug ring seals the shot cup rim. The long latch tab has a snap notch that drops over the pin's stem.</td></tr>
+              <tr><td class="num">2</td><td><b>Shot cup insert</b></td><td>PP + rubber-like TPE shot</td><td>Funnel down to the 22 mm throat. The upper gasket is molded onto its underside. Snaps into the collar and clamps the paddle.</td></tr>
+              <tr><td class="num">3</td><td><b>Gate pin</b></td><td>Acetal (POM), orange</td><td>Ring Ø30 mm outside, paddle 31 × 30 × 1.8 mm. Acetal slides easily on rubber and stays stiff.</td></tr>
+              <tr><td class="num">4</td><td><b>Collar</b></td><td>PP + TPE shot</td><td>Screws onto the bottle neck. Holds the paddle track, the flap on a living hinge, the flap seat, the lower gasket and the exit seal.</td></tr>
+              <tr><td class="num">5</td><td><b>Bottle</b></td><td>PET + shrink sleeve</td><td>Standard 28 mm soda neck (PCO 1881), so stock preforms work. Its 21.7 mm bore matches the throat. About Ø80 mm with grip ribs.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="after">PP is the usual material for living hinges. Every flip-top ketchup cap uses one, so the flap can be molded into the collar instead of being a separate part.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="dims">
+    <div class="sectop"><h2 class="sechead">Key dimensions</h2><p>Starting numbers for a first prototype, read off the section at about 2.7 px per mm.</p></div>
+    <div class="dims">
+      <svg id="dimSvg" viewBox="56 30 494 290" role="img" aria-label="Dimensioned section of the cap"></svg>
+      <dl class="dl">
+        <dt>Cap outside diameter</dt><dd>Ø60 mm</dd>
+        <dt>Cap height, lid closed</dt><dd>54 mm</dd>
+        <dt>Shot cup inside diameter</dt><dd>Ø46 mm</dd>
+        <dt>Shot cup depth to throat</dt><dd>36 mm</dd>
+        <dt>Shot cup usable volume</dt><dd>≈52 mL</dd>
+        <dt>Throat</dt><dd>Ø22 mm</dd>
+        <dt>Paddle</dt><dd>31 × 30 × 1.8 mm</dd>
+        <dt>Pull to release lid</dt><dd>50 mm</dd>
+        <dt>Finger ring, inside</dt><dd>Ø20 mm</dd>
+        <dt>Bottle body</dt><dd>≈Ø80 × 96 mm</dd>
+        <dt>Overall height</dt><dd>≈150 mm</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="factory">
+    <div class="sectop"><h2 class="sechead">How it gets filled</h2><p>The cap becomes a sealed shot capsule before it ever meets the bottle. The bottle line stays standard.</p></div>
+    <ol class="flow">
+      <li><span><b>Mold</b><span>Five parts. Rubber gaskets and the exit seal are molded straight onto the collar and the shot cup insert.</span></span></li>
+      <li><span><b>Load the pin</b><span>Slide the gate pin in through the exit seal. The paddle pushes the flap up flat as it goes in.</span></span></li>
+      <li><span><b>Close the gate</b><span>Snap the shot cup insert into the collar. It clamps the paddle between the two gaskets.</span></span></li>
+      <li><span><b>Fill the shot</b><span>With the cap upright and the lid open, fill 44 mL of spirit.</span></span></li>
+      <li><span><b>Seal the capsule</b><span>Close the lid. The plug ring seals the cup and the tab snaps over the stem. Now it can be handled in any orientation.</span></span></li>
+      <li><span><b>Fill the mixer</b><span>Standard fill of the mixer into the bottle, still or carbonated.</span></span></li>
+      <li><span><b>Cap it</b><span>Screw the shot capsule onto the bottle like a sports cap. Then sleeve, date code and pack.</span></span></li>
+    </ol>
+  </section>
+
+  <section id="fizz">
+    <div class="fizz">
+      <div>
+        <h2 class="eyebrow">Carbonated flavors need one more thing</h2>
+        <p>All four flavors as named are usually fizzy. Soda pushes up on the paddle across the whole throat:</p>
+        <p class="eq">3.8 cm² × 3 bar ≈ <em>115 N</em> on the paddle</p>
+        <p>That likely means a 25–35 N pull, which is stiff and changes with temperature. A still mixer has almost none of this load.</p>
+      </div>
+      <div>
+        <h3 class="eyebrow">Options, cheapest first</h3>
+        <ul>
+          <li><span><b>Add the hiss groove</b> to the same pin (concept A3). A small groove and a click stop vent the gas before the paddle moves. No new parts. <span class="chip good">Recommended</span></span></li>
+          <li><span><b>Lighter carbonation,</b> around 1.5–2 bar. That roughly halves the load and still tastes sparkling. <span class="chip mid">Recipe change</span></span></li>
+          <li><span><b>Launch with still versions</b> and add fizz later. <span class="chip mid">Narrower range</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="risks" class="risk">
+    <div class="sectop"><h2 class="sechead">Risks and first tests</h2><p>All bench tests use water and food dye first. Pass marks are proposals to argue about.</p></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Risk</th><th>Why it matters</th><th>Bench test</th><th>Proposed pass mark</th></tr></thead>
+        <tbody>
+          <tr><td><b>Short pour</b></td><td>Some of the shot stays behind in the funnel</td><td>Fill 44 mL, pull, weigh what's left in the cup after 5 s</td><td>≥ 42 mL delivered</td></tr>
+          <tr><td><b>Slot leak while drinking</b></td><td>Sticky hands, bad first impression</td><td>20 drink-tilts to 120° after opening, catch drips at the slot</td><td>No drips</td></tr>
+          <tr><td><b>Flap takes a set</b></td><td>Months folded flat could stop it swinging down</td><td>Assembled caps 2 weeks at 40 °C, then pull and tilt-test</td><td>Flap closes; no drips</td></tr>
+          <tr><td><b>Gasket weep in storage</b></td><td>Liquids mix before the pull</td><td>Dyed shot, store on its side 4 weeks, check the mixer for color</td><td>No color transfer</td></tr>
+          <tr><td><b>Rubber vs. spirit</b></td><td>Some TPE grades swell in 40% alcohol</td><td>Soak gasket samples in vodka 4 weeks, measure size and hardness</td><td>Within supplier's spec</td></tr>
+          <tr><td><b>Pull force</b></td><td>Too stiff feels broken, too easy pulls by accident</td><td>Luggage scale, still and carbonated, cold and warm</td><td>Set from a 10-person feel test</td></tr>
+          <tr><td><b>Accidental pull</b></td><td>Opens in a cooler or bag</td><td>Sealed drops from 1.2 m on each face; tumble in a backpack</td><td>Pin stays put</td></tr>
+          <tr><td><b>Spirit loss through plastic</b></td><td>Short or weaker shot after months on the shelf</td><td>Weigh sealed capsules weekly at 30 °C</td><td>Set with the spirit supplier</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot">* ≈5% ABV assumes 44 mL of 40% spirit in 355 mL total. Drawings are schematic and not CAD. Forces are estimates from pressure × area with typical friction. Before tooling, check the total fill size and labeling with a TTB and state compliance specialist.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+const f=n=>(+n).toFixed(1);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const snap=x=>{if(x<=0)return 0;if(x>=1)return 1;const c1=1.6,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const tAt=(fn,v)=>{for(let t=0;t<=1;t+=.0005){if(fn(t)>=v)return t;}return 1;};
+
+/* ---------- section drawing ---------- */
+const BODYC="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206 Z";
+const BODYS="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206";
+const CUP="M139 98 L261 98 L261 166 L229 195 L171 195 L139 166 Z";
+const PY=204, RC=336, RR=30;
+const dOf=t=>172*ease(seg(t,.04,.40));
+const T={o:tAt(dOf,25),l:tAt(dOf,134),fl:tAt(dOf,90)};
+function state(t){
+  const d=dOf(t),drain=ease(seg(t,T.o,T.o+.2)),lid=snap(seg(t,T.l,T.l+.13)),flap=snap(seg(t,T.fl,T.fl+.05));
+  const phase=t<.04?'Stored. Paddle clamped between two gaskets; lid locked by the stem.':d<25?'Pulling. Paddle slides out of the throat.':d<90?'Throat open. The shot drops into the mixer.':d<134?'Paddle passes the flap. Flap swings down onto its seat.':lid<.98?'Paddle clears the latch tab. Lid snaps open.':'Open. Swirl, then drink through the shot cup.';
+  return {d,drain,lid,flap,phase};
+}
+const CALLOUTS=[[378,166],[200,150],[200,230],[248,184],[256,238],[306,128],[108,62]];
+
+function section(id,s,t,opt={}){
+  let g=`<defs><clipPath id="${id}b"><path d="${BODYC}"/></clipPath><clipPath id="${id}c"><path d="${CUP}"/></clipPath></defs>`;
+  const mL=300-9*s.drain;
+  g+=`<g clip-path="url(#${id}b)"><rect class="mixer" x="70" y="${f(mL)}" width="260" height="200"/><rect class="shot" x="70" y="${f(mL)}" width="260" height="200" opacity="${(.3*s.drain).toFixed(3)}"/>`;
+  [[120,350,3],[150,322,2],[262,356,2.5],[180,366,3],[290,330,2],[110,370,2],[226,340,1.6]].forEach(b=>g+=`<circle class="bub" cx="${b[0]}" cy="${b[1]}" r="${b[2]}"/>`);
+  g+=`</g>`;
+  if(!opt.nolabel)g+=`<text class="lbl" x="200" y="352">MIXER</text>`;
+  g+=`<path class="sleeve" d="M78 300 V470 M322 300 V470"/><path class="wallS" d="${BODYS}"/>`;
+  const sL=111+(198-111)*s.drain;
+  g+=`<g clip-path="url(#${id}c)"><rect class="shot" x="136" y="${f(sL)}" width="128" height="100"/></g>`;
+  if(s.drain>.004&&s.drain<.996){const w=4+30*(1-s.drain);g+=`<rect class="shot" x="${f(200-w/2)}" y="196" width="${f(w)}" height="${f(mL-196)}"/><ellipse class="shot" cx="200" cy="${f(mL)}" rx="${f(w*.9)}" ry="3" opacity=".75"/>`;}
+  g+=`<path class="clearS" d="M139 98 V166 L171 196 M261 98 V166 L229 196"/><path class="clearS" d="M134 198 H171 M229 198 H266"/>`;
+  // gaskets
+  g+=`<rect class="seal" x="162" y="199.6" width="11" height="2"/><rect class="seal" x="227" y="199.6" width="11" height="2"/><rect class="seal" x="162" y="206.5" width="11" height="2"/><rect class="seal" x="227" y="206.5" width="11" height="2"/>`;
+  // flap + seat
+  g+=`<rect class="seal" x="249.6" y="206.6" width="3" height="2.4"/>`;
+  const a=Math.PI-s.flap*Math.PI/2;
+  g+=`<line class="flapS" x1="248" y1="200.6" x2="${f(248+8*Math.cos(a))}" y2="${f(200.6+8*Math.sin(a))}"/>`;
+  // collar
+  g+=`<rect class="cap" x="120" y="86" width="12" height="136"/><rect class="cap" x="268" y="86" width="12" height="${PY-5-86}"/><rect class="cap" x="268" y="${PY+5}" width="12" height="${222-PY-5}"/>`;
+  g+=`<rect class="cap" x="132" y="92" width="7" height="6"/><rect class="cap" x="261" y="92" width="7" height="6"/>`;
+  g+=`<rect class="cap" x="132" y="208.5" width="30" height="6"/><rect class="cap" x="238" y="208.5" width="30" height="6"/>`;
+  g+=`<rect class="cap" x="157" y="214" width="7" height="14"/><rect class="cap" x="236" y="214" width="7" height="14"/>`;
+  const left=160+s.d;
+  g+=left<270?`<rect class="seal" x="263" y="198.6" width="5" height="2.8"/><rect class="seal" x="263" y="206.6" width="5" height="2.8"/>`:`<rect class="seal" x="263" y="198.6" width="5" height="10.8"/>`;
+  // lid
+  g+=`<g transform="rotate(${f(-104*s.lid)} 124 81)">`;
+  g+=`<rect class="cap" x="118" y="76" width="174" height="10" rx="4"/><rect class="cap" x="143" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="251" y="86" width="6" height="10" rx="1.5"/>`;
+  g+=`<rect class="cap" x="282" y="76" width="10" height="${PY+12-76}" rx="3"/><ellipse class="hole" cx="287" cy="${PY}" rx="2.2" ry="3.4"/><circle class="cap2" cx="124" cy="81" r="5"/></g>`;
+  // pin
+  g+=`<rect class="orange" x="${f(left)}" y="201.6" width="84" height="5" rx="1"/>`;
+  if(opt.zoom)g+=`<text class="ztw" x="${f(left+42)}" y="205.4">PADDLE</text>`;
+  g+=`<rect class="orange" x="${f(244+s.d)}" y="202.6" width="64" height="3"/><circle class="ringS" cx="${f(RC+s.d)}" cy="${PY}" r="${RR}"/>`;
+  if(!opt.zoom){
+    if(s.d<2)g+=`<path class="hint" d="M378 ${PY} h26"/><path class="hintF" d="M414 ${PY} l-11 -7 v14z"/>`;
+    if(s.lid>.95)g+=`<path class="hint dash" d="M200 286 V84"/><path class="hintF" d="M200 70 l-7 11 h14z" opacity=".55"/>`;
+    const co=opt.callouts?1-seg(t,0,.04):0;
+    if(co>0)CALLOUTS.forEach((c,i)=>{g+=`<g class="co" opacity="${co.toFixed(2)}"><circle cx="${c[0]}" cy="${c[1]}" r="9"/><text x="${c[0]}" y="${c[1]+4}">${i+1}</text></g>`;});
+  } else {
+    const L=[['Upper gasket',158,186,166,199.6],['Lower gasket',158,222,166,208.5],['Flap',240,186,246,200.6],['Flap seat',258,222,251,208.8],['Exit seal',300,222,266,208.5],['Throat',200,186,200,196]];
+    L.forEach(l=>{g+=`<line class="zl2" x1="${l[1]}" y1="${l[2]+(l[2]<200?1.2:-3.2)}" x2="${l[3]}" y2="${l[4]}"/><text class="zt" x="${l[1]}" y="${l[2]}">${l[0]}</text>`;});
+  }
+  return g;
+}
+
+/* ---------- exterior drawing ---------- */
+const FLAVORS=[{name:'VODKA LIME',c:'#c6ef3a'},{name:'HARD SHIRLEY',c:'#ff7d9b'},{name:'WHISKEY COLA',c:'#efe3cf'},{name:'MOSCOW MULE',c:'#e0a062'}];
+let flavor=FLAVORS[0];
+function ext(fl,st={}){
+  const lid=st.lid||0, dx=st.pull||0;
+  let g='';
+  const B="M70 150 C50 152 42 168 42 188 L42 330 C42 350 54 360 74 360 L186 360 C206 360 218 350 218 330 L218 188 C218 168 210 152 190 150 Z";
+  g+=`<path d="${B}" style="fill:${fl.c}"/>`;
+  g+=`<path d="M58 192 C58 176 64 166 74 162 L74 344 C64 342 58 336 58 326 Z" fill="#ffffff" opacity=".3"/>`;
+  [334,342,350].forEach(y=>g+=`<path d="M46 ${y} Q130 ${y+4} 214 ${y}" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/>`);
+  g+=`<text class="xs" x="130" y="178">PULL · SWIRL · SIP</text>`;
+  g+=`<text class="xw" x="130" y="236">PIN</text><text class="xw" x="130" y="290">SHOT</text>`;
+  g+=`<text class="xf" x="130" y="311">${fl.name}</text><text class="xs" x="130" y="325">ALCOHOLIC COCKTAIL · 21+</text>`;
+  // collar
+  g+=`<rect class="xcap" x="64" y="62" width="132" height="90" rx="6"/>`;
+  for(let x=78;x<=182;x+=13)g+=`<line x1="${x}" y1="70" x2="${x}" y2="144" stroke="#ffffff" stroke-opacity=".07" stroke-width="3"/>`;
+  if(lid>.4){g+=`<ellipse cx="130" cy="64" rx="56" ry="7" fill="#0b0b0a"/><ellipse cx="130" cy="64" rx="48" ry="5" fill="#2a2a27"/>`;}
+  g+=`<rect class="xcap" x="54" y="52" width="12" height="18" rx="3"/>`;
+  g+=`<g transform="rotate(${f(-108*lid)} 62 60)"><rect class="xcap" x="60" y="32" width="140" height="32" rx="10"/><rect class="xcap" x="196" y="44" width="11" height="98" rx="4"/><rect x="78" y="38" width="104" height="5" rx="2.5" fill="#ffffff" opacity=".08"/></g>`;
+  if(!st.gone){g+=`<rect class="orange" x="${f(204+dx)}" y="132" width="18" height="6" rx="2"/><circle class="xring" cx="${f(250+dx)}" cy="135" r="27"/>`;}
+  if(st.pullArrow)g+=`<path class="xarrow" d="M250 88 h56"/><path class="xarrowF" d="M318 88 l-13 -8 v16z"/>`;
+  if(st.lidArrow)g+=`<path class="xarrow" d="M150 -40 A80 80 0 0 0 52 -20"/><path class="xarrowF" d="M44 -16 l15 -1 -7 -12z"/>`;
+  if(st.swirl){g+=`<path class="xarrow" d="M24 230 C4 270 14 312 40 330"/><path class="xarrowF" d="M46 336 l-3 -15 -11 9z"/><path class="xarrow" d="M236 330 C262 300 266 262 246 226"/><path class="xarrowF" d="M241 218 l12 9 -14 6z"/>`;}
+  return g;
+}
+function renderHero(){document.getElementById('heroSvg').innerHTML=ext(flavor);
+  document.getElementById('s1').innerHTML=ext(flavor,{});
+  document.getElementById('s2').innerHTML=ext(flavor,{pull:78,pullArrow:true});
+  document.getElementById('s3').innerHTML=ext(flavor,{lid:1,gone:true,lidArrow:true});
+  document.getElementById('s4').innerHTML=ext(flavor,{lid:1,gone:true,swirl:true});}
+document.querySelectorAll('.flv').forEach(b=>b.addEventListener('click',()=>{
+  flavor=FLAVORS[+b.dataset.f];document.querySelectorAll('.flv').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));renderHero();}));
+renderHero();
+
+/* ---------- live cutaway ---------- */
+const mainSvg=document.getElementById('mainSvg'),zoomSvg=document.getElementById('zoomSvg'),rng=document.getElementById('tRange'),btn=document.getElementById('play'),ph=document.getElementById('phase');
+let t=0,playing=false,last=0;
+function render(){const s=state(t);mainSvg.innerHTML=section('m',s,t,{callouts:true});zoomSvg.innerHTML=section('z',s,t,{zoom:true,nolabel:true});ph.textContent=s.phase;rng.value=Math.round(t*1000);btn.textContent=playing?'Pause':(t>=1?'Replay':'Play');}
+function loop(ts){if(!playing)return;if(last)t=Math.min(1,t+(ts-last)/5600);last=ts;if(t>=1)playing=false;render();if(playing)requestAnimationFrame(loop);}
+btn.addEventListener('click',()=>{if(playing){playing=false;render();}else{if(t>=1)t=0;playing=true;last=0;requestAnimationFrame(loop);}});
+rng.addEventListener('input',()=>{playing=false;t=rng.value/1000;render();});
+render();
+
+/* ---------- dimensions ---------- */
+(function(){
+  const s=state(0);let g=section('d',s,0,{nolabel:true});
+  g+=`<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L10 5 L0 9z" class="hintF"/></marker></defs>`;
+  const H=(x1,x2,y,txt,ty)=>`<line class="dim" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" marker-start="url(#ar)" marker-end="url(#ar)"/><text class="dt" x="${(x1+x2)/2}" y="${ty??y-5}">${txt}</text>`;
+  const V=(x,y1,y2,txt,tx)=>`<line class="dim" x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" marker-start="url(#ar)" marker-end="url(#ar)"/><text class="dt" x="${tx}" y="${(y1+y2)/2+4}">${txt}</text>`;
+  g+=`<line class="dimx" x1="120" y1="72" x2="120" y2="54"/><line class="dimx" x1="280" y1="72" x2="280" y2="54"/>`+H(120,280,58,'Ø60');
+  g+=H(141,259,104,'Ø46 cup',148);
+  g+=`<line class="dimx" x1="171" y1="196" x2="171" y2="246"/><line class="dimx" x1="229" y1="196" x2="229" y2="246"/>`+H(171,229,242,'Ø22 throat',258);
+  g+=`<line class="dimx" x1="116" y1="76" x2="92" y2="76"/><line class="dimx" x1="116" y1="222" x2="92" y2="222"/>`+V(98,76,222,'54',82);
+  g+=`<text class="dt" x="200" y="164">44 mL</text>`;
+  g+=`<line class="dimx" x1="306" y1="236" x2="306" y2="276"/><line class="dimx" x1="440" y1="236" x2="440" y2="276"/>`+H(306,440,270,'50 mm pull releases the lid',290);
+  document.getElementById('dimSvg').innerHTML=g;
+})();
+
+/* ---------- exploded view ---------- */
+(function(){
+  let g='';
+  const lab=(n,x1,y1,x2,name,sub)=>`<line class="dimx" x1="${x1}" y1="${y1}" x2="${x2-8}" y2="${y1}"/><text class="pn" x="${x2}" y="${y1+7}">${n}</text><text class="pl" x="${x2+18}" y="${y1+1}">${name}</text><text class="ps" x="${x2+18}" y="${y1+16}">${sub}</text>`;
+  // 1 lid
+  g+=`<g transform="translate(0 -50)"><rect class="cap" x="118" y="76" width="174" height="10" rx="4"/><rect class="cap" x="143" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="251" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="282" y="76" width="10" height="140" rx="3"/><ellipse class="hole" cx="287" cy="204" rx="2.2" ry="3.4"/><circle class="cap2" cx="124" cy="81" r="5"/></g>`;
+  g+=lab('1',296,32,410,'Lid','PP · snap hinge, latch tab');
+  // 2 cup insert
+  g+=`<g transform="translate(0 10)"><path class="clearS" d="M139 98 V166 L171 196 M261 98 V166 L229 196"/><path class="clearS" d="M134 198 H171 M229 198 H266"/><rect class="seal" x="162" y="199.6" width="11" height="2"/><rect class="seal" x="227" y="199.6" width="11" height="2"/><rect class="cap" x="132" y="92" width="7" height="6"/><rect class="cap" x="261" y="92" width="7" height="6"/></g>`;
+  g+=lab('2',270,140,410,'Shot cup insert','PP · upper gasket molded on');
+  // 3 pin
+  g+=`<g transform="translate(0 42)"><rect class="orange" x="160" y="201.6" width="84" height="5" rx="1"/><rect class="orange" x="244" y="202.6" width="64" height="3"/><circle class="ringS" cx="336" cy="204" r="30"/></g>`;
+  g+=lab('3',370,246,410,'Gate pin','Acetal · one piece');
+  // 4 collar
+  g+=`<g transform="translate(0 196)"><rect class="cap" x="120" y="86" width="12" height="136"/><rect class="cap" x="268" y="86" width="12" height="113"/><rect class="cap" x="268" y="209" width="12" height="13"/><rect class="cap" x="132" y="208.5" width="30" height="6"/><rect class="cap" x="238" y="208.5" width="30" height="6"/><rect class="cap" x="157" y="214" width="7" height="14"/><rect class="cap" x="236" y="214" width="7" height="14"/><rect class="seal" x="162" y="206.5" width="11" height="2"/><rect class="seal" x="227" y="206.5" width="11" height="2"/><rect class="seal" x="249.6" y="206.6" width="3" height="2.4"/><line class="flapS" x1="248" y1="200.6" x2="248" y2="208.6"/><rect class="seal" x="263" y="198.6" width="5" height="10.8"/></g>`;
+  g+=lab('4',284,350,410,'Collar','PP · flap, lower gasket, exit seal');
+  // 5 bottle
+  g+=`<path class="wallS" d="M166 446 L166 462 C120 466 90 486 84 520 M234 446 L234 462 C280 466 310 486 316 520"/><path class="sleeve" d="M80 512 V536 M320 512 V536"/>`;
+  g+=lab('5',318,478,410,'Bottle','PET · 28 mm PCO 1881 neck');
+  document.getElementById('explode').innerHTML=g;
+})();
+})();
+</script>

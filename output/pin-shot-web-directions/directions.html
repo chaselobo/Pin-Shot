@@ -1,0 +1,271 @@
+<title>Pin Shot Web Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;600;800&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: neutral review board. Four full-width mini homepages, each followed by its spec strip; decision questions at the end. */
+:root{
+  --bg:#f1f1ee; --card:#fafaf8; --fg:#171716; --muted:#62625c; --line:#d8d8d1; --copper:#c0612b;
+  --head:"Archivo", "Arial Narrow", Arial, sans-serif;
+  --body:"Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121211;--card:#1b1b19;--fg:#ececE8;--muted:#a3a39b;--line:#2e2e2b;--copper:#e07a40;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121211;--card:#1b1b19;--fg:#ececE8;--muted:#a3a39b;--line:#2e2e2b;--copper:#e07a40;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.top{display:grid;gap:14px;padding-bottom:30px;border-bottom:2px solid var(--fg)}
+.top .k{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.top h1{font-family:var(--head);font-weight:900;font-stretch:75%;font-size:clamp(40px,6vw,72px);line-height:.95;text-transform:uppercase}
+.top p{max-width:66ch;font-size:17px}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--fg);border:1px solid var(--line);background:var(--card);padding:5px 10px;border-radius:999px}
+.jump a:hover{border-color:var(--fg)}
+.jump a:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+
+.dir{padding-block:52px 8px;display:grid;gap:22px}
+.dirhead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 24px}
+.dirhead h2{font-family:var(--head);font-weight:900;font-stretch:75%;font-size:clamp(30px,4vw,44px);text-transform:uppercase;line-height:1}
+.dirhead h2 span{color:var(--copper)}
+.dirhead p{color:var(--muted);max-width:56ch}
+.board{container-type:inline-size;border-radius:10px;overflow:hidden;box-shadow:0 1px 0 var(--line),0 18px 40px -24px rgba(0,0,0,.35)}
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+@media (max-width:900px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.specs{grid-template-columns:minmax(0,1fr)}}
+.specs > div{background:var(--card);padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.specs h3{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sw{display:flex;gap:4px}
+.sw i{flex:1;height:34px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.swn{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.4}
+.tp{font-size:26px;line-height:1.05}
+.tp2{font-size:15px;color:var(--muted)}
+.voice{font-size:15px;display:grid;gap:4px}
+.voice q{quotes:none;font-weight:600}
+.fit{font-size:15px;display:grid;gap:6px}
+.fit b{font-weight:600}
+
+/* ---------- 1 FIELD MANUAL ---------- */
+.fm{background:#ecebe4;color:#111;background-image:linear-gradient(#dcdad0 1px,transparent 1px),linear-gradient(90deg,#dcdad0 1px,transparent 1px);background-size:24px 24px;font-family:"IBM Plex Mono",monospace}
+.fm nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 3cqi;border-bottom:2px solid #111;font-size:max(11px,1.05cqi);text-transform:uppercase;letter-spacing:.06em}
+.fm nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:max(18px,2.1cqi);letter-spacing:.02em}
+.fm nav span{display:flex;gap:2.4cqi}
+.fm .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:2cqi;padding:4cqi 3cqi 0}
+.fm .tag{font-size:max(11px,1.1cqi);letter-spacing:.08em}
+.fm h4{font-family:Archivo,sans-serif;font-weight:900;font-stretch:72%;font-size:max(38px,8.4cqi);line-height:.86;text-transform:uppercase;margin:1.6cqi 0}
+.fm h4 em{font-style:normal;color:#ff5a1f}
+.fm .sub{font-size:max(12px,1.45cqi);max-width:40ch;line-height:1.55}
+.fm .cta{display:inline-block;margin-top:2.4cqi;background:#ff5a1f;color:#111;padding:1.1cqi 1.8cqi;font-size:max(11px,1.2cqi);font-weight:600;letter-spacing:.06em;border:2px solid #111;box-shadow:4px 4px 0 #111}
+.fm figure{margin:0;position:relative;align-self:end}
+.fm figure img{display:block;width:100%;mix-blend-mode:multiply}
+.fm .cl{position:absolute;font-size:max(10px,1.05cqi);font-weight:600;background:#ecebe4;border:1.5px solid #111;padding:2px 6px;white-space:nowrap}
+.fm .cl::before{content:"";position:absolute;top:50%;width:5cqi;border-top:1.5px solid #111}
+.fm .cl.l::before{right:100%}
+.fm .cl.r::before{left:100%}
+.fm .bar{display:flex;flex-wrap:wrap;gap:0;border-top:2px solid #111;font-size:max(11px,1.1cqi);text-transform:uppercase;letter-spacing:.06em}
+.fm .bar div{flex:1 1 140px;padding:1.2cqi 3cqi;border-right:2px solid #111}
+.fm .bar div:last-child{border-right:0}
+.fm .bar b{display:block;font-family:Archivo,sans-serif;font-stretch:75%;font-weight:900;font-size:max(18px,2.4cqi)}
+
+/* ---------- 2 AFTER DARK ---------- */
+.ad{background:#0c0a0f;color:#f3f1f5;font-family:Manrope,sans-serif;position:relative;isolation:isolate}
+.ad .bg{position:absolute;inset:0;background:url(img/group-bar.jpg) right 30%/62% auto no-repeat;z-index:-2}
+.ad .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0c0a0f 38%,rgba(12,10,15,.55) 60%,rgba(12,10,15,.1) 100%),radial-gradient(60cqi 40cqi at 20% 110%,rgba(255,79,123,.35),transparent 70%),radial-gradient(40cqi 30cqi at 0% 0%,rgba(198,239,58,.18),transparent 70%)}
+.ad nav{display:flex;justify-content:space-between;align-items:center;padding:16px 3.4cqi;font-size:max(12px,1.15cqi);font-weight:600;color:rgba(243,241,245,.75)}
+.ad nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:max(20px,2.4cqi);color:#fff;letter-spacing:.02em}
+.ad nav span{display:flex;gap:2.6cqi}
+.ad .hero{padding:5cqi 3.4cqi 3cqi;max-width:58cqi}
+.ad .tag{font-size:max(11px,1.1cqi);letter-spacing:.2em;text-transform:uppercase;color:#c6ef3a;font-weight:800}
+.ad h4{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:max(44px,9cqi);line-height:.9;margin:1.4cqi 0 1.8cqi;text-transform:uppercase}
+.ad h4 em{font-style:normal;background:linear-gradient(90deg,#c6ef3a,#ff4f7b 55%,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ad .sub{font-size:max(13px,1.55cqi);color:rgba(243,241,245,.8);max-width:36ch}
+.ad .cta{display:inline-flex;gap:10px;align-items:center;margin-top:2.6cqi;background:#c6ef3a;color:#0c0a0f;border-radius:999px;padding:1.1cqi 2.2cqi;font-weight:800;font-size:max(12px,1.3cqi)}
+.ad .dots{display:flex;flex-wrap:wrap;gap:1.2cqi 2cqi;padding:2.4cqi 3.4cqi 3cqi;font-size:max(10px,1cqi);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(243,241,245,.7)}
+.ad .dots span{display:inline-flex;align-items:center;gap:8px}
+.ad .dots i{width:10px;height:10px;border-radius:50%;box-shadow:0 0 12px 2px currentColor}
+
+/* ---------- 3 COOLER POP ---------- */
+.cp{background:#fffdf6;color:#1a1712;font-family:"DM Sans",sans-serif}
+.cp nav{display:flex;justify-content:space-between;align-items:center;padding:14px 3cqi;font-size:max(12px,1.2cqi);font-weight:700}
+.cp nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:max(20px,2.3cqi);letter-spacing:.02em}
+.cp nav span{display:flex;gap:2.4cqi}
+.cp nav .pill{background:#1a1712;color:#fffdf6;border-radius:999px;padding:6px 14px}
+.cp .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.4cqi;padding:0 1.4cqi 1.4cqi}
+.cp .lead{background:#c6ef3a;border-radius:2.4cqi;padding:4cqi 3.4cqi;position:relative;display:flex;flex-direction:column;justify-content:center}
+.cp h4{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:max(36px,7.4cqi);line-height:.92;letter-spacing:-.02em}
+.cp .sub{font-size:max(13px,1.55cqi);margin-top:1.8cqi;max-width:32ch;font-weight:500}
+.cp .cta{align-self:flex-start;margin-top:2.6cqi;background:#1a1712;color:#fffdf6;border-radius:999px;padding:1.1cqi 2.2cqi;font-weight:700;font-size:max(12px,1.3cqi)}
+.cp .sticker{position:absolute;right:3cqi;top:3cqi;width:12cqi;height:12cqi;min-width:76px;min-height:76px;border-radius:50%;background:#ff6a2b;color:#1a1712;display:grid;place-items:center;text-align:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:max(9px,1.05cqi);line-height:1.15;transform:rotate(12deg);text-transform:uppercase}
+.cp .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4cqi}
+.cp .tiles div{border-radius:2.4cqi;overflow:hidden;position:relative;aspect-ratio:4/5;max-width:100%}
+.cp .tiles img{width:100%;height:100%;object-fit:cover;object-position:center 30%;mix-blend-mode:multiply;display:block}
+.cp .tiles span{position:absolute;left:10px;bottom:8px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:max(11px,1.3cqi);background:#fffdf6;border-radius:999px;padding:2px 10px}
+.cp .stripe{display:flex;flex-wrap:wrap}
+.cp .stripe div{flex:1 1 90px;padding:1.2cqi 1.2cqi;font-weight:700;font-size:max(10px,1.05cqi);text-transform:uppercase;letter-spacing:.04em}
+
+/* ---------- 4 CLEAR GLASS ---------- */
+.cg{background:#fbfbfa;color:#1b1c1e;font-family:"Instrument Sans",sans-serif}
+.cg nav{display:flex;justify-content:space-between;align-items:center;padding:18px 4cqi;font-size:max(11px,1.05cqi);letter-spacing:.16em;text-transform:uppercase;color:#56585c}
+.cg nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:max(18px,1.9cqi);letter-spacing:.06em;color:#1b1c1e}
+.cg nav span{display:flex;gap:3cqi}
+.cg .hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:2cqi;padding:2cqi 4cqi 0}
+.cg .tag{font-size:max(11px,1.05cqi);letter-spacing:.2em;text-transform:uppercase;color:#b8622f}
+.cg h4{font-family:"Instrument Serif",serif;font-weight:400;font-size:max(40px,7.8cqi);line-height:.95;letter-spacing:-.01em;margin:1.6cqi 0 2cqi}
+.cg h4 em{font-style:italic;color:#b8622f}
+.cg .sub{font-size:max(13px,1.5cqi);color:#56585c;max-width:38ch;line-height:1.6}
+.cg .cta{display:inline-block;margin-top:2.6cqi;font-size:max(12px,1.25cqi);font-weight:600;border-bottom:1.5px solid #1b1c1e;padding-bottom:3px}
+.cg figure{margin:0}
+.cg figure img{display:block;width:100%;mix-blend-mode:multiply}
+.cg .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #d9d9d6;margin:0 4cqi;padding:2cqi 0 3cqi}
+.cg .nums div{font-size:max(11px,1.05cqi);letter-spacing:.14em;text-transform:uppercase;color:#56585c}
+.cg .nums b{display:block;font-family:"Instrument Serif",serif;font-weight:400;font-size:max(28px,4.2cqi);letter-spacing:0;text-transform:none;color:#1b1c1e;line-height:1}
+
+@container (max-width:640px){
+  .fm .hero,.cp .hero,.cg .hero{grid-template-columns:minmax(0,1fr)}
+  .fm nav span,.ad nav span,.cp nav span a,.cg nav span{display:none}
+  .ad .hero{max-width:none}
+  .ad .bg{background-size:110% auto;background-position:center bottom;opacity:.55}
+}
+
+.decide{padding-block:56px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 48px}
+@media (max-width:860px){.decide{grid-template-columns:minmax(0,1fr)}}
+.decide h2{font-family:var(--head);font-weight:900;font-stretch:75%;font-size:clamp(30px,4vw,44px);text-transform:uppercase;line-height:1}
+.decide p{margin-top:12px;max-width:56ch}
+.decide ol{margin:0;padding-left:22px;display:grid;gap:12px}
+.decide li b{font-weight:600}
+.const{margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="k">Pin Shot · website branding · round 1</div>
+    <h1>Four ways the site could feel</h1>
+    <p>Each direction below is a mocked homepage hero built with your real bottle photos, followed by its palette, type, voice and where it fits best. All four keep the constants from the bottle: the condensed black PIN SHOT wordmark, the copper-orange ring, and PULL · SWIRL · SIP.</p>
+    <nav class="jump" aria-label="Directions">
+      <a href="#manual">1 · Field Manual</a><a href="#dark">2 · After Dark</a><a href="#pop">3 · Cooler Pop</a><a href="#glass">4 · Clear Glass</a>
+    </nav>
+  </header>
+
+  <!-- 1 -->
+  <section class="dir" id="manual">
+    <div class="dirhead"><h2><span>1</span> Field Manual</h2><p>The site reads like the product's operating instructions. Blueprint grid, numbered callouts, mono type. The mechanism is the hero.</p></div>
+    <div class="board fm">
+      <nav><b>PIN SHOT</b><span><a>How it works</a><a>Flavors</a><a>Specs</a></span><a>Rev. A</a></nav>
+      <div class="hero">
+        <div>
+          <div class="tag">Fig. 01 · One-pull cocktail</div>
+          <h4>Pull.<br>It drops.<br><em>Drink.</em></h4>
+          <p class="sub">A full 44 mL shot is sealed in the cap behind a gate. Pull the ring, the gate slides out, and the shot falls into the mixer. Then the lid flips open.</p>
+          <span class="cta">See the mechanism →</span>
+        </div>
+        <figure>
+          <img src="img/vsl.jpg" alt="PIN SHOT VSL bottle">
+          <span class="cl r" style="left:8%;top:14%">① 44 mL shot</span>
+          <span class="cl l" style="right:-1%;top:44%">② Gate pin</span>
+          <span class="cl r" style="left:4%;top:62%">③ 311 mL mixer</span>
+        </figure>
+      </div>
+      <div class="bar"><div><b>355 mL</b>Total</div><div><b>44 mL</b>Shot</div><div><b>≈5%</b>ABV mixed</div><div><b>50 mm</b>Pull</div></div>
+    </div>
+    <div class="specs">
+      <div><h3>Palette</h3><div class="sw"><i style="background:#ecebe4"></i><i style="background:#111"></i><i style="background:#ff5a1f"></i><i style="background:#dcdad0"></i><i style="background:#c6ef3a"></i></div><p class="swn">Drafting paper · ink · signal orange · grid · flavor color used only on bottles</p></div>
+      <div><h3>Type</h3><p class="tp" style="font-family:Archivo,sans-serif;font-weight:900;font-stretch:72%;text-transform:uppercase">Archivo Condensed</p><p class="tp2" style="font-family:'IBM Plex Mono',monospace">IBM Plex Mono for everything else</p></div>
+      <div><h3>Voice</h3><div class="voice"><q>Pull ring. Wait one second. Swirl. Drink.</q><span>Short, numbered, matter-of-fact. Real units everywhere.</span></div></div>
+      <div><h3>Fit</h3><div class="fit"><span><b>Best if</b> the mechanism is what you're selling, to partners, investors or press.</span><span><b>Watch</b> It can feel cold. Lean on the bottle photos for color.</span></div></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="dir" id="dark">
+    <div class="dirhead"><h2><span>2</span> After Dark</h2><p>Nightlife energy. Dark page, the bar photo, flavor colors glowing like back-bar lights. Big Anton type straight off the label.</p></div>
+    <div class="board ad">
+      <div class="bg" aria-hidden="true"></div>
+      <nav><b>PIN SHOT</b><span><a>The pull</a><a>Lineup</a><a>Where to buy</a></span><a>21+</a></nav>
+      <div class="hero">
+        <div class="tag">Pull · Swirl · Sip</div>
+        <h4>Pull the pin.<br><em>The shot's already in it.</em></h4>
+        <p class="sub">A real shot sealed in the cap. One pull drops it into the mix and pops the lid.</p>
+        <span class="cta">See the lineup →</span>
+      </div>
+      <div class="dots">
+        <span><i style="color:#e9f2f0;background:#e9f2f0"></i>Gin &amp; Tonic</span><span><i style="color:#c6ef3a;background:#c6ef3a"></i>VSL</span><span><i style="color:#e8c36a;background:#e8c36a"></i>Moscow Mule</span><span><i style="color:#ff8a3d;background:#ff8a3d"></i>Rum Punch</span><span><i style="color:#ffa59a;background:#ffa59a"></i>Paloma</span><span><i style="color:#ff4f7b;background:#ff4f7b"></i>Hard Shirley</span><span><i style="color:#e0213f;background:#e0213f"></i>Vodka Cran</span><span><i style="color:#a2582c;background:#a2582c"></i>Whiskey Cola</span>
+      </div>
+    </div>
+    <div class="specs">
+      <div><h3>Palette</h3><div class="sw"><i style="background:#0c0a0f"></i><i style="background:#f3f1f5"></i><i style="background:#c6ef3a"></i><i style="background:#ff4f7b"></i><i style="background:#ff8a3d"></i></div><p class="swn">Back-bar black · white · lime · cherry · ember. Every flavor color glows.</p></div>
+      <div><h3>Type</h3><p class="tp" style="font-family:Anton,sans-serif;text-transform:uppercase">Anton</p><p class="tp2" style="font-family:Manrope,sans-serif">Manrope for body and buttons</p></div>
+      <div><h3>Voice</h3><div class="voice"><q>The shot's already in it.</q><span>Confident and short. Sounds like a bartender, not an engineer.</span></div></div>
+      <div><h3>Fit</h3><div class="fit"><span><b>Best if</b> you're selling into bars and venues and the site mostly feeds social.</span><span><b>Watch</b> Alcohol ad codes frown on heavy party cues. The mechanism needs its own lighter section to stay readable.</span></div></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="dir" id="pop">
+    <div class="dirhead"><h2><span>3</span> Cooler Pop</h2><p>Daylight and flavor-first. Every flavor gets its own color block, chunky friendly type, a sticker or two. Feels like grabbing one from the cooler.</p></div>
+    <div class="board cp">
+      <nav><b>PIN SHOT</b><span><a>Flavors</a><a>How it works</a><a class="pill">Find a store</a></span></nav>
+      <div class="hero">
+        <div class="lead">
+          <div class="sticker">No shaker<br>No bartender<br>Just pull</div>
+          <h4>Eight drinks.<br>One pull.</h4>
+          <p class="sub">A real shot sits in the cap. Pull the ring and it drops into the mixer below.</p>
+          <span class="cta">Pick your flavor →</span>
+        </div>
+        <div class="tiles">
+          <div style="background:#ffd2c9"><img src="img/paloma.jpg" alt="Paloma"><span>Paloma</span></div>
+          <div style="background:#ffd59a"><img src="img/rum-punch.jpg" alt="Rum Punch"><span>Rum Punch</span></div>
+          <div style="background:#ffc2cf"><img src="img/hard-shirley.jpg" alt="Hard Shirley"><span>Hard Shirley</span></div>
+          <div style="background:#ead9c4"><img src="img/whiskey-cola.jpg" alt="Whiskey Cola"><span>Whiskey Cola</span></div>
+        </div>
+      </div>
+      <div class="stripe">
+        <div style="background:#dff1ee">Gin &amp; Tonic</div><div style="background:#c6ef3a">VSL</div><div style="background:#f1d98a">Moscow Mule</div><div style="background:#ffb066">Rum Punch</div><div style="background:#ffb3a7">Paloma</div><div style="background:#ff7d9b">Hard Shirley</div><div style="background:#e54b5f;color:#fffdf6">Vodka Cran</div><div style="background:#7a4426;color:#fffdf6">Whiskey Cola</div>
+      </div>
+    </div>
+    <div class="specs">
+      <div><h3>Palette</h3><div class="sw"><i style="background:#fffdf6"></i><i style="background:#1a1712"></i><i style="background:#c6ef3a"></i><i style="background:#ff6a2b"></i><i style="background:#ffb3a7"></i></div><p class="swn">Cream white · ink · each flavor's own color, used as big blocks</p></div>
+      <div><h3>Type</h3><p class="tp" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800">Bricolage Grotesque</p><p class="tp2" style="font-family:'DM Sans',sans-serif">DM Sans for body</p></div>
+      <div><h3>Voice</h3><div class="voice"><q>Cracks open like a soda. Tastes like a bar made it.</q><span>Warm, playful, easy to say out loud.</span></div></div>
+      <div><h3>Fit</h3><div class="fit"><span><b>Best if</b> the goal is retail, a wide 21+ audience, and showing off the range.</span><span><b>Watch</b> Bright fruit and stickers can read as a kids' soda. Keep 21+ cues loud and avoid cartoon styling.</span></div></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="dir" id="glass">
+    <div class="dirhead"><h2><span>4</span> Clear Glass</h2><p>Quiet and premium. Lots of white space, one bottle at a time, an elegant serif with the copper of the ring as the only accent.</p></div>
+    <div class="board cg">
+      <nav><b>PIN SHOT</b><span><a>The pour</a><a>Collection</a><a>Stockists</a></span></nav>
+      <div class="hero">
+        <div>
+          <div class="tag">The self-finishing cocktail</div>
+          <h4>A cocktail that <em>finishes itself.</em></h4>
+          <p class="sub">The shot waits in the cap above the mixer. Pull the copper ring and it drops in, measured to the milliliter.</p>
+          <span class="cta">How the gate works</span>
+        </div>
+        <figure><img src="img/template.jpg" alt="Clear PIN SHOT bottle"></figure>
+      </div>
+      <div class="nums"><div><b>44 mL</b>Measured shot</div><div><b>One</b>Pull</div><div><b>Eight</b>Flavors</div></div>
+    </div>
+    <div class="specs">
+      <div><h3>Palette</h3><div class="sw"><i style="background:#fbfbfa"></i><i style="background:#1b1c1e"></i><i style="background:#b8622f"></i><i style="background:#d9d9d6"></i><i style="background:#56585c"></i></div><p class="swn">Gallery white · graphite · ring copper · hairline · slate</p></div>
+      <div><h3>Type</h3><p class="tp" style="font-family:'Instrument Serif',serif">Instrument <em>Serif</em></p><p class="tp2" style="font-family:'Instrument Sans',sans-serif">Instrument Sans for body</p></div>
+      <div><h3>Voice</h3><div class="voice"><q>Measured to the milliliter.</q><span>Calm, precise, a little proud of the engineering.</span></div></div>
+      <div><h3>Fit</h3><div class="fit"><span><b>Best if</b> you want a higher price point, design press, or gifting.</span><span><b>Watch</b> It undersells the fun. The bold label may look out of place unless photos carry the color.</span></div></div>
+    </div>
+  </section>
+
+  <section class="decide">
+    <div>
+      <h2>Pick, or mix two</h2>
+      <p>Most good sites end up as one direction with a borrowed piece of another, for example After Dark's hero with Field Manual's mechanism section. Tell me what you like and what you don't, and I'll build the full site in that direction with the live mechanism demo, the lineup and your photos.</p>
+      <p class="const">Constants in every direction: PIN SHOT wordmark · copper-orange ring · PULL · SWIRL · SIP · 21+</p>
+    </div>
+    <ol>
+      <li><b>Which direction feels closest?</b> Or which two pieces would you combine?</li>
+      <li><b>Who is the site for first?</b> Investors and partners, bars and stores, or drinkers finding you on social?</li>
+      <li><b>What leads the page:</b> the bottle photos, or the pull mechanism?</li>
+      <li><b>How loud?</b> On a scale from Clear Glass (quiet) to After Dark (loud), where should it sit?</li>
+    </ol>
+  </section>
+</div>
