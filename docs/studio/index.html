@@ -16,10 +16,10 @@
 <body>
   <header><a class="logo" href="../">PIN SHOT<span> / 3D STUDIO</span></a><a class="back" href="../">← Back to the lineup</a><span class="age">21+</span></header>
   <main>
-    <section class="stage" aria-label="Interactive bottle studio">
-      <div class="stage-top"><span><i></i> VSL / PRODUCT STUDY 01</span><span>360°</span></div>
+    <section class="stage light" aria-label="Interactive bottle studio">
+      <div class="stage-top"><span><i></i> VSL / <span id="view-status">IMAGE-BASED 3D</span></span><span>360°</span></div>
       <div class="stage-word" aria-hidden="true">VSL</div>
-      <div id="viewport" tabindex="0" role="region" aria-label="VSL 3D bottle. Drag to rotate. Scroll or pinch to zoom. Arrow keys rotate, plus and minus zoom, Home resets."></div>
+      <div id="viewport" tabindex="0" role="region" aria-label="VSL 3D bottle. Drag to rotate. Scroll or pinch to zoom. Arrow keys rotate, plus and minus zoom, Home resets."><div id="source-view" hidden><img src="vsl-source.jpeg" alt="Unchanged original VSL product image"></div></div>
       <div id="loading" role="status">Building your bottle…</div>
       <div id="fallback" hidden><img src="../img/vsl.jpg" alt="Original VSL bottle reference"><p>3D could not start. Reload or try a browser with WebGL enabled.</p><button id="retry">Reload studio</button></div>
       <div class="zoom"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="reset" aria-label="Reset view">↺</button></div>
@@ -31,11 +31,12 @@
       <p class="lede">The VSL bottle, from the copper ring to the last lime.</p>
       <div class="rule"></div>
       <p class="label">CHOOSE YOUR VIEW</p>
-      <div class="views"><button data-view="front" aria-pressed="true">Front</button><button data-view="side" aria-pressed="false">Ring side</button><button data-view="back" aria-pressed="false">Back</button><button data-view="top" aria-pressed="false">Top</button><button data-view="base" aria-pressed="false">Base</button></div>
-      <div class="theme-row"><span class="label">STUDIO LIGHT</span><div><button data-theme="dark" aria-pressed="true" aria-label="Dark studio" title="Dark studio"><i class="dark-dot"></i></button><button data-theme="light" aria-pressed="false" aria-label="Light studio" title="Light studio"><i class="light-dot"></i></button></div></div>
+      <div class="views"><button data-view="front" aria-pressed="true">Front</button><button data-view="angle" aria-pressed="false">¾ view</button><button data-view="side" aria-pressed="false">Ring side</button><button data-view="back" aria-pressed="false">Back</button><button data-view="top" aria-pressed="false">Top</button><button data-view="base" aria-pressed="false">Base</button></div>
+      <button id="compare" aria-pressed="false">Compare original image</button>
+      <div class="theme-row"><span class="label">STUDIO BACKGROUND</span><div><button data-theme="dark" aria-pressed="false" aria-label="Dark studio" title="Dark studio"><i class="dark-dot"></i></button><button data-theme="light" aria-pressed="true" aria-label="Light studio" title="Light studio"><i class="light-dot"></i></button></div></div>
       <a class="download" href="models/pin-shot-vsl.glb" download>Download 3D bottle <span>↓</span></a>
       <details><summary>Original reference</summary><img class="reference" src="../img/vsl.jpg" alt="VSL bottle render used as the reference" loading="lazy"></details>
-      <p class="note">Reconstructed from the VSL concept render. Unseen surfaces are approximated. This is a visual concept, not an engineering model.</p>
+      <p class="note">Original image artwork mapped onto a full 3D shape. Depth and unseen surfaces are inferred; glass reflections come from the photograph.</p>
     </aside>
   </main>
   <footer><span>PULL · SWIRL · SIP</span><span>Product in development. 21+ only. Drink responsibly.</span></footer>

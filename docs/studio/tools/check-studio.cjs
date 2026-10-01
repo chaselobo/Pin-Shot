@@ -16,12 +16,17 @@ const url = process.env.STUDIO_URL || 'http://127.0.0.1:8140/studio/';
     await page.screenshot({path:'/private/tmp/pin-shot-studio-front.png'});
     const frame=async()=>{await page.waitForTimeout(350);return page.locator('canvas').evaluate(c=>c.toDataURL());};
     const front=await frame(),views=new Set([front]);
-    for(const name of ['side','back','top','base']) {
+    for(const name of ['angle','side','back','top','base']) {
       await page.locator(`[data-view="${name}"]`).click();views.add(await frame());
       assert.equal(await page.locator(`[data-view="${name}"]`).getAttribute('aria-pressed'),'true');
       await page.screenshot({path:`/private/tmp/pin-shot-studio-${name}.png`});
     }
-    assert.equal(views.size,5,'Five presets must render different surfaces');
+    assert.equal(views.size,6,'Six presets must render different surfaces');
+    await page.locator('#compare').click();
+    assert.equal(await page.locator('#source-view').isVisible(),true);
+    assert.equal(await page.locator('#compare').getAttribute('aria-pressed'),'true');
+    await page.locator('#compare').click();
+    assert.equal(await page.locator('#source-view').isVisible(),false);
     await page.locator('#reset').click();const reset=await frame();
     await page.locator('#zoom-in').click();assert.notEqual(await frame(),reset,'Zoom should change the rendered view');
     await page.locator('#reset').click();await frame();
@@ -45,13 +50,15 @@ const url = process.env.STUDIO_URL || 'http://127.0.0.1:8140/studio/';
     const glb=Buffer.from(base64,'base64');
     assert.equal(glb.toString('ascii',0,4),'glTF');assert.equal(glb.readUInt32LE(8),glb.length);
     const data=JSON.parse(glb.subarray(20,20+glb.readUInt32LE(12)).toString());
-    for(const name of ['Rounded clear glass bottle','Black printed front label','Copper pull ring','Smoky ribbed shot chamber','Lime pulp front'])assert.ok(data.nodes.some(n=>n.name===name),name);
-    assert.ok(data.images.length>=2&&data.images.every(i=>i.bufferView!==undefined),'GLB textures must be embedded');
+    for(const name of ['Original-image bottle surface','Exact source-image front','Original-image copper pull ring','Original-image cap','Photographed copper ring'])assert.ok(data.nodes.some(n=>n.name===name),name);
+    assert.ok(data.images.length===1&&data.images.every(i=>i.bufferView!==undefined),'The original photograph must be embedded');
+    assert.ok(data.materials.every(m=>m.extensions?.KHR_materials_unlit),'Lighting must not alter the photographed colors');
+    assert.deepEqual(await fs.readFile(path.resolve(__dirname,'../vsl-source.jpeg')),await fs.readFile(path.resolve(__dirname,'../../..','assets/pin-shot-vsl.jpeg')),'The source photograph must remain byte-identical');
     await fs.writeFile(path.resolve(__dirname,'../models/pin-shot-vsl.glb'),glb);
     assert.equal((await page.request.get(new URL('models/pin-shot-vsl.glb',url).href)).status(),200);
     await page.setViewportSize({width:390,height:844});await page.locator('[data-theme="dark"]').click();await page.locator('#reset').click();await frame();
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Mobile layout should not overflow');
     await page.screenshot({path:'/private/tmp/pin-shot-studio-mobile.png',fullPage:true});
-    assert.deepEqual(errors,[]);console.log(`PASS: drag, keyboard, 5 views, zoom, spin, light studio, mobile layout; GLB ${glb.length} bytes, ${data.meshes.length} meshes.`);
+    assert.deepEqual(errors,[]);console.log(`PASS: drag, keyboard, 6 views, source comparison, zoom, spin, backgrounds, mobile layout; GLB ${glb.length} bytes, ${data.meshes.length} meshes.`);
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

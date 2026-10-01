@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Export VSL model</title>
+<script type="importmap">{"imports":{"three":"../vendor/three.module.js"}}</script>
+<h1>Export the photo-textured VSL model</h1><p id="status">Ready.</p><button id="export">Export GLB</button>
+<script type="module">
+import {createBottle} from '../model.js';
+import {GLTFExporter} from '../vendor/GLTFExporter.js';
+document.querySelector('#export').onclick=async()=>{
+ const status=document.querySelector('#status');status.textContent='Exporting…';
+ try{
+ const {group}=await createBottle();
+ const data=await new GLTFExporter().parseAsync(group,{binary:true});
+ const url=URL.createObjectURL(new Blob([data],{type:'model/gltf-binary'}));
+ const a=document.createElement('a');a.href=url;a.download='pin-shot-vsl.glb';a.textContent='Download exported GLB';document.body.append(a);a.click();
+ status.textContent=`Exported ${data.byteLength} bytes with the original image embedded.`;
+ }catch(error){status.textContent=error.message;throw error;}
+};
+</script></html>

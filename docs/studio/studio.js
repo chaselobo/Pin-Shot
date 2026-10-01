@@ -1,77 +1,82 @@
 import * as THREE from 'three';
 import { OrbitControls } from './vendor/OrbitControls.js';
-import { createBottle } from './model.js';
+import { createBottle, SOURCE } from './model.js';
 
-const $=s=>document.querySelector(s), viewport=$('#viewport');
-const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(34,1,.05,60);
-let renderer,controls,model,frame,last=0;
+const $=s=>document.querySelector(s),viewport=$('#viewport');
+const scene=new THREE.Scene();
+const camera=new THREE.OrthographicCamera(-3,3,2.4,-2.4,.05,60);
+const target=new THREE.Vector3(0,(SOURCE.height-SOURCE.centerY)/SOURCE.scale,0);
+let renderer,controls,model,frame,last=0,comparing=false;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function fail(error) {
-  console.error(error); $('#loading').textContent='';$('#fallback').hidden=false;
-  viewport.hidden=true;
-  document.querySelectorAll('.views button,.zoom button,#spin,.theme-row button').forEach(b=>b.disabled=true);
+function fail(error){
+  console.error(error);$('#loading').textContent='';$('#fallback').hidden=false;viewport.hidden=true;
+  document.querySelectorAll('.views button,.zoom button,#spin,#compare,.theme-row button').forEach(b=>b.disabled=true);
+}
+function updateSourceSize(){
+  const pixelsPerUnit=viewport.clientHeight/(camera.top-camera.bottom)*camera.zoom;
+  $('#source-view img').style.width=`${SOURCE.width/SOURCE.scale*pixelsPerUnit}px`;
+  $('#source-view img').style.height=`${SOURCE.height/SOURCE.scale*pixelsPerUnit}px`;
+}
+function compare(enabled){
+  comparing=enabled;$('#source-view').hidden=!enabled;
+  $('#compare').setAttribute('aria-pressed',String(enabled));
+  $('#compare').textContent=enabled?'Return to 3D':'Compare original image';
+  $('#view-status').textContent=enabled?'ORIGINAL IMAGE':'IMAGE-BASED 3D';
+  if(controls)controls.enabled=!enabled;
+  updateSourceSize();
 }
 function stopSpin(){controls.autoRotate=false;$('#spin').setAttribute('aria-pressed','false');}
 function view(name){
-  stopSpin();controls.reset();controls.target.set(0,1.98,0);
-  const distance=innerWidth<681?8.65:9.0;
-  const positions={front:[0,2.64,distance],back:[0,2.64,-distance],side:[distance,2.85,.15],top:[0,1.98+distance,.001],base:[0,1.98-distance,.001]};
+  stopSpin();compare(false);controls.reset();controls.target.copy(target);camera.zoom=1;camera.updateProjectionMatrix();
+  const positions={front:[0,target.y,10],angle:[6.4,target.y+1.0,8],back:[0,target.y,-10],side:[10,target.y,0],top:[0,target.y+10,.001],base:[0,target.y-10,.001]};
   camera.position.set(...positions[name]);controls.update();
   document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));
+  updateSourceSize();
 }
 function zoom(factor){
-  const offset=camera.position.clone().sub(controls.target);
-  offset.setLength(THREE.MathUtils.clamp(offset.length()*factor,controls.minDistance,controls.maxDistance));
-  camera.position.copy(controls.target).add(offset);controls.update();
+  camera.zoom=THREE.MathUtils.clamp(camera.zoom/factor,controls.minZoom,controls.maxZoom);
+  camera.updateProjectionMatrix();updateSourceSize();controls.update();
 }
 try {
   renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
-  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
-  viewport.append(renderer.domElement);
+  // Image colors already include the source lighting; tone mapping would change them.
+  renderer.toneMapping=THREE.NoToneMapping;viewport.prepend(renderer.domElement);
   controls=new OrbitControls(camera,renderer.domElement);
   controls.enableDamping=true;controls.dampingFactor=.08;controls.enablePan=false;
-  controls.minDistance=4.4;controls.maxDistance=14;controls.minPolarAngle=.001;controls.maxPolarAngle=Math.PI-.001;controls.autoRotateSpeed=.55;
-  // A photographic light tent gives the glass and copper real reflections.
-  const envScene=new THREE.Scene();envScene.background=new THREE.Color(0x44443d);
-  const panel=(position,scale,intensity)=>{
-    const p=new THREE.Mesh(new THREE.PlaneGeometry(...scale),new THREE.MeshBasicMaterial({color:new THREE.Color(intensity,intensity,intensity),side:THREE.DoubleSide}));
-    p.position.set(...position);p.lookAt(0,2,0);envScene.add(p);
-  };
-  panel([-4,3,3],[2.3,6],5);panel([4,4,1],[1.6,6],3);panel([0,7,0],[4,4],3);panel([0,3,-5],[5,5],2);
-  const pmrem=new THREE.PMREMGenerator(renderer),environment=pmrem.fromScene(envScene,.06);scene.environment=environment.texture;pmrem.dispose();
-  envScene.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});
-  scene.add(new THREE.HemisphereLight(0xffffff,0x4f5334,2));
-  for(const [position,color,intensity] of [[[-3,6,5],0xffffff,3],[[4,4,-2],0xe9ffc0,2],[[0,2,6],0xffffff,1]]) {
-    const light=new THREE.DirectionalLight(color,intensity);light.position.set(...position);scene.add(light);
-  }
+  controls.minZoom=.6;controls.maxZoom=2.3;controls.minPolarAngle=.001;controls.maxPolarAngle=Math.PI-.001;controls.autoRotateSpeed=.55;
   view('front');
-  const resize=()=>{const rect=viewport.getBoundingClientRect();if(!rect.width||!rect.height)return;renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();};
+  const resize=()=>{
+    const {width,height}=viewport.getBoundingClientRect();if(!width||!height)return;
+    renderer.setSize(width,height,false);
+    const aspect=width/height,visibleHeight=Math.max(4.65,3.55/aspect);
+    camera.top=visibleHeight/2;camera.bottom=-visibleHeight/2;camera.left=-visibleHeight*aspect/2;camera.right=visibleHeight*aspect/2;
+    camera.updateProjectionMatrix();updateSourceSize();
+  };
   new ResizeObserver(resize).observe(viewport);resize();
-  controls.addEventListener('start',()=>{
-    stopSpin();document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));
-  });
+  controls.addEventListener('start',()=>{stopSpin();compare(false);document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));});
+  controls.addEventListener('change',updateSourceSize);
   document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>view(b.dataset.view)));
   $('#zoom-in').addEventListener('click',()=>zoom(.85));$('#zoom-out').addEventListener('click',()=>zoom(1.18));$('#reset').addEventListener('click',()=>view('front'));
-  $('#spin').addEventListener('click',()=>{controls.autoRotate=!controls.autoRotate;$('#spin').setAttribute('aria-pressed',String(controls.autoRotate));document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));});
+  $('#compare').addEventListener('click',()=>{if(comparing)compare(false);else{view('front');compare(true);}});
+  $('#spin').addEventListener('click',()=>{compare(false);controls.autoRotate=!controls.autoRotate;$('#spin').setAttribute('aria-pressed',String(controls.autoRotate));document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));});
   document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{
     $('.stage').classList.toggle('light',b.dataset.theme==='light');
     document.querySelectorAll('[data-theme]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   }));
   viewport.addEventListener('keydown',event=>{
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','Home'].includes(event.key))return;
-    event.preventDefault();stopSpin();
-    const spherical=new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
+    event.preventDefault();stopSpin();compare(false);
     if(event.key==='Home'){view('front');return;}
     if(['+','=','-'].includes(event.key)){zoom(event.key==='-'?1.12:.89);return;}
+    const spherical=new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
     spherical.theta+=event.key==='ArrowLeft'?.12:event.key==='ArrowRight'?-.12:0;
     spherical.phi=THREE.MathUtils.clamp(spherical.phi+(event.key==='ArrowUp'?-.12:event.key==='ArrowDown'?.12:0),.001,Math.PI-.001);
     camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(spherical));controls.update();
     document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed','false'));
   });
-  renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();cancelAnimationFrame(frame);fail(new Error('WebGL context lost'));});
+  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();cancelAnimationFrame(frame);fail(new Error('WebGL context lost'));});
   model=await createBottle();scene.add(model.group);viewport.dataset.ready='vsl';$('#loading').textContent='';
-  // Expose model creation through its module for reproducible GLB export.
   const animate=time=>{
     frame=requestAnimationFrame(animate);
     if(time-last<(reduced&&!controls.autoRotate?1000/30:1000/60))return;

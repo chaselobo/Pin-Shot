@@ -1,136 +1,114 @@
 import * as THREE from 'three';
 
-// Visual reconstruction of assets/pin-shot-vsl.jpeg. Units are illustrative.
-// Unseen surfaces are approximated; no manufacturing dimensions are implied.
-const physical = (options) => new THREE.MeshPhysicalMaterial(options);
-function mesh(group, name, geometry, material, position = [0, 0, 0]) {
-  const object = new THREE.Mesh(geometry, material);
-  object.name = name;
-  object.position.set(...position);
-  group.add(object);
-  return object;
+// Camera projection is defined in the original photograph's pixel coordinates.
+// The source JPEG is copied byte-for-byte; no label, fruit, glass or colors are redrawn.
+export const SOURCE = { width: 823, height: 1024, scale: 250, centerX: 411.5, centerY: 512 };
+const X = px => (px - SOURCE.centerX) / SOURCE.scale;
+const Y = py => (SOURCE.height - py) / SOURCE.scale;
+const uv = (px, py) => [px / SOURCE.width, 1 - py / SOURCE.height];
+
+// [image y, left silhouette, right silhouette], traced from the approved render.
+const bodyOutline = [
+  [355,271,551],[364,274,551],[377,277,552],[390,273,555],
+  [397,257,570],[407,240,586],[419,225,604],[433,210,619],
+  [451,194,635],[473,181,646],[498,170,654],[526,162,660],
+  [558,158,664],[600,157,665],[650,157,667],[700,157,667],
+  [751,157,666],[793,160,664],[824,165,660],[845,169,656],
+  [861,166,657],[875,171,654],[892,175,651],[910,180,646],
+  [927,186,639],[944,195,630],[959,206,619],[970,219,608],
+  [979,239,593],[985,263,574],[990,300,548],[994,352,498],
+  [996,401,444],[997,422,423]
+];
+const capOutline = [
+  [36,369,455],[38,338,488],[41,311,514],[45,289,536],
+  [50,276,549],[60,265,558],[75,262,561],[95,262,561],
+  [116,262,560],[134,260,560],[172,260,559],[222,260,559],
+  [269,260,558],[303,261,558],[316,263,557],[344,264,556],
+  [356,266,554],[364,272,549],[370,290,540]
+];
+function interpolate(outline, y) {
+  let i = 0;
+  while (i < outline.length - 2 && y > outline[i + 1][0]) i++;
+  const a = outline[i], b = outline[i + 1], t = THREE.MathUtils.clamp((y - a[0]) / (b[0] - a[0]), 0, 1);
+  return [THREE.MathUtils.lerp(a[1], b[1], t), THREE.MathUtils.lerp(a[2], b[2], t)];
 }
-function lathe(group, name, profile, material) {
-  return mesh(group, name, new THREE.LatheGeometry(profile.map(p => new THREE.Vector2(...p)), 96), material);
-}
-function band(group, name, radius, tube, y, material) {
-  const object = mesh(group, name, new THREE.TorusGeometry(radius, tube, 12, 96), material, [0, y, 0]);
-  object.rotation.x = Math.PI / 2;
-  return object;
-}
-function texture(canvas) {
-  const map = new THREE.CanvasTexture(canvas);
-  map.colorSpace = THREE.SRGBColorSpace;
-  map.anisotropy = 8;
-  return map;
-}
-function random(seed = 17) {
-  return () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296; };
-}
-function labelTexture() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 1024; canvas.height = 1536;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#080a05';
-  ctx.textAlign = 'center';
-  ctx.font = '50px Anton, Impact, sans-serif';
-  ctx.fillText('PULL · SWIRL · SIP', 512, 90);
-  ctx.save();
-  ctx.transform(1, -.095, 0, 1, 0, 50);
-  ctx.font = '590px Anton, Impact, sans-serif';
-  ctx.fillText('PIN', 512, 635, 960);
-  ctx.font = '530px Anton, Impact, sans-serif';
-  ctx.fillText('SHOT', 512, 1160, 980);
-  ctx.restore();
-  ctx.font = '180px Anton, Impact, sans-serif';
-  ctx.fillText('VSL', 512, 1375);
-  ctx.font = '46px Anton, Impact, sans-serif';
-  ctx.fillText('ALCOHOLIC COCKTAIL · 21+', 512, 1500);
-  return texture(canvas);
-}
-function limeTexture() {
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
-  const ctx = canvas.getContext('2d'), rnd = random(123);
-  const center = 256;
-  ctx.fillStyle = '#285919'; ctx.beginPath();ctx.arc(center,center,253,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle = '#a9be51'; ctx.beginPath();ctx.arc(center,center,240,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle = '#e9edb0'; ctx.beginPath();ctx.arc(center,center,228,0,Math.PI*2);ctx.fill();
-  for(let wedge = 0; wedge < 10; wedge++) {
-    const start = wedge * Math.PI / 5 + .02, end = (wedge + 1) * Math.PI / 5 - .025;
-    const gradient = ctx.createRadialGradient(256,256,10,256,256,223);
-    gradient.addColorStop(0,'#dae899');gradient.addColorStop(.35,'#c1d94c');gradient.addColorStop(1,'#80a127');
-    ctx.fillStyle = gradient;ctx.beginPath();ctx.moveTo(256+Math.cos(start)*15,256+Math.sin(start)*15);ctx.arc(256,256,222,start,end);ctx.closePath();ctx.fill();
-    for(let cell = 0; cell < 110; cell++) {
-      const angle=start+rnd()*(end-start),radius=25+rnd()*190;
-      ctx.save();ctx.translate(256+Math.cos(angle)*radius,256+Math.sin(angle)*radius);ctx.rotate(angle);
-      ctx.fillStyle = rnd()>.4?'#ecf3a54d':'#648b2538';ctx.beginPath();ctx.ellipse(0,0,3+rnd()*7,1+rnd()*3,0,0,Math.PI*2);ctx.fill();ctx.restore();
+function surface(name, outline, material, depthScale = 1) {
+  const group = new THREE.Group();group.name=name;
+  const rows=Math.ceil((outline.at(-1)[0]-outline[0][0])/3),segments=128;
+  const make = (part, start, finish, side=0) => {
+    const positions=[],uvs=[],indices=[],colors=[];
+    for(let row=0;row<=rows;row++) {
+      const y=THREE.MathUtils.lerp(outline[0][0],outline.at(-1)[0],row/rows);
+      const [left,right]=interpolate(outline,y),center=(left+right)/2,radius=(right-left)/2;
+      for(let col=0;col<=segments;col++) {
+        const theta=THREE.MathUtils.lerp(start,finish,col/segments),sine=Math.sin(theta),cosine=Math.cos(theta);
+        const px=center+radius*sine;
+        positions.push(X(px),Y(y),cosine*radius/SOURCE.scale*depthScale);
+        let sampleX=px;
+        if(side) {
+          const edgeBand=name==='Original-image bottle surface'?.71:.84;
+          sampleX=center+radius*side*(edgeBand+(1-edgeBand)*Math.abs(sine));
+        }
+        uvs.push(...uv(sampleX,y));
+        if(side===-1)colors.push(1,1,1,1-THREE.MathUtils.smoothstep(sine,-.32,.32));
+      }
     }
-  }
-  ctx.fillStyle='#edf0c0';ctx.beginPath();ctx.arc(256,256,16,0,Math.PI*2);ctx.fill();
-  return texture(canvas);
+    for(let row=0;row<rows;row++)for(let col=0;col<segments;col++) {
+      const a=row*(segments+1)+col,b=a+segments+1;indices.push(a,b,a+1,b,b+1,a+1);
+    }
+    const geometry=new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+    if(colors.length)geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,4));
+    geometry.setIndex(indices);geometry.computeVertexNormals();
+    let faceMaterial=material;
+    if(side===-1){faceMaterial=material.clone();faceMaterial.name='Blended original edge artwork';faceMaterial.transparent=true;faceMaterial.depthWrite=false;faceMaterial.vertexColors=true;faceMaterial.polygonOffset=true;faceMaterial.polygonOffsetFactor=-1;faceMaterial.polygonOffsetUnits=-1;}
+    const mesh=new THREE.Mesh(geometry,faceMaterial);mesh.name=part;group.add(mesh);
+  };
+  make('Exact source-image front',-Math.PI/2,Math.PI/2);
+  make('Inferred rear using right image edge',Math.PI/2,Math.PI*1.5,1);
+  make('Blended left image edge',Math.PI/2,Math.PI*1.5,-1);
+  group.userData={appearance:'Original pixels on the entire front hemisphere; original side artwork blended across the inferred rear.'};
+  return group;
 }
-function lime(group, name, position, rotation, scale, map) {
-  const slice = new THREE.Group(); slice.name = name; slice.position.set(...position);slice.rotation.set(...rotation);slice.scale.setScalar(scale);group.add(slice);
-  const skin = physical({color:0x416e18,roughness:.48,metalness:0,clearcoat:.35});
-  const rim = mesh(slice,'Textured lime rind',new THREE.CylinderGeometry(.39,.39,.072,64),skin);rim.rotation.x=Math.PI/2;
-  const flesh = new THREE.MeshStandardMaterial({map,roughness:.48,side:THREE.DoubleSide});
-  mesh(slice,'Lime pulp front',new THREE.CircleGeometry(.39,64),flesh,[0,0,.037]);
-  const back = mesh(slice,'Lime pulp back',new THREE.CircleGeometry(.39,64),flesh,[0,0,-.037]);back.rotation.y=Math.PI;
-  const rnd = random(32);
-  const pores=new THREE.InstancedMesh(new THREE.SphereGeometry(.006,4,3),skin,75);pores.name='Rind pores';slice.add(pores);
-  const pose=new THREE.Object3D();
-  for(let i=0;i<75;i++) {const a=rnd()*Math.PI*2;pose.position.set(.391*Math.cos(a),.391*Math.sin(a),(rnd()-.5)*.065);pose.updateMatrix();pores.setMatrixAt(i,pose.matrix);}
+function projectGeometry(geometry, position, name, material) {
+  geometry.translate(...position);
+  const positions = geometry.getAttribute('position'), uvs = [];
+  for (let i = 0; i < positions.count; i++) uvs.push(...uv(positions.getX(i) * SOURCE.scale + SOURCE.centerX, SOURCE.height - positions.getY(i) * SOURCE.scale));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  const object = new THREE.Mesh(geometry, material);object.name = name;return object;
+}
+function extrudedOutline(points, depth, z, name, material) {
+  const shape = new THREE.Shape(points.map(([x,y]) => new THREE.Vector2(X(x),Y(y))));
+  const geometry = new THREE.ExtrudeGeometry(shape, {depth,bevelEnabled:false,curveSegments:12,steps:1});
+  return projectGeometry(geometry,[0,0,z-depth/2],name,material);
 }
 export async function createBottle() {
-  // Load before rasterizing so the exported label matches the website typography.
-  await Promise.allSettled([document.fonts.load('100px Anton')]);
-  const group = new THREE.Group();group.name='Pin Shot VSL bottle';
-  group.userData={source:'assets/pin-shot-vsl.jpeg',note:'Visual concept reconstructed from a single front render. Back, top, base and internal geometry are approximations. Not an engineering model.'};
-  const glass = physical({color:0xd8eebb,roughness:.075,metalness:0,transparent:true,opacity:.14,depthWrite:false,side:THREE.DoubleSide,clearcoat:1,clearcoatRoughness:.06,envMapIntensity:1.4});
-  const edge = physical({color:0xdde7d2,roughness:.12,metalness:.08,transparent:true,opacity:.32,depthWrite:false,clearcoat:1});
-  lathe(group,'Rounded clear glass bottle',[[0,.03],[.73,.03],[.88,.055],[.96,.14],[1.0,.3],[1.015,.55],[1.015,1.86],[1.0,2.03],[.96,2.17],[.88,2.3],[.75,2.39],[.61,2.46],[.59,2.62],[.59,2.73],[.54,2.74],[.54,2.59],[.55,2.48],[.71,2.34],[.84,2.25],[.92,2.11],[.958,1.94],[.969,.4],[.94,.24],[.83,.17],[0,.17]],glass);
-  const fluid = physical({color:0xbdde50,roughness:.25,metalness:0,transparent:true,opacity:.73,depthWrite:false,clearcoat:.25,envMapIntensity:.3});
-  lathe(group,'Pale lime soda mixer',[[0,.18],[.8,.18],[.91,.24],[.962,.42],[.969,1.9],[.95,2.06],[.92,2.12],[0,2.12]],fluid);
-  band(group,'Liquid meniscus',.919,.012,2.12,edge);
-  for(const y of [.16,.24,.34,.46]) band(group,'Molded glass base rib',y<.3?.94:.99,.016,y,edge);
-  band(group,'Glass neck lip',.598,.026,2.58,edge);
-  band(group,'Shoulder seam',.607,.014,2.48,edge);
-  mesh(group,'Black printed front label',new THREE.CylinderGeometry(1.021,1.021,1.79,64,1,true,-.69,1.38),new THREE.MeshStandardMaterial({map:labelTexture(),transparent:true,alphaTest:.1,roughness:.7,metalness:0,side:THREE.FrontSide}),[0,1.29,0]);
-  const limeMap = limeTexture();
-  lime(group,'Left lime slice',[-.61,1.23,.23],[.05,.8,-.34],.99,limeMap);
-  lime(group,'Upper right lime slice',[.62,1.62,.23],[-.1,-.8,.36],.94,limeMap);
-  lime(group,'Lower right lime slice',[.64,.72,.29],[.14,-.7,-.18],.74,limeMap);
-  lime(group,'Rear lime slice',[-.24,1.23,-.59],[.12,Math.PI+.24,.25],.96,limeMap);
-  lime(group,'Rear lower lime slice',[.48,.52,-.46],[.1,Math.PI-.52,-.22],.7,limeMap);
-  const bubbleMat=physical({color:0xe7f7c9,roughness:.02,transparent:true,opacity:.42,metalness:.08,depthWrite:false,clearcoat:1});
-  const bubbleGeo=new THREE.SphereGeometry(1,10,8),rnd=random(91);
-  const bubbles=new THREE.InstancedMesh(bubbleGeo,bubbleMat,115);bubbles.name='Soda bubbles';group.add(bubbles);
-  const bubblePose=new THREE.Object3D();
-  for(let i=0;i<115;i++) {
-    const angle=rnd()*Math.PI*2,radius=.72+rnd()*.2,y=.3+rnd()*1.79;
-    bubblePose.position.set(Math.sin(angle)*radius,y,Math.cos(angle)*radius);bubblePose.scale.setScalar(.008+rnd()*.022);bubblePose.updateMatrix();bubbles.setMatrixAt(i,bubblePose.matrix);
-  }
-  const dark=physical({color:0x292d24,roughness:.28,metalness:.2,clearcoat:.6});
-  const smoke=physical({color:0x555c4a,roughness:.13,metalness:.12,transparent:true,opacity:.36,depthWrite:false,side:THREE.DoubleSide,clearcoat:1});
-  const cap = new THREE.Group();cap.name='Smoky ribbed shot chamber';group.add(cap);
-  lathe(cap,'Transparent chamber shell',[[.57,2.69],[.615,2.73],[.63,2.79],[.63,3.61],[.61,3.7],[.56,3.74],[0,3.74],[0,3.69],[.55,3.69],[.575,3.6],[.575,2.78],[.57,2.69]],smoke);
-  mesh(cap,'Lower locking collar',new THREE.CylinderGeometry(.635,.615,.17,96),dark,[0,2.72,0]);
-  band(cap,'Lower chamber bead',.617,.019,2.84,dark);
-  const shotMat=physical({color:0xf0f1e6,roughness:.11,transparent:true,opacity:.32,depthWrite:false,clearcoat:.9});
-  lathe(cap,'Sealed shot reservoir',[[0,2.87],[.31,2.87],[.45,2.95],[.51,3.07],[.52,3.48],[0,3.48]],shotMat);
-  band(cap,'Shot fill surface',.51,.012,3.48,edge);
-  const ribGeo=new THREE.CapsuleGeometry(.011,.58,3,6);
-  for(let i=0;i<38;i++) {const a=i*Math.PI*2/38;mesh(cap,'Vertical chamber grip rib',ribGeo,smoke,[.633*Math.sin(a),3.19,.633*Math.cos(a)]);}
-  lathe(cap,'Rounded smoky lid',[[0,3.65],[.61,3.65],[.64,3.72],[.64,3.84],[.62,3.9],[.57,3.94],[0,3.94]],smoke);
-  band(cap,'Lid perimeter seam',.625,.018,3.72,dark);
-  band(cap,'Lid rim highlight',.577,.012,3.931,edge);
-  mesh(cap,'Pull-pin retaining spine',new THREE.BoxGeometry(.105,1.08,.16),dark,[.655,3.19,0]);
-  mesh(cap,'Latch hinge',new THREE.SphereGeometry(.081,16,12),dark,[.654,2.67,0]);
-  const hinge=mesh(cap,'Upper lid hinge',new THREE.CylinderGeometry(.066,.066,.15,20),dark,[-.633,3.62,0]);hinge.rotation.x=Math.PI/2;
-  const copper=physical({color:0xd0703a,roughness:.25,metalness:.83,clearcoat:.25});
-  const pin = new THREE.Group();pin.name='Copper pull ring';group.add(pin);
-  const stem=mesh(pin,'Copper pin stem',new THREE.CylinderGeometry(.047,.047,.23,24),copper,[.759,2.83,0]);stem.rotation.z=Math.PI/2;
-  mesh(pin,'Copper ring',new THREE.TorusGeometry(.272,.041,16,96),copper,[1.12,2.83,0]);
-  group.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
+  const map = await new THREE.TextureLoader().loadAsync(new URL('./vsl-source.jpeg',import.meta.url).href);
+  map.colorSpace=THREE.SRGBColorSpace;map.anisotropy=16;
+  const material=new THREE.MeshBasicMaterial({map,side:THREE.DoubleSide,toneMapped:false});
+  material.name='Unchanged original VSL photograph';
+  const group=new THREE.Group();group.name='VSL photo-textured 3D reconstruction';
+  group.userData={source:'assets/pin-shot-vsl.jpeg',method:'Full-volume mesh with original-image projection. Label, lime artwork, liquid and glass appearance are source-image pixels, not redraws.',limitation:'Depth and hidden surfaces are inferred from one front image. Reflections and transparency are baked into the photograph. Not a scan or engineering model.'};
+  group.add(surface('Original-image bottle surface',bodyOutline,material));
+  const cap=new THREE.Group();cap.name='Original-image cap';
+  cap.add(surface('Smoky cap and shot chamber',capOutline,material));
+  group.add(cap);
+  // The hinge and right latch are real extruded solids with their photographed faces.
+  cap.add(extrudedOutline([[266,96],[253,98],[246,105],[243,116],[247,127],[256,132],[268,130]],.12,.03,'Lid hinge',material));
+  cap.add(extrudedOutline([[557,89],[575,92],[586,100],[591,111],[592,293],[590,305],[579,309],[569,302],[567,129],[558,128]],.13,.055,'Rear latch rail',material));
+  cap.add(extrudedOutline([[556,126],[568,127],[574,136],[575,345],[579,351],[589,355],[596,365],[596,373],[591,382],[582,387],[567,387],[558,381],[552,368],[553,351]],.15,.15,'Pull-pin latch',material));
+  const pin=new THREE.Group();pin.name='Original-image copper pull ring';
+  group.add(pin);
+  const stemGeometry=new THREE.CylinderGeometry(.046,.046,.138,32);stemGeometry.rotateZ(Math.PI/2);
+  pin.add(projectGeometry(stemGeometry,[X(592),Y(332),.085],'Copper stem',material));
+  const ringGeometry=new THREE.TorusGeometry(65/250,10.5/250,24,144);
+  ringGeometry.scale(1,1.005,1);
+  pin.add(projectGeometry(ringGeometry,[X(675.5),Y(332.5),.085],'Photographed copper ring',material));
+  // Close the inferred ends so rotation exposes a complete solid, never a flat billboard.
+  const top=new THREE.CircleGeometry(43/250,96);top.rotateX(-Math.PI/2);
+  cap.add(projectGeometry(top,[X(412),Y(36),0],'Closed lid crown',material));
+  const base=new THREE.CircleGeometry(.045,48);base.rotateX(Math.PI/2);
+  group.add(projectGeometry(base,[X(423),Y(997),0],'Closed bottle base',material));
   return {group,cap,pin};
 }
