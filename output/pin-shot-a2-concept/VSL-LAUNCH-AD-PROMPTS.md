@@ -1,6 +1,8 @@
 # PIN SHOT: VSL launch ad prompts
 
-Upload `approved-vsl-filled-mockup.jpg` (or `assets/pin-shot-vsl.jpeg`) with each prompt. The pin is the star: the copper-orange ring gets **ripped** out hard and fast, and that moment kicks off the party.
+Upload `approved-vsl-filled-mockup.jpg` (or `assets/pin-shot-vsl.jpeg`) with each prompt. The pin is the star: a finger hooks the copper-orange ring and **rips** it out hard and fast, and you see the stem and flat paddle slide out of the cap. That moment kicks off the party.
+
+The bottle is small and single-serve. Every prompt says it fits in the palm of one hand so the image tool doesn't blow it up to full-bottle size.
 
 Catchphrase: **PULL, MIX, SHOOT!** Each word lands on its action:
 - **PULL!** The ring rips out and the beat drops.
@@ -13,43 +15,51 @@ The look is After Dark: back-bar black, a lime-green glow from the drink and a w
 ```text
 Keep the bottle design identical to the uploaded image: same squat clear bottle, grip ribs, label text and layout, lime artwork, pale lime liquid, smoked grey cap, ribbed window, lid, small hinge on the left, black latch tab on the right, and the copper-orange ring on a short straight stem.
 
+SIZE: the bottle is SMALL, a single-serve shot-sized drink. It sits in the palm of one adult hand with the fingers wrapped all the way around the body, and the cap pokes up just above the thumb and index finger. The copper-orange ring is just big enough for one fingertip. Show this scale in every shot: the bottle never looks bigger than the hand holding it.
+
+THE PIN: the copper-orange ring, its short straight stem and a thin flat copper-orange paddle (about the size of a postage stamp) are one solid piece. The stem goes in through the bottom of the black latch tab, and the paddle sits hidden inside the dark lower band of the cap, blocking the shot. Pulling the ring straight out to the right slides the stem out of the latch tab and drags the flat paddle out through a narrow slit in the side of the cap. As soon as the paddle clears, the shot drops. Once the pin is all the way out, the latch tab is free and the lid can flip open.
+
 High-energy party commercial for PIN SHOT VSL. A dark, stylish rooftop party at night with neon lime-green and copper-orange lights, haze and confetti, and a crowd of adults in their late twenties and thirties dressed for a night out. Loud, upbeat house party music at 124 BPM with a heavy bass drop. Fast cuts timed to the beat.
 
-0–2 s, PULL: Tight close-up of the VSL bottle held up in one hand. A finger hooks the copper-orange ring and RIPS it out sideways in one sharp, explosive yank. The ring and its short straight stem fly off spinning through the air, catching the light, in slow motion for a split second. The bass drops at the exact moment the pin comes free, with a burst of confetti and a flash of copper light. The crowd shouts "PULL!" on the drop.
+0–3 s, PULL: Close-up from the right side of the cap. One hand holds the small bottle in its palm. The index finger of the other hand hooks through the copper-orange ring, and the music builds. Then the finger RIPS the ring straight out to the right in one hard, explosive yank. Show the whole pull clearly in slow motion: the stem slides out of the black latch tab, then the flat orange paddle shoots out of the slit in the side of the cap, trailing a few droplets. The moment the paddle clears the cap, the bass drops, confetti bursts and the crowd shouts "PULL!". The finger is left holding the whole pin up in the air like a trophy: ring, stem and paddle in one piece. At the same instant, through the smoked cap, the clear vodka shot drops down into the pale lime drink with a burst of bubbles.
 
-2–4 s, MIX: Inside the smoked grey cap, the clear vodka shot plunges down in a stream into the pale lime drink and explodes into a swirl of bubbles. The hand gives the bottle two quick, confident swirls in time with the beat. The crowd shouts "MIX!" on the swirl.
+3–5 s, MIX: The hand gives the small bottle two quick, confident swirls in time with the beat, and the shot clouds and swirls through the lime drink. The crowd shouts "MIX!" on the swirl.
 
-4–6 s, SHOOT: The lid flips up and back on its hinge. Four friends raise their open PIN SHOT bottles together and clink them in the center of the frame, then each takes a drink, laughing. The crowd shouts "SHOOT!" on the clink, and the lights pulse.
+5–7 s, SHOOT: With the pin gone, the lid flips up and back on its hinge. Four friends, each holding their own small open PIN SHOT bottle in one hand, raise them together and clink them in the center of the frame, then each takes a drink, laughing. The crowd shouts "SHOOT!" on the clink, and the lights pulse.
 
-6–8 s: The music hits its peak. The ripped-out copper-orange ring lands on a glossy black bar top next to a sealed VSL bottle, spinning to a stop under a copper spotlight. The party glows behind it, out of focus.
+7–8 s: The ripped-out pin (ring, stem and paddle) is tossed onto a glossy black bar top next to a sealed small VSL bottle and spins to a stop under a copper spotlight. The party glows behind it, out of focus.
 
-Cinematic commercial look, sharp focus on the ring and the bottle, lime-green and copper color grade, high-speed slow-motion on the pin rip. Vertical 9:16. No on-screen text.
+Cinematic commercial look, sharp focus on the pin and the cap during the pull, lime-green and copper color grade, high-speed slow motion on the rip. Vertical 9:16. No on-screen text.
 ```
 
 Add text afterwards in CapCut, Canva or Premiere, timed to each shout:
-- 0–2 s: **PULL!**
-- 2–4 s: **MIX!**
-- 4–6 s: **SHOOT!**
-- 6–8 s: **PIN SHOT VSL. COMING SOON.** Then underneath, "Join the waitlist" and "21+ only. Please drink responsibly."
+- 0–3 s: **PULL!** (appears as the paddle clears the cap)
+- 3–5 s: **MIX!**
+- 5–7 s: **SHOOT!**
+- 7–8 s: **PIN SHOT VSL. COMING SOON.** Then underneath, "Join the waitlist" and "21+ only. Please drink responsibly."
 
-If the tool can only make shorter clips, generate the three beats separately (PULL, MIX, SHOOT) with the same scene description and edit them together on the beat.
+If the tool can only make shorter clips, generate the three beats separately (PULL, MIX, SHOOT), pasting the SIZE and THE PIN paragraphs into each one, and edit them together on the beat. Give PULL its own clip if you can. It is the money shot.
+
+If the bottle still comes out too big, add: "the bottle is about the size of a computer mouse".
 
 ## 2. Still hero: The Rip (poster and social image)
 ```text
 Keep the bottle design identical to the uploaded image: same squat clear bottle, grip ribs, label text and layout (PULL · SWIRL · SIP, PIN SHOT, VSL, ALCOHOLIC COCKTAIL · 21+), lime artwork, pale lime liquid, smoked grey cap, ribbed window, lid, small hinge on the left, black latch tab on the right, and the copper-orange ring.
 
-Explosive party ad photo, frozen at the instant the pin is ripped out. The VSL bottle is held up in front of a blurred night party with neon lime-green and copper-orange lights, haze and falling confetti. An adult hand, no face, has just yanked the copper-orange ring out sideways with force. The ring and its short straight stem are flying away through the air, spinning, with a motion trail and a spark of copper light. Inside the smoked grey cap, the clear vodka is plunging down into the pale lime drink in a burst of bubbles and spray.
+The bottle is SMALL and shot-sized: it sits in the palm of one adult hand with the fingers wrapped all the way around it, and the cap pokes up just above the thumb.
 
-High-speed flash photography, everything frozen mid-action, sharpest focus on the flying ring and the cap. Vertical 4:5 format with space across the top for a headline. No other text, no logos besides the label.
+Explosive party ad photo, frozen mid-pull. The small VSL bottle is held up in one hand in front of a blurred night party with neon lime-green and copper-orange lights, haze and falling confetti. The index finger of the other hand is hooked through the copper-orange ring and ripping it straight out to the right with force. The pin is caught halfway out: the short straight stem has slid out of the bottom of the black latch tab, and the thin flat copper-orange paddle on the end of the stem (about the size of a postage stamp) is sliding out of a narrow slit in the side of the cap, flicking off a few droplets. Through the smoked grey cap, the clear vodka has just started dropping into the pale lime drink in a burst of bubbles.
+
+High-speed flash photography, everything frozen mid-action, sharpest focus on the finger, the ring and the paddle coming out of the cap. Vertical 4:5 format with space across the top for a headline. No other text, no logos besides the label.
 ```
 
 Headline for the still, in Anton, white and all caps: **PULL, MIX, SHOOT!**
 
-## 3. The Drop (close-up of the shot falling)
+## 3. The Drop (close-up of the pin clearing the cap)
 ```text
 Keep the bottle design identical to the uploaded image: same squat clear bottle, grip ribs, label text and layout, lime artwork, pale lime liquid, smoked grey cap, ribbed window, lid, small hinge on the left, and black latch tab on the right.
 
-Macro close-up of the top half of the VSL bottle against a dark party background with blurred neon lime-green and copper lights, a split second after the pin is ripped out. The copper-orange ring and its short straight stem are flying off to the right, spinning, with a motion trail. The lid is still closed. Inside the smoked grey cap, the clear vodka blasts down from a small round opening at the bottom of the inner cup in a glassy stream, crashing into the pale lime drink with an explosion of bubbles. Frozen high-speed photography. Vertical 4:5 format.
+Macro close-up of the cap of the small VSL bottle against a dark party background with blurred neon lime-green and copper lights. An adult index finger is hooked through the copper-orange ring and has just yanked it out to the right. The short straight stem is out of the black latch tab, and the thin flat copper-orange paddle on its end is clearing the narrow slit in the side of the cap. The lid is still closed. Inside the smoked grey cap, the clear vodka blasts down from a small round opening at the bottom of the inner cup in a glassy stream, crashing into the pale lime drink with an explosion of bubbles. Frozen high-speed photography. Vertical 4:5 format.
 ```
 
 ## Notes
