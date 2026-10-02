@@ -17,6 +17,7 @@ A loose prompt for Higgsfield. It sets the story, the bottle and the pin, and le
 **Fixes after the first Higgsfield run:**
 - The pull invented a second pin instead of pulling the ring that's on the bottle. The prompt now says the ring already sticking out of the cap is the pin, it's the only pin, and the same ring is what comes out.
 - The lid came off with the shot cup still attached. Now only the small top lid flips back on its hinge. The shot cup and the rest of the cap stay on the bottle, and the shot cuts away as soon as the lid pops.
+- In the group shot, people drank without pulling their pins. The group pull is now its own shot: everyone holds up sealed bottles with rings showing, all rip their pins together and raise them, the lids pop, and only then do they drink.
 - The last drinking shot was a sip. It's now a real chug for about two seconds, then a hard cut to the end card.
 
 ## Prompt
@@ -30,7 +31,7 @@ THE PIN: The copper-orange ring already on the bottle is the pin. It is the only
 
 SETTING AND PEOPLE: The uploaded house party room at night, full of friends. Everyone is a grown adult in their late twenties or older. Character 1 and Character 2 are the people in the uploaded photos; keep their faces recognizable.
 
-STORY: Character 1 reaches into an ice-filled cooler and pulls out a PIN SHOT, ice water dripping off it. Close on the cap: he hooks a finger through the copper-orange ring and rips the pin out hard and fast, the shot drops into the drink, and the lid snaps open. Cut right as the lid pops. Next shot: he raises the bottle and drinks, and his friends, led by Character 2, notice and light up. They crowd the cooler and grab their own PIN SHOTs, then gather together and rip their pins out at the same time, each one the ring already on their bottle, lids snapping open down the line. They clink bottles, tip their heads all the way back with the bottles upside down, and chug hard for about two seconds, a real chug, not a sip. Hard cut straight from the chug to the ending.
+STORY: Character 1 reaches into an ice-filled cooler and pulls out a PIN SHOT, ice water dripping off it. Close on the cap: he hooks a finger through the copper-orange ring and rips the pin out hard and fast, the shot drops into the drink, and the lid snaps open. Cut right as the lid pops. Next shot: he raises the bottle and drinks, and his friends, led by Character 2, notice and light up. They crowd the cooler and grab their own PIN SHOTs, each one still sealed with its copper-orange ring on. Group shot: they gather shoulder to shoulder and hold their sealed bottles up together, every ring clearly visible. Every person hooks a finger through their own ring and they all rip their pins out at the same moment, each one pulling the ring already on their bottle. The pulled pins go up in the air in their fists, the shots drop, and every lid snaps open down the line. Nobody drinks until their pin is out and their lid is open. Then they clink bottles, tip their heads all the way back with the bottles upside down, and chug hard for about two seconds, a real chug, not a sip. Hard cut straight from the chug to the ending.
 
 ENDING: A clean dark end card with "PIN SHOT" in big bold letters and "PULL, MIX, SHOOT" underneath.
 
@@ -44,4 +45,5 @@ You choose the camera angles, cuts and moments of slow motion. Make it feel like
 - **Bottle drifts** (label changes, ring turns gold, the cap looks different): add "The bottle never changes; it matches the uploaded product sheet exactly."
 - **The crowd looks young:** add "everyone visibly in their late twenties and thirties".
 - **They sip instead of chugging:** add "heads tipped all the way back, bottles upside down, chugging the whole thing in one go".
-- **Too much happens and it feels rushed:** cut "lids snapping open down the line" and let the group pull just happen.
+- **The group still drinks without pulling:** add "Every bottle in the group starts sealed with its orange ring on, and every ring gets pulled out on camera before anyone drinks."
+- **Too much happens and it feels rushed:** cut the line about Character 1 drinking before the friends notice, so there's more room for the group pull.
