@@ -3,7 +3,7 @@
 Six clips to make one at a time and stitch together, about 28 seconds total. Each prompt stands alone, so paste the whole block every time.
 
 **Before you start:**
-- Pick **one aspect ratio** (9:16 for TikTok/Reels) and use it for every clip, or they won't line up when you stitch them.
+- Every prompt now starts with a FORMAT line asking for a vertical 9:16 TikTok / Instagram Reels ad. Also set the generator's own aspect-ratio setting to **9:16** for every clip, since some tools ignore the prompt and use the setting.
 - Upload the chocolate bottle image with every scene. For the end card, upload `assets/logo/pin-shot-logo-white.png` (the white logo, made for dark backgrounds) and the glowing pin image (`assets/ChatGPT Image Oct 1, 2026, 10_08_35 PM.png`).
 - These prompts assume a creamy milk-chocolate drink with a clear shot in the cap, in the same bottle and cap as VSL. If your chocolate render looks different, the "match the uploaded image" line wins.
 
@@ -21,6 +21,8 @@ Six clips to make one at a time and stitch together, about 28 seconds total. Eac
 ## 1. The Tease
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 PRODUCT: Match the uploaded chocolate PIN SHOT bottle exactly: a clear, squat bottle about the size of a smartphone with grip ribs around the base, full of a rich, creamy, opaque milk-chocolate drink; the label from the uploaded image with huge black stacked "PIN SHOT"; a smoked grey cap with a small rounded flip lid on top, a ribbed see-through window showing a clear shot cup inside, and a dark band at the bottom; a black latch tab down the right side of the cap; and one copper-orange finger ring sticking out to the right from the bottom of that tab. The bottle never changes.
 
 STYLE: Premium dessert commercial at night. Back-bar black background, warm chocolate-brown and copper-orange glow, glossy highlights, shallow depth of field. Slow, smooth, continuous camera motion. No people, no on-screen text.
@@ -31,6 +33,8 @@ SCENE: Total darkness, then a warm glow rises from below. Thick ribbons of liqui
 ## 2. The Craving
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 PRODUCT: Match the uploaded chocolate PIN SHOT bottle exactly: a clear, squat bottle about the size of a smartphone with grip ribs around the base, full of a rich, creamy, opaque milk-chocolate drink; the label from the uploaded image with huge black stacked "PIN SHOT"; a smoked grey cap with a small rounded flip lid on top, a ribbed see-through window showing a clear shot cup inside, and a dark band at the bottom; a black latch tab down the right side of the cap; and one copper-orange finger ring sticking out to the right from the bottom of that tab. The bottle never changes.
 
 STYLE: Premium dessert commercial at night. Back-bar black background, warm chocolate-brown and copper-orange glow, glossy highlights, shallow depth of field. No people, no on-screen text.
@@ -41,6 +45,8 @@ SCENE: A fast run of extreme macro shots in slow motion, like a high-end chocola
 ## 3. The Pull (hero shot)
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 PRODUCT: Match the uploaded chocolate PIN SHOT bottle exactly: a clear, squat bottle about the size of a smartphone with grip ribs around the base, full of a rich, creamy, opaque milk-chocolate drink; the label from the uploaded image with huge black stacked "PIN SHOT"; a smoked grey cap with a small rounded flip lid on top, a ribbed see-through window showing a clear shot cup of clear spirit inside, and a dark band at the bottom; a black latch tab down the right side of the cap; and one copper-orange finger ring sticking out to the right from the bottom of that tab. The bottle never changes.
 
 THE PIN: The copper-orange ring already on the bottle is the pin. It is the only pin; no new pin ever appears. Its long, straight copper-orange stem is hidden inside the cap. To open, a finger hooks that ring and yanks it sideways, straight out to the right, level with the cap, never upward. The stem slides out of the side of the cap and the whole pin comes free in one piece.
@@ -55,6 +61,8 @@ SCENE: Tight close-up on the cap. One adult hand is wrapped around the bottle bo
 ## 4. After Dinner
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 PRODUCT: Match the uploaded chocolate PIN SHOT bottle exactly: a clear, squat bottle about the size of a smartphone with grip ribs around the base, full of a rich, creamy, opaque milk-chocolate drink; the label from the uploaded image with huge black stacked "PIN SHOT"; a smoked grey cap with a small rounded flip lid on top, a ribbed see-through window showing a clear shot cup inside, and a dark band at the bottom; a black latch tab down the right side of the cap; and one copper-orange finger ring sticking out to the right from the bottom of that tab. Everyone holds the bottle by its body, never by the ring or cap. The cap never comes off the bottle; only the copper-orange pin slides out sideways and the small lid flips open.
 
 PEOPLE: Grown adults in their late twenties and thirties, dressed for a nice dinner. If character photos are uploaded, keep their faces recognizable.
@@ -69,6 +77,8 @@ SCENE: A stylish apartment dinner party at night, candles on the table, empty pl
 Also upload `assets/pin-shot-group-lineup.jpeg` for this one.
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 PRODUCT: Match the uploaded chocolate PIN SHOT bottle exactly: a clear, squat bottle with grip ribs around the base, full of a rich, creamy, opaque milk-chocolate drink; the label from the uploaded image with huge black stacked "PIN SHOT"; a smoked grey cap with a ribbed see-through window, a black latch tab down the right side, and one copper-orange finger ring sticking out to the right. The other bottles match the uploaded lineup image.
 
 STYLE: Premium launch reveal on a dark back bar, each bottle glowing softly in its own flavor color. Smooth camera motion, no people, no on-screen text.
@@ -79,6 +89,8 @@ SCENE: A row of PIN SHOT bottles stands on a glossy black back bar, each glowing
 ## 6. End Card
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 STYLE: Clean, premium end card. Pure back-bar black background with a soft warm chocolate-brown glow in the center. Minimal and still except for the moves described.
 
 SCENE: The uploaded glowing copper-orange pin slides in from the right across the black background, ring first, leaving a soft copper-orange light trail, and stops just below center. Above it, the uploaded white "PIN SHOT" logo fades up, matching the uploaded logo exactly: two stacked words in heavy, slightly slanted block letters. Under the logo, in clean bold white capital letters, the words "HIGH PROTEIN DESSERT" fade in. Below that, a little smaller, "JOIN THE WAITLIST" fades in with a soft copper-orange glow. Hold for one second.
@@ -89,6 +101,8 @@ TEXT: Spell every word exactly: "PIN SHOT", "HIGH PROTEIN DESSERT", "JOIN THE WA
 **If the words come out misspelled** (video models often garble text): run this version with no words, then add the text in CapCut or Canva. Fonts: Anton for HIGH PROTEIN DESSERT, Manrope for JOIN THE WAITLIST. Put "21+ only. Please drink responsibly." in small text at the bottom, and add the waitlist link if you want: chaselobo.github.io/Pin-Shot/waitlist
 
 ```text
+FORMAT: Vertical 9:16 video (1080x1920) for a TikTok and Instagram Reels ad. Frame everything for a phone screen held upright: keep the bottle, hands and key action in the middle of the frame, away from the top and bottom edges and the right side, where the app's captions and buttons cover the video.
+
 STYLE: Clean, premium end card. Pure back-bar black background with a soft warm chocolate-brown glow in the center.
 
 SCENE: The uploaded glowing copper-orange pin slides in from the right across the black background, ring first, leaving a soft copper-orange light trail, and settles just below center. The upper half of the frame stays empty black for a logo to be added later. No text or letters anywhere.
