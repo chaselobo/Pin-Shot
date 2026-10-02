@@ -3,294 +3,280 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Pin Shot: a real shot sealed in the cap. One pull drops it into the mix and pops the lid. 21+.">
-<meta name="theme-color" content="#0c0a0f">
+<meta name="description" content="Pin Shot: a real shot sealed in the cap. Singles, six-packs, twelves and cases, from $2.71 a bottle. Store preview, prices are mockups. 21+.">
+<meta name="theme-color" content="#1c100a">
 <title>Pin Shot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap">
 <style>
-/* Layout: After Dark. Back-bar black page; bar-photo hero; drag-the-ring mechanism demo; glowing flavor lineup; gallery; FAQ. Deliberately single dark theme. */
+/* Layout: the waitlist bar, turned into a back-bar shop. Hero counter with bottles, pack-size picker, flavor shelf cards, mix-your-own case builder, slide-in cart. */
+@property --fc{syntax:"<color>";inherits:true;initial-value:#c6ef3a}
 :root{
-  --night:#0c0a0f; --surface:#15121a; --raise:#1d1922; --line:rgba(255,255,255,.09);
-  --text:#f3f1f5; --soft:rgba(243,241,245,.7); --faint:rgba(243,241,245,.45);
-  --lime:#c6ef3a; --cherry:#ff4f7b; --ember:#ff8a3d; --copper:#d0703a;
+  --wall:#160d09; --wood:#3a2215; --wood-dark:#1a0e07; --rim:#9a6238; --card:rgba(255,236,220,.045); --line:rgba(245,239,233,.11);
+  --text:#f5efe9; --soft:rgba(245,239,233,.72); --faint:rgba(245,239,233,.45);
+  --lime:#c6ef3a; --copper:#d0703a;
   --display:"Anton", Impact, "Arial Narrow", sans-serif;
   --body:"Manrope", "Helvetica Neue", Arial, sans-serif;
   color-scheme:dark;
 }
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--night);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55}
-a{color:inherit}
+*{box-sizing:border-box}
+html{background:#1c100a;scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(120vw 600px at 50% -100px,#2b170d,transparent 70%),linear-gradient(180deg,#1c100a 0,var(--wall) 600px,#0f0805 100%)}
+body.locked{overflow:hidden}
 img{max-width:100%}
-h1,h2,h3{margin:0;text-wrap:balance}
-p{margin:0}
-.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
-.eyebrow{font-weight:800;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime)}
-.h2{font-family:var(--display);font-weight:400;font-size:clamp(44px,7vw,92px);line-height:.92;text-transform:uppercase}
-.h2 em{font-style:normal;background:linear-gradient(90deg,var(--lime),var(--cherry) 60%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:20px}
+.eyebrow{font-weight:800;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--lime)}
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,76px);line-height:.92;text-transform:uppercase}
+.h2 em{font-style:normal;color:var(--lime)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 
-/* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(12,10,15,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
-.logo{font-family:var(--display);font-size:24px;letter-spacing:.02em;text-decoration:none}
+/* ribbon + nav */
+.ribbon{background:var(--copper);color:#140a06;text-align:center;font-weight:800;font-size:13px;padding:8px 16px;padding-top:calc(env(safe-area-inset-top,0px) + 8px)}
+.ribbon a{text-decoration:underline;text-underline-offset:2px}
+.nav{position:sticky;top:0;z-index:30;background:rgba(22,13,9,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.logo img{display:block;height:46px;width:auto}
 .nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-weight:600;font-size:14px;color:var(--soft)}
-.nav ul a{text-decoration:none}
-.nav ul a:hover{color:var(--text)}
-.age{font-weight:800;font-size:12px;letter-spacing:.1em;border:1.5px solid var(--soft);border-radius:999px;padding:3px 10px;color:var(--soft)}
-@media (max-width:760px){.nav ul{display:none}}
+.nav ul a{text-decoration:none}.nav ul a:hover,.nav ul a[aria-current]{color:var(--text)}
+.cartbtn{display:inline-flex;align-items:center;gap:10px;background:rgba(245,239,233,.08);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px 8px 12px;cursor:pointer;font-weight:800;font-size:14px}
+.cartbtn:hover{border-color:var(--lime)}
+.cartbtn svg{width:20px;height:20px}
+.count{min-width:22px;height:22px;border-radius:11px;background:var(--lime);color:#140a06;font-size:12px;display:grid;place-items:center;padding:0 6px;transition:transform .2s}
+.count.bump{transform:scale(1.35)}
+@media (max-width:760px){.nav ul{display:none}.logo img{height:38px}}
 
 /* hero */
-.hero{position:relative;isolation:isolate;overflow:hidden;border-bottom:1px solid var(--line)}
-.hero .bg{position:absolute;inset:0;z-index:-1;background:url(img/group-bar.jpg) right 35%/auto 118% no-repeat}
-.hero .bg::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(90deg,var(--night) 34%,rgba(12,10,15,.6) 56%,rgba(12,10,15,.05) 100%),
-  linear-gradient(0deg,var(--night) 0%,rgba(12,10,15,0) 30%),
-  radial-gradient(700px 360px at 12% 110%,rgba(255,79,123,.32),transparent 70%),
-  radial-gradient(520px 300px at 0% 0%,rgba(198,239,58,.16),transparent 70%)}
-.hero .wrap{padding-block:clamp(64px,10vw,130px) 48px}
-.hero .copy{max-width:640px}
-.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(56px,9.4vw,128px);line-height:.88;text-transform:uppercase;margin:18px 0 24px}
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--lime),var(--cherry) 55%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{font-size:clamp(17px,1.6vw,20px);color:var(--soft);max-width:34ch}
-.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:14px 26px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
-.btn.main{background:var(--lime);color:var(--night);box-shadow:0 0 0 0 rgba(198,239,58,.0)}
-.btn.main:hover{transform:translateY(-1px);box-shadow:0 10px 40px -10px rgba(198,239,58,.7)}
-.btn.ghost{border:1.5px solid rgba(243,241,245,.35);color:var(--text)}
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .bokeh{position:absolute;inset:0;pointer-events:none}
+.hero .bokeh i{position:absolute;border-radius:50%;filter:blur(8px)}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;gap:20px;padding-top:clamp(40px,7vw,90px);position:relative}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(56px,8.6vw,120px);line-height:.88;text-transform:uppercase;margin:14px 0 20px}
+.hero h1 em{font-style:normal;color:var(--lime);text-shadow:0 0 30px rgba(198,239,58,.4)}
+.hero p.lede{color:var(--soft);font-size:clamp(16px,1.5vw,19px);max-width:38ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 clamp(40px,6vw,80px)}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:14px 24px;font-weight:800;font-size:15px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn.main{background:var(--lime);color:#140a06}
+.btn.main:hover{transform:translateY(-1px);box-shadow:0 10px 36px -10px rgba(198,239,58,.7)}
+.btn.ghost{background:transparent;border:1.5px solid rgba(245,239,233,.3)}
 .btn.ghost:hover{border-color:var(--text)}
-.dots{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:clamp(48px,7vw,96px);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
-.dots a{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
-.dots a:hover{color:var(--text)}
-.dots i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 14px 2px var(--c)}
-@media (max-width:760px){
-  .hero .bg{background-size:auto 70%;background-position:right bottom;opacity:.5}
-  .hero .bg::after{background:linear-gradient(180deg,var(--night) 30%,rgba(12,10,15,.4) 70%,var(--night) 100%)}
-}
+.herobar{position:relative;height:clamp(280px,34vw,420px)}
+.herobar img{position:absolute;bottom:0;height:88%;left:50%;transform:translateX(-50%);filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
+.herobar img.l{height:62%;transform:translateX(-148%);filter:brightness(.55) drop-shadow(0 12px 20px rgba(0,0,0,.6))}
+.herobar img.r{height:62%;transform:translateX(48%);filter:brightness(.55) drop-shadow(0 12px 20px rgba(0,0,0,.6))}
+.herobar::before{content:"";position:absolute;left:50%;bottom:6%;width:70%;height:70%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(198,239,58,.22),transparent);filter:blur(20px)}
+.countertop{height:72px;background:
+  linear-gradient(180deg,rgba(255,255,255,.07),transparent 40%),
+  repeating-linear-gradient(88deg,rgba(0,0,0,.18) 0 2px,transparent 2px 9px,rgba(255,200,150,.04) 9px 11px,transparent 11px 23px),
+  linear-gradient(180deg,#4a2c1b,var(--wood) 55%,#2a180d);position:relative}
+.countertop::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;background:linear-gradient(180deg,#c58652,var(--rim) 30%,#4a2a16 70%,#22120a)}
+@media (max-width:760px){.herogrid{grid-template-columns:minmax(0,1fr)}.ctas{margin-bottom:12px}.herobar{height:260px}}
 
-/* the pull */
-.pull{padding-block:clamp(72px,10vw,130px)}
-.pullgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:start}
-@media (max-width:960px){.pullgrid{grid-template-columns:minmax(0,1fr)}}
-.pull .lede{font-size:18px;color:var(--soft);max-width:44ch;margin-top:22px}
-.steps{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:22px;counter-reset:s}
-.steps li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;align-items:start;counter-increment:s}
-.steps li::before{content:counter(s);font-family:var(--display);font-size:40px;line-height:1;color:var(--c)}
-.steps h3{font-family:var(--display);font-weight:400;font-size:26px;text-transform:uppercase;line-height:1.05;letter-spacing:.01em}
-.steps p{color:var(--soft);margin-top:4px}
-.stage{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
-.stage::before{content:"";position:absolute;inset:-40% -20% auto auto;width:70%;height:70%;background:radial-gradient(closest-side,rgba(198,239,58,.14),transparent);pointer-events:none}
-.stage svg{display:block;width:100%;height:auto;position:relative}
-.zoom{background:var(--night);border:1px solid var(--line);border-radius:14px;position:relative}
-.zoom span{position:absolute;top:10px;right:14px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-.pullbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
-.pullbar label{font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
-.replay{background:none;border:1.5px solid rgba(243,241,245,.3);color:var(--text);border-radius:999px;padding:8px 14px;font:800 12px var(--body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
-.replay:hover{border-color:var(--text)}
-input.ring{-webkit-appearance:none;appearance:none;width:100%;height:46px;background:transparent;cursor:grab;--p:0%}
-input.ring:active{cursor:grabbing}
-input.ring::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--copper) var(--p),rgba(255,255,255,.14) var(--p))}
-input.ring::-moz-range-track{height:4px;border-radius:2px;background:rgba(255,255,255,.14)}
-input.ring::-moz-range-progress{height:4px;border-radius:2px;background:var(--copper)}
-input.ring::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:40px;height:40px;margin-top:-18px;border-radius:50%;background:transparent;border:7px solid var(--copper);box-shadow:0 0 20px rgba(208,112,58,.55)}
-input.ring::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:transparent;border:7px solid var(--copper);box-shadow:0 0 20px rgba(208,112,58,.55)}
-.phase{font-weight:600;font-size:16px;min-height:1.6em;color:var(--text)}
-.phase b{color:var(--lime);font-weight:800;letter-spacing:.12em;font-size:12px;text-transform:uppercase;margin-right:10px}
+/* packs */
+section.block{padding-block:clamp(64px,8vw,104px)}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px 40px;margin-bottom:32px}
+.head p{color:var(--soft);max-width:44ch}
+.packs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.packs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pack{position:relative;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:18px 18px 20px;cursor:pointer;display:grid;gap:12px;transition:border-color .2s,transform .2s,box-shadow .2s}
+.pack:hover{transform:translateY(-2px)}
+.pack[aria-pressed="true"]{border-color:var(--lime);box-shadow:0 18px 50px -24px rgba(198,239,58,.6);background:rgba(198,239,58,.06)}
+.pack .grid{display:grid;gap:4px;justify-content:start;height:54px;align-content:end}
+.pack .grid i{width:12px;height:12px;border-radius:50%;background:#3b3a36;box-shadow:inset 0 0 0 2px #59574f}
+.pack[aria-pressed="true"] .grid i{background:#4c4a44;box-shadow:inset 0 0 0 2px var(--copper)}
+.pack h3{font-family:var(--display);font-weight:400;font-size:28px;line-height:1;text-transform:uppercase}
+.pack .pp{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pack .pp b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.from{margin-top:14px;color:var(--soft);font-weight:600}.from b{color:var(--lime);font-weight:800}
+.pack .pp span{color:var(--soft);font-size:14px;font-weight:600}
+.save{position:absolute;top:14px;right:14px;background:var(--lime);color:#140a06;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 9px}
+.save.alt{background:var(--copper)}
 
-/* numbers band */
-.band{border-block:1px solid var(--line);background:linear-gradient(90deg,rgba(198,239,58,.06),rgba(255,79,123,.06),rgba(255,138,61,.06))}
-.band .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width:760px){.band .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.band .wrap > div:first-child{border-left:0;padding-left:0}
-.band .wrap > div{padding:34px 22px 30px;border-left:1px solid var(--line)}
-.band .wrap > div:first-child{padding-left:0}
-.band b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(40px,5vw,64px);line-height:1;font-variant-numeric:tabular-nums}
-.band span{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
-
-/* lineup */
-.lineup{padding-block:clamp(72px,10vw,130px)}
-.lhead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 40px;margin-bottom:44px}
-.lhead p{color:var(--soft);max-width:42ch;font-size:17px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-@media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:460px){.grid{gap:12px}}
-.fl{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;scroll-margin-top:90px}
-.fl:hover,.fl:target{transform:translateY(-4px);border-color:var(--c);box-shadow:0 24px 70px -28px var(--c)}
-.fl .ph{background:var(--t);aspect-ratio:4/5;overflow:hidden}
-.fl .ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%;mix-blend-mode:multiply}
-.fl .meta{padding:16px 18px 18px;display:grid;gap:6px}
-.fl h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+/* flavor shelf */
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.shelf{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.shelf{gap:10px}}
+.fl{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s}
+.fl:hover{border-color:color-mix(in srgb,var(--c) 60%,transparent);box-shadow:0 24px 60px -30px var(--c)}
+.stand{position:relative;height:clamp(200px,24vw,280px);background:radial-gradient(70% 60% at 50% 70%,color-mix(in srgb,var(--c) 22%,transparent),transparent 70%)}
+.stand::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 40%),repeating-linear-gradient(88deg,rgba(0,0,0,.18) 0 2px,transparent 2px 9px),linear-gradient(180deg,#4a2c1b,#2a180d)}
+.stand img{position:absolute;left:50%;bottom:12%;height:80%;transform:translateX(-50%);z-index:1;transition:transform .35s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.fl:hover .stand img{transform:translateX(-50%) translateY(-6px)}
+.fl .meta{padding:14px 16px 16px;display:grid;gap:4px;flex:1}
+.fl h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1;text-transform:uppercase;display:flex;align-items:center;gap:9px}
 .fl h3 i{width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px 1px var(--c);flex:none}
-.fl p{color:var(--soft);font-size:14px}
-.fl .tag{justify-self:start;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin-top:4px}
+.fl .mix{color:var(--soft);font-size:13px}
+.buy{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:10px}
+.buy .pr b{display:block;font-family:var(--display);font-weight:400;font-size:26px;line-height:1;font-variant-numeric:tabular-nums}
+.buy .pr span{color:var(--faint);font-size:12px;font-weight:600}
+.add{flex:none;border:0;border-radius:999px;background:var(--text);color:#140a06;font-weight:800;font-size:13px;padding:10px 16px;cursor:pointer;transition:background .2s,transform .15s}
+.add:hover{background:var(--c);transform:translateY(-1px)}
+.add.done{background:var(--c)}
+@media (max-width:420px){.buy{flex-direction:column;align-items:stretch}.add{width:100%}}
 
-/* gallery */
-.gallery{padding-bottom:clamp(72px,10vw,130px)}
-.gal{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:18px}
-@media (max-width:860px){.gal{grid-template-columns:minmax(0,1fr)}}
-.gal figure{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);position:relative}
-.gal img{display:block;width:100%;height:100%;object-fit:cover}
-.gal .tall{aspect-ratio:4/5}
-.gal .side{display:grid;gap:18px;grid-template-rows:auto 1fr}
-.gal .shelf{background:#f4f4f2;box-shadow:0 0 80px -20px rgba(198,239,58,.35)}
-.gal .shelf img{height:auto}
-.quote{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:16px}
-.quote p{font-family:var(--display);font-size:clamp(34px,4.4vw,60px);line-height:.95;text-transform:uppercase}
-.quote span{color:var(--soft)}
-.gal figcaption{position:absolute;left:16px;bottom:14px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:rgba(12,10,15,.7);padding:5px 10px;border-radius:999px}
+/* mixed packs */
+.mixed{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media (max-width:900px){.mixed{grid-template-columns:minmax(0,1fr)}}
+.builder,.bundle{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,28px)}
+.builder h3,.bundle h3{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.4vw,42px);line-height:1;text-transform:uppercase}
+.builder > p,.bundle > p{color:var(--soft);margin-top:6px}
+.bgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:22px;margin-top:22px;align-items:start}
+@media (max-width:560px){.bgrid{grid-template-columns:minmax(0,1fr)}}
+.case{background:linear-gradient(180deg,#4a2c1b,#2a180d);border-radius:16px;padding:14px;box-shadow:inset 0 2px 0 rgba(255,220,180,.15),0 20px 40px -20px rgba(0,0,0,.8)}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.slots i{aspect-ratio:1;border-radius:50%;background:#1a0f09;box-shadow:inset 0 3px 8px rgba(0,0,0,.7);position:relative;transition:background .25s}
+.slots i.f{background:radial-gradient(circle at 50% 50%,#55524b 0 46%,#2e2c28 48% 60%,var(--s) 62% 70%,#2e2c28 72%);box-shadow:0 0 14px -2px var(--s)}
+.prog{margin-top:12px;font-weight:800;font-size:13px;color:var(--soft);display:flex;justify-content:space-between}
+.chips{display:grid;gap:8px}
+.chip{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 8px 7px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.18)}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.chip span{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:rgba(245,239,233,.06);cursor:pointer;font-weight:800;line-height:1}
+.step button:hover:not(:disabled){border-color:var(--text)}
+.step button:disabled{opacity:.35;cursor:default}
+.step b{min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
+.bfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.bfoot b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1}
+.bfoot .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.bundle{display:flex;flex-direction:column;gap:16px}
+.bundle .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.bundle .row:first-of-type{border-top:0}
+.bundle .row h4{margin:0;font-weight:800;font-size:17px}
+.bundle .row p{color:var(--soft);font-size:13px;margin-top:2px}
+.bundle .row b{font-family:var(--display);font-weight:400;font-size:26px;display:block;text-align:right}
+.mini{display:flex;margin-top:8px}
+.mini i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);margin-right:-3px;border:2px solid #1d110b}
 
-/* faq */
-.faq{padding-block:clamp(64px,9vw,110px);border-top:1px solid var(--line)}
-.faqgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:40px}
-@media (max-width:860px){.faqgrid{grid-template-columns:minmax(0,1fr)}}
-details{border-bottom:1px solid var(--line);padding:20px 0}
-details:first-child{border-top:1px solid var(--line)}
-summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:800;font-size:18px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--display);font-size:26px;line-height:1;color:var(--lime);transition:transform .2s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{color:var(--soft);margin-top:10px;max-width:60ch}
+/* notes + footer */
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid var(--line);padding-top:36px}
+@media (max-width:760px){.notes{grid-template-columns:minmax(0,1fr)}}
+.notes h4{margin:0 0 4px;font-weight:800;font-size:15px}
+.notes p{color:var(--soft);font-size:14px}
+footer{border-top:1px solid var(--line);padding-block:36px calc(env(safe-area-inset-bottom,0px) + 40px);margin-top:64px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end}
+footer img{height:56px;width:auto;display:block}
+footer small{color:var(--faint);font-size:13px;max-width:56ch}
 
-footer{border-top:1px solid var(--line);padding-block:40px 56px}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:end}
-footer .big{font-family:var(--display);font-size:clamp(40px,6vw,72px);line-height:.9}
-footer .tagline{font-weight:800;letter-spacing:.22em;font-size:13px;color:var(--lime);margin-top:8px}
-footer small{display:block;color:var(--faint);font-size:13px;max-width:52ch;text-align:right}
-@media (max-width:640px){footer small{text-align:left}}
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:rgba(5,3,2,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);z-index:41;background:#1a0f0a;border-left:1px solid var(--line);transform:translateX(102%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.dh h2{font-family:var(--display);font-weight:400;font-size:30px;text-transform:uppercase}
+.x{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:20px;line-height:1}
+.lines{flex:1;overflow:auto;padding:8px 22px}
+.empty{color:var(--soft);padding:40px 0;text-align:center}
+.line{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.line .th{height:64px;display:grid;place-items:center;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 30%,transparent),transparent);border-radius:12px}
+.line .th img{height:60px;width:auto}
+.line .th.mixdot{display:flex;flex-wrap:wrap;gap:2px;align-content:center;justify-content:center;padding:6px}
+.line .th.mixdot i{width:9px;height:9px;border-radius:50%;background:var(--s)}
+.line h4{margin:0;font-weight:800;font-size:15px}
+.line p{color:var(--faint);font-size:12px;margin-top:2px}
+.line .right{display:grid;justify-items:end;gap:6px}
+.line .right b{font-variant-numeric:tabular-nums}
+.df{border-top:1px solid var(--line);padding:18px 22px 22px;display:grid;gap:12px}
+.tot{display:flex;justify-content:space-between;align-items:baseline}
+.tot b{font-family:var(--display);font-weight:400;font-size:32px}
+.df small{color:var(--faint);font-size:12px}
+.df .btn{justify-content:center}
 
-/* svg (mechanism) */
-.cap{fill:#28252e;stroke:#4c4855;stroke-width:1}
-.cap2{fill:#5a5662}
-.wallS{fill:none;stroke:rgba(255,255,255,.34);stroke-width:4;stroke-linejoin:round}
-.clearS{fill:none;stroke:#8a95a3;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
-.mixer{fill:#b6d85a;fill-opacity:.62}
-.shot{fill:#eaf2f7;fill-opacity:.85}
-.orange{fill:var(--copper)}
-.ringS{fill:none;stroke:var(--copper);stroke-width:8}
-.seal{fill:#8d8a96}
-.flapS{stroke:#a9a6b2;stroke-width:2.6;stroke-linecap:round}
-.sleeve{stroke:var(--lime);stroke-width:6;stroke-linecap:round;opacity:.8}
-.bub{fill:none;stroke:rgba(255,255,255,.4);stroke-width:1}
-.hint{fill:none;stroke:rgba(243,241,245,.75);stroke-width:2.5;stroke-linecap:round}
-.hintF{fill:rgba(243,241,245,.75)}
-.dash{stroke-dasharray:5 6;opacity:.6}
-.hole{fill:var(--surface)}
-.lbl{fill:var(--text);opacity:.38;font-family:var(--body);font-weight:800;font-size:13px;letter-spacing:.2em;text-anchor:middle}
-.zt{fill:var(--text);opacity:.85;font-family:var(--body);font-weight:700;font-size:3.8px;text-anchor:middle}
-.ztw{fill:#0c0a0f;font-family:var(--body);font-weight:800;font-size:3.2px;letter-spacing:.2px;text-anchor:middle}
-.zl2{stroke:var(--text);stroke-width:.35;opacity:.45}
+/* age gate */
+.gate{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:radial-gradient(80vw 60vh at 50% 30%,#2b170d,#0d0705 70%)}
+.gate[hidden]{display:none}
+.gate .box{text-align:center;display:grid;gap:18px;justify-items:center;max-width:420px}
+.gate img{height:96px;width:auto}
+.gate h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,8vw,52px);line-height:.95;text-transform:uppercase}
+.gate p{color:var(--soft)}
+.gate .ctas{margin:6px 0 0;justify-content:center}
 </style>
-
 </head>
 <body>
+<div class="gate" id="gate" hidden>
+  <div class="box">
+    <img src="waitlist/img/logo-white.png" alt="Pin Shot">
+    <h2>Are you 21<br>or older?</h2>
+    <p>You must be of legal drinking age to enter this site.</p>
+    <div class="ctas"><button class="btn main" id="gateYes" type="button">Yes, I'm 21+</button><button class="btn ghost" id="gateNo" type="button">No</button></div>
+    <p id="gateMsg" role="status"></p>
+  </div>
+</div>
+
+<div class="ribbon">Store preview. Prices are mockups and nothing is for sale yet. <a href="waitlist/">Join the waitlist →</a></div>
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#top">PIN SHOT</a>
-    <ul><li><a href="#pull">The pull</a></li><li><a href="#lineup">Lineup</a></li><li><a href="studio/">3D Studio</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#faq">FAQ</a></li></ul>
-    <span class="age">21+</span>
+    <a class="logo" href="./"><img src="waitlist/img/logo-white.png" alt="Pin Shot home" width="929" height="1071"></a>
+    <ul><li><a href="#packs" aria-current="page">Shop</a></li><li><a href="#mix">Mix packs</a></li><li><a href="about/#pull">The pull</a></li><li><a href="waitlist/">Waitlist</a></li></ul>
+    <button class="cartbtn" id="cartBtn" type="button" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1.2 12.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg><span>Cart</span><span class="count" id="count">0</span></button>
   </div>
 </header>
 
-<main id="top">
+<main>
   <section class="hero">
-    <div class="bg" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="copy">
-        <div class="eyebrow">Pull · Swirl · Sip</div>
-        <h1>Pull the pin.<br><em>The shot's already in it.</em></h1>
-        <p class="sub">A real 44 mL shot, sealed in the cap. One pull drops it into the mix and pops the lid.</p>
-        <div class="ctas"><a class="btn main" href="#lineup">See the lineup →</a><a class="btn ghost" href="#pull">How the pull works</a><a class="btn ghost" href="studio/">Explore VSL in 3D ↗</a></div>
-      </div>
-      <nav class="dots" aria-label="Flavors">
-        <a href="#fl-gt" style="--c:#dff3ee"><i></i>Gin &amp; Tonic</a>
-        <a href="#fl-vsl" style="--c:#c6ef3a"><i></i>VSL</a>
-        <a href="#fl-mule" style="--c:#e8c36a"><i></i>Moscow Mule</a>
-        <a href="#fl-rum" style="--c:#ff8a3d"><i></i>Rum Punch</a>
-        <a href="#fl-paloma" style="--c:#ffa59a"><i></i>Paloma</a>
-        <a href="#fl-shirley" style="--c:#ff4f7b"><i></i>Hard Shirley</a>
-        <a href="#fl-cran" style="--c:#e0213f"><i></i>Vodka Cran</a>
-        <a href="#fl-whiskey" style="--c:#c06a34"><i></i>Whiskey Cola</a>
-      </nav>
-    </div>
-  </section>
-
-  <section class="pull" id="pull">
-    <div class="wrap pullgrid">
+    <div class="bokeh" id="bokeh" aria-hidden="true"></div>
+    <div class="wrap herogrid">
       <div>
-        <div class="eyebrow">The pull</div>
-        <h2 class="h2" style="margin-top:14px">One pull.<br><em>Three things happen.</em></h2>
-        <p class="lede">The shot waits in its own sealed cup inside the cap, held there by a flat gate on the end of the pin. Drag the ring to see what happens inside.</p>
-        <ol class="steps">
-          <li style="--c:var(--lime)"><div><h3>The shot drops</h3><p>The gate slides out from under the cup and the shot falls through a 22 mm opening into the mixer.</p></div></li>
-          <li style="--c:var(--cherry)"><div><h3>The slot seals</h3><p>A small flap swings shut behind the gate, so nothing leaks out the side when you tip it back.</p></div></li>
-          <li style="--c:var(--ember)"><div><h3>The lid pops</h3><p>The pin holds the lid's latch until the very end. It lets go last, the lid flips open, and you drink straight from the empty shot cup.</p></div></li>
-        </ol>
+        <div class="eyebrow">The back bar</div>
+        <h1>Stock<br>the <em>bar.</em></h1>
+        <p class="lede">Singles, six-packs, twelves and full cases. Mix and match any flavor, and every bottle has the shot sealed in the cap.</p>
+        <p class="from">Six-packs under $20. Cases from <b id="fromEach">$2.71</b> a bottle.</p>
+        <div class="ctas"><a class="btn main" href="#packs">Shop packs ↓</a><a class="btn ghost" href="#mix">Build a mixed case</a></div>
       </div>
-      <div class="stage" id="stage">
-        <svg id="mainSvg" viewBox="56 -96 494 470" role="img" aria-label="Cutaway of the Pin Shot cap and bottle showing the gate, shot and mixer"></svg>
-        <div class="zoom"><span>Inside the gate</span><svg id="zoomSvg" viewBox="148 178 180 48" role="img" aria-label="Close-up of the gate, gaskets and flap"></svg></div>
-        <div class="pullbar">
-          <label for="ring">Drag the ring</label>
-          <input class="ring" type="range" id="ring" min="0" max="1000" value="0" aria-label="Pull the pin">
-          <button class="replay" id="replay" type="button">Play</button>
+      <div class="herobar" aria-hidden="true">
+        <img class="l" src="waitlist/img/paloma.png" alt="">
+        <img class="r" src="waitlist/img/whiskey-cola.png" alt="">
+        <img src="waitlist/img/vsl.png" alt="">
+      </div>
+    </div>
+    <div class="countertop" aria-hidden="true"></div>
+  </section>
+
+  <section class="block" id="packs">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Step 1</div><h2 class="h2" style="margin-top:12px">How many<br><em>are we pulling?</em></h2></div><p>Pick a size and every flavor below updates. The more you stock, the less each bottle costs.</p></div>
+      <div class="packs" id="packPick" role="group" aria-label="Pack size"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" id="flavors">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Step 2</div><h2 class="h2" style="margin-top:12px">Pick your<br><em>pour.</em></h2></div><p id="shelfNote">Showing six-pack prices.</p></div>
+      <div class="shelf" id="shelf"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" id="mix">
+    <div class="wrap">
+      <div class="head"><div><div class="eyebrow">Can't pick one?</div><h2 class="h2" style="margin-top:12px">Mix it<br><em>up.</em></h2></div><p>Fill a twelve-bottle case with any combination, or grab a sampler with one of everything.</p></div>
+      <div class="mixed">
+        <div class="builder">
+          <h3>Build your 12</h3>
+          <p>Any flavors, any mix. Same price as a straight twelve.</p>
+          <div class="bgrid">
+            <div><div class="case"><div class="slots" id="slots" aria-hidden="true"></div></div><div class="prog"><span id="filled">0 of 12</span><span id="left">Add 12 more</span></div></div>
+            <div class="chips" id="chips"></div>
+          </div>
+          <div class="bfoot"><b id="mixPrice">$35.99</b><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="fill" type="button">Fill randomly</button><button class="btn main" id="addCase" type="button" disabled>Add case to cart</button></div></div>
         </div>
-        <p class="phase" id="phase"></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" aria-label="Key numbers">
-    <div class="wrap">
-      <div><b>44 mL</b><span>A real 1.5 oz shot</span></div>
-      <div><b>355 mL</b><span>Total drink</span></div>
-      <div><b>≈5%</b><span>ABV once mixed</span></div>
-      <div><b>1</b><span>Pull. No shaker.</span></div>
-    </div>
-  </section>
-
-  <section class="lineup" id="lineup">
-    <div class="wrap">
-      <div class="lhead">
-        <div><div class="eyebrow">The lineup</div><h2 class="h2" style="margin-top:14px">Eight drinks.<br><em>One pull each.</em></h2></div>
-        <p>Same bottle, same pin, eight classic mixes. Clear spirit in the cap, the mixer below, and you can see both before you pull.</p>
-      </div>
-      <div class="grid">
-        <article class="fl" id="fl-gt" style="--c:#dff3ee;--t:#eef7f4"><div class="ph"><img src="img/gin-and-tonic.jpg" alt="Pin Shot Gin & Tonic bottle" loading="lazy"></div><div class="meta"><h3><i></i>Gin &amp; Tonic</h3><p>Gin · tonic · lime</p><span class="tag">Sparkling</span></div></article>
-        <article class="fl" id="fl-vsl" style="--c:#c6ef3a;--t:#eef8cf"><div class="ph"><img src="img/vsl.jpg" alt="Pin Shot VSL bottle" loading="lazy"></div><div class="meta"><h3><i></i>VSL</h3><p>Vodka · soda · lime</p><a class="tag" href="studio/" style="color:var(--lime);text-decoration:none">Explore in 3D ↗</a></div></article>
-        <article class="fl" id="fl-mule" style="--c:#e8c36a;--t:#f6ead0"><div class="ph"><img src="img/moscow-mule.jpg" alt="Pin Shot Moscow Mule bottle" loading="lazy"></div><div class="meta"><h3><i></i>Moscow Mule</h3><p>Vodka · ginger beer · lime</p><span class="tag">Sparkling</span></div></article>
-        <article class="fl" id="fl-rum" style="--c:#ff8a3d;--t:#ffe1c7"><div class="ph"><img src="img/rum-punch.jpg" alt="Pin Shot Rum Punch bottle" loading="lazy"></div><div class="meta"><h3><i></i>Rum Punch</h3><p>Light rum · pineapple · orange · passion fruit</p><span class="tag">Still</span></div></article>
-        <article class="fl" id="fl-paloma" style="--c:#ffa59a;--t:#ffe0db"><div class="ph"><img src="img/paloma.jpg" alt="Pin Shot Paloma bottle" loading="lazy"></div><div class="meta"><h3><i></i>Paloma</h3><p>Blanco tequila · grapefruit soda</p><span class="tag">Sparkling</span></div></article>
-        <article class="fl" id="fl-shirley" style="--c:#ff4f7b;--t:#ffd6e0"><div class="ph"><img src="img/hard-shirley.jpg" alt="Pin Shot Hard Shirley bottle" loading="lazy"></div><div class="meta"><h3><i></i>Hard Shirley</h3><p>Vodka · lemon-lime soda · cherry</p><span class="tag">Sparkling</span></div></article>
-        <article class="fl" id="fl-cran" style="--c:#e0213f;--t:#ffd3d9"><div class="ph"><img src="img/vodka-cran.jpg" alt="Pin Shot Vodka Cran bottle" loading="lazy"></div><div class="meta"><h3><i></i>Vodka Cran</h3><p>Vodka · cranberry · lime</p><span class="tag">Still</span></div></article>
-        <article class="fl" id="fl-whiskey" style="--c:#c06a34;--t:#efdccb"><div class="ph"><img src="img/whiskey-cola.jpg" alt="Pin Shot Whiskey Cola bottle" loading="lazy"></div><div class="meta"><h3><i></i>Whiskey Cola</h3><p>Whiskey · cola</p><span class="tag">Sparkling</span></div></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="gallery" id="gallery">
-    <div class="wrap">
-      <div class="gal">
-        <figure class="tall"><img src="img/group-bar.jpg" alt="Four Pin Shot bottles on a bar counter at night, VSL opened" loading="lazy"><figcaption>Last call, first pull</figcaption></figure>
-        <div class="side">
-          <figure class="shelf"><img src="img/group-lineup.jpg" alt="All eight Pin Shot flavors in a row" loading="lazy"></figure>
-          <div class="quote"><p>No shaker.<br>No pour.<br>Just pull.</p><span>Everything a bartender would do happens inside the cap. You swirl, you sip.</span></div>
+        <div class="bundle">
+          <div><h3>Ready-made</h3><p style="color:var(--soft);margin-top:6px">Picked for you. Every flavor in the box.</p></div>
+          <div id="bundles"></div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="faq" id="faq">
-    <div class="wrap faqgrid">
-      <div><div class="eyebrow">Questions</div><h2 class="h2" style="margin-top:14px">Before<br><em>you pull.</em></h2></div>
-      <div>
-        <details open><summary>Does the shot really stay separate?</summary><p>Yes. It sits in its own sealed cup in the cap. A flat gate on the end of the pin, clamped between two gaskets, keeps it out of the mixer until you pull.</p></details>
-        <details><summary>Can I open it without pulling the pin?</summary><p>No. The pin holds the lid's latch and lets go last, so the shot always drops before the lid opens.</p></details>
-        <details><summary>What happens to the pin?</summary><p>It comes out in one piece, ring and all. Nothing loose is left inside the bottle.</p></details>
-        <details><summary>How strong is it?</summary><p>About 5% ABV once mixed: one 44 mL shot of 40% spirit in a 355 mL drink, roughly the same as a beer.</p></details>
-        <details><summary>Why swirl?</summary><p>Spirit is a little lighter than most mixers, so it sits near the top at first. A two-second swirl evens it out.</p></details>
-        <details><summary>Where can I get one?</summary><p>Not yet. Pin Shot is in development, and the bottles shown here are renders.</p></details>
+      <div class="notes" style="margin-top:56px">
+        <div><h4>Every bottle, 355 mL</h4><p>A 44 mL shot sealed in the cap above the mixer. About 5% ABV once you pull.</p></div>
+        <div><h4>Shipping</h4><p>Where we can deliver depends on state alcohol laws. An adult 21+ signs for every order.</p></div>
+        <div><h4>Not on sale yet</h4><p>This is a preview of the store. Join the waitlist to hear when the first cases ship.</p></div>
       </div>
     </div>
   </section>
@@ -298,82 +284,163 @@ footer small{display:block;color:var(--faint);font-size:13px;max-width:52ch;text
 
 <footer>
   <div class="wrap">
-    <div><div class="big">PIN SHOT</div><div class="tagline">PULL · SWIRL · SIP</div></div>
-    <small>For adults 21 and over. Please drink responsibly and never drink and drive. Concept site: Pin Shot is in development and product images are renders.</small>
+    <img src="waitlist/img/logo-white.png" alt="Pin Shot">
+    <small>For adults 21 and over. Please drink responsibly and never drink and drive. Store preview: prices are mockups, nothing is for sale, and bottles shown are renders.</small>
   </div>
 </footer>
 
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="dh"><h2>Your bar</h2><button class="x" id="closeCart" type="button" aria-label="Close cart">×</button></div>
+  <div class="lines" id="lines"></div>
+  <div class="df">
+    <div class="tot"><span>Subtotal</span><b id="subtotal">$0.00</b></div>
+    <small>Taxes and delivery are worked out at checkout. Prices are mockups.</small>
+    <a class="btn main" href="waitlist/">Checkout opens at launch · Join the waitlist</a>
+  </div>
+</aside>
+<p class="sr" id="live" aria-live="polite"></p>
+
 <script>
 (function(){
-const f=n=>(+n).toFixed(1);
-const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
-const seg=(t,a,b)=>clamp((t-a)/(b-a));
-const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
-const snap=x=>{if(x<=0)return 0;if(x>=1)return 1;const c1=1.6,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
-const tAt=(fn,v)=>{for(let t=0;t<=1;t+=.0005){if(fn(t)>=v)return t;}return 1;};
+const FLAVORS=[
+  {id:'gin-and-tonic',name:'Gin & Tonic',mix:'Gin · tonic · lime',c:'#bdf0e2'},
+  {id:'vsl',name:'VSL',mix:'Vodka · soda · lime',c:'#c6ef3a'},
+  {id:'moscow-mule',name:'Moscow Mule',mix:'Vodka · ginger beer · lime',c:'#f0c860'},
+  {id:'rum-punch',name:'Rum Punch',mix:'Light rum · pineapple · orange · passion fruit',c:'#ff8a3d'},
+  {id:'paloma',name:'Paloma',mix:'Blanco tequila · grapefruit soda',c:'#ff9e8f'},
+  {id:'hard-shirley',name:'Hard Shirley',mix:'Vodka · lemon-lime soda · cherry',c:'#ff5a85'},
+  {id:'vodka-cran',name:'Vodka Cran',mix:'Vodka · cranberry · lime',c:'#ff4058'},
+  {id:'whiskey-cola',name:'Whiskey Cola',mix:'Whiskey · cola',c:'#e8955a'}
+];
+/* Mockup prices. Base single = $3.99; bigger packs drop the per-bottle price. */
+const PACKS=[
+  {id:'single',name:'Single',n:1,price:3.99,cols:1},
+  {id:'six',name:'Six-pack',n:6,price:19.99,cols:3},
+  {id:'twelve',name:'Twelve',n:12,price:35.99,cols:6},
+  {id:'case',name:'Case of 24',n:24,price:64.99,cols:8}
+];
+const BUNDLES=[
+  {id:'sampler',name:'The Sampler',desc:'One of each flavor · 8 bottles',n:8,price:25.99,counts:FLAVORS.map(()=>1)},
+  {id:'party',name:'The Party Case',desc:'Three of each flavor · 24 bottles',n:24,price:64.99,counts:FLAVORS.map(()=>3)},
+  {id:'sparkling',name:'The Fizz Six',desc:'VSL, Gin & Tonic, Paloma · two each',n:6,price:19.99,counts:[2,2,0,0,2,0,0,0]}
+];
+const money=v=>'$'+v.toFixed(2);
+const TWELVE=PACKS.find(p=>p.n===12), BIGGEST=PACKS[PACKS.length-1];
+const $=id=>document.getElementById(id);
+$('mixPrice').textContent=money(TWELVE.price);$('fromEach').textContent=money(BIGGEST.price/BIGGEST.n);
+let pack=PACKS[1];
+const cart=[]; /* {key,label,detail,qty,price,thumb|dots,c} */
 
-const BODYC="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206 Z";
-const BODYS="M166 206 L166 224 C120 228 82 250 82 292 L82 430 C82 460 100 472 130 472 L270 472 C300 472 318 460 318 430 L318 292 C318 250 280 228 234 224 L234 206";
-const CUP="M139 98 L261 98 L261 166 L229 195 L171 195 L139 166 Z";
-const PY=204, RC=336, RR=30;
-const dOf=t=>172*ease(seg(t,.04,.40));
-const T={o:tAt(dOf,25),l:tAt(dOf,134),fl:tAt(dOf,90)};
-function state(t){
-  const d=dOf(t),drain=ease(seg(t,T.o,T.o+.2)),lid=snap(seg(t,T.l,T.l+.13)),flap=snap(seg(t,T.fl,T.fl+.05));
-  const phase=t<.02?['Sealed','The shot is locked in the cap.']:d<25?['Pulling','The gate starts sliding out.']:d<90?['Drop','The shot falls into the mixer.']:d<134?['Seal','The flap swings shut behind the gate.']:lid<.98?['Pop','The latch lets go and the lid flips open.']:['Ready','Swirl it, then sip from the shot cup.'];
-  return {d,drain,lid,flap,phase};
-}
-function section(id,s,zoom){
-  let g=`<defs><clipPath id="${id}b"><path d="${BODYC}"/></clipPath><clipPath id="${id}c"><path d="${CUP}"/></clipPath></defs>`;
-  const mL=300-9*s.drain;
-  g+=`<g clip-path="url(#${id}b)"><rect class="mixer" x="70" y="${f(mL)}" width="260" height="200"/><rect class="shot" x="70" y="${f(mL)}" width="260" height="200" opacity="${(.18*s.drain).toFixed(3)}"/>`;
-  [[120,350,3],[150,322,2],[262,356,2.5],[180,366,3],[290,330,2],[110,370,2],[226,340,1.6],[204,316,2.2]].forEach(b=>g+=`<circle class="bub" cx="${b[0]}" cy="${b[1]}" r="${b[2]}"/>`);
-  g+=`</g>`;
-  if(!zoom)g+=`<text class="lbl" x="200" y="352">MIXER</text>`;
-  g+=`<path class="sleeve" d="M78 300 V470 M322 300 V470"/><path class="wallS" d="${BODYS}"/>`;
-  const sL=111+(198-111)*s.drain;
-  g+=`<g clip-path="url(#${id}c)"><rect class="shot" x="136" y="${f(sL)}" width="128" height="100"/></g>`;
-  if(!zoom&&s.drain<.15)g+=`<text class="lbl" x="200" y="150" style="opacity:.55;fill:#0c0a0f">SHOT</text>`;
-  if(s.drain>.004&&s.drain<.996){const w=4+30*(1-s.drain);g+=`<rect class="shot" x="${f(200-w/2)}" y="196" width="${f(w)}" height="${f(mL-196)}"/><ellipse class="shot" cx="200" cy="${f(mL)}" rx="${f(w*.9)}" ry="3" opacity=".75"/>`;}
-  g+=`<path class="clearS" d="M139 98 V166 L171 196 M261 98 V166 L229 196"/><path class="clearS" d="M134 198 H171 M229 198 H266"/>`;
-  g+=`<rect class="seal" x="162" y="199.6" width="11" height="2"/><rect class="seal" x="227" y="199.6" width="11" height="2"/><rect class="seal" x="162" y="206.5" width="11" height="2"/><rect class="seal" x="227" y="206.5" width="11" height="2"/>`;
-  g+=`<rect class="seal" x="249.6" y="206.6" width="3" height="2.4"/>`;
-  const a=Math.PI-s.flap*Math.PI/2;
-  g+=`<line class="flapS" x1="248" y1="200.6" x2="${f(248+8*Math.cos(a))}" y2="${f(200.6+8*Math.sin(a))}"/>`;
-  g+=`<rect class="cap" x="120" y="86" width="12" height="136"/><rect class="cap" x="268" y="86" width="12" height="${PY-5-86}"/><rect class="cap" x="268" y="${PY+5}" width="12" height="${222-PY-5}"/>`;
-  g+=`<rect class="cap" x="132" y="92" width="7" height="6"/><rect class="cap" x="261" y="92" width="7" height="6"/>`;
-  g+=`<rect class="cap" x="132" y="208.5" width="30" height="6"/><rect class="cap" x="238" y="208.5" width="30" height="6"/>`;
-  g+=`<rect class="cap" x="157" y="214" width="7" height="14"/><rect class="cap" x="236" y="214" width="7" height="14"/>`;
-  const left=160+s.d;
-  g+=left<270?`<rect class="seal" x="263" y="198.6" width="5" height="2.8"/><rect class="seal" x="263" y="206.6" width="5" height="2.8"/>`:`<rect class="seal" x="263" y="198.6" width="5" height="10.8"/>`;
-  g+=`<g transform="rotate(${f(-104*s.lid)} 124 81)"><rect class="cap" x="118" y="76" width="174" height="10" rx="4"/><rect class="cap" x="143" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="251" y="86" width="6" height="10" rx="1.5"/><rect class="cap" x="282" y="76" width="10" height="${PY+12-76}" rx="3"/><ellipse class="hole" cx="287" cy="${PY}" rx="2.2" ry="3.4"/><circle class="cap2" cx="124" cy="81" r="5"/></g>`;
-  g+=`<rect class="orange" x="${f(left)}" y="201.6" width="84" height="5" rx="1"/>`;
-  if(zoom)g+=`<text class="ztw" x="${f(left+42)}" y="205.3">GATE</text>`;
-  g+=`<rect class="orange" x="${f(244+s.d)}" y="202.6" width="64" height="3"/><circle class="ringS" cx="${f(RC+s.d)}" cy="${PY}" r="${RR}"/>`;
-  if(!zoom){
-    if(s.d<2)g+=`<path class="hint" d="M378 ${PY} h26"/><path class="hintF" d="M414 ${PY} l-11 -7 v14z"/>`;
-    if(s.lid>.95)g+=`<path class="hint dash" d="M200 286 V84"/><path class="hintF" d="M200 70 l-7 11 h14z"/>`;
-  } else {
-    [['Upper gasket',158,186,166,199.6],['Lower gasket',158,222,166,208.5],['Flap',240,186,246,200.6],['Flap seat',258,222,251,208.8],['Exit seal',300,222,266,208.5],['22 mm throat',200,186,200,196]]
-      .forEach(l=>{g+=`<line class="zl2" x1="${l[1]}" y1="${l[2]+(l[2]<200?1.2:-3.2)}" x2="${l[3]}" y2="${l[4]}"/><text class="zt" x="${l[1]}" y="${l[2]}">${l[0]}</text>`;});
-  }
-  return g;
-}
+/* age gate (remembered for this browser) */
+const gate=$('gate');
+let ok=false;try{ok=localStorage.getItem('ps-age')==='ok';}catch(e){}
+if(!ok){gate.hidden=false;document.body.classList.add('locked');}
+$('gateYes').onclick=()=>{try{localStorage.setItem('ps-age','ok');}catch(e){}gate.hidden=true;document.body.classList.remove('locked');};
+$('gateNo').onclick=()=>{$('gateMsg').textContent="Sorry, you need to be 21 or older to visit. Come back when you are.";};
 
-const mainSvg=document.getElementById('mainSvg'),zoomSvg=document.getElementById('zoomSvg'),ring=document.getElementById('ring'),btn=document.getElementById('replay'),ph=document.getElementById('phase');
-let t=0,playing=false,last=0,played=false;
-function render(){const s=state(t);mainSvg.innerHTML=section('m',s,false);zoomSvg.innerHTML=section('z',s,true);
-  ph.innerHTML=`<b>${s.phase[0]}</b>${s.phase[1]}`;ring.value=Math.round(t*1000);ring.style.setProperty('--p',(t*100).toFixed(1)+'%');btn.textContent=playing?'Pause':(t>=1?'Replay':'Play');}
-function loop(ts){if(!playing)return;if(last)t=Math.min(1,t+(ts-last)/5200);last=ts;if(t>=1)playing=false;render();if(playing)requestAnimationFrame(loop);}
-function play(){if(t>=1)t=0;playing=true;last=0;played=true;requestAnimationFrame(loop);}
-btn.addEventListener('click',()=>{if(playing){playing=false;render();}else play();});
-ring.addEventListener('input',()=>{playing=false;played=true;t=ring.value/1000;render();});
-render();
-const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if('IntersectionObserver' in window&&!reduce){
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!played){play();io.disconnect();}});},{threshold:.55});
-  io.observe(document.getElementById('stage'));
+/* bokeh */
+const bk=$('bokeh'),warm=['#ffb36b','#ff8f4a','#ffd29a','#e8643a'];
+for(let i=0;i<14;i++){const e=document.createElement('i'),s=12+Math.random()*50;e.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*70}%;width:${s}px;height:${s}px;background:${warm[i%4]};opacity:${(.06+Math.random()*.16).toFixed(2)}`;bk.appendChild(e);}
+
+/* pack picker */
+const pick=$('packPick');
+PACKS.forEach(p=>{
+  const b=document.createElement('button');b.type='button';b.className='pack';b.dataset.id=p.id;
+  const each=p.price/p.n, save=Math.round((1-p.price/(PACKS[0].price*p.n))*100);
+  b.innerHTML=`${save>0?`<span class="save${p.n>=24?' alt':''}">Save ${save}%</span>`:''}
+    <div class="grid" style="grid-template-columns:repeat(${p.cols},12px)">${'<i></i>'.repeat(p.n)}</div>
+    <h3>${p.name}</h3><div class="pp"><b>${money(p.price)}</b><span>${p.n>1?money(each)+' a bottle':'One bottle'}</span></div>`;
+  b.onclick=()=>{pack=p;renderPacks();renderShelf();};
+  pick.appendChild(b);
+});
+function renderPacks(){[...pick.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===pack.id?'true':'false'));$('shelfNote').textContent=`Showing ${pack.name.toLowerCase()} prices. Change the size above.`;}
+
+/* shelf */
+const shelf=$('shelf');
+FLAVORS.forEach((f,i)=>{
+  const a=document.createElement('article');a.className='fl';a.style.setProperty('--c',f.c);
+  a.innerHTML=`<div class="stand"><img src="waitlist/img/${f.id}.png" alt="Pin Shot ${f.name} bottle" loading="lazy"></div>
+    <div class="meta"><h3><i></i>${f.name}</h3><p class="mix">${f.mix}</p>
+    <div class="buy"><div class="pr"><b></b><span></span></div><button class="add" type="button">Add</button></div></div>`;
+  a.querySelector('.add').onclick=e=>{
+    addLine(`${f.id}:${pack.id}`,`${f.name}`,pack.n>1?`${pack.name} · ${pack.n} bottles`:'Single bottle',pack.price,{thumb:f.id,c:f.c});
+    const btn=e.currentTarget;btn.textContent='Added ✓';btn.classList.add('done');setTimeout(()=>{btn.textContent='Add';btn.classList.remove('done');},1300);
+  };
+  shelf.appendChild(a);
+});
+function renderShelf(){[...shelf.children].forEach(a=>{a.querySelector('.pr b').textContent=money(pack.price);a.querySelector('.pr span').textContent=pack.n>1?`${pack.name} · ${money(pack.price/pack.n)} each`:'Single bottle';a.querySelector('.add').setAttribute('aria-label',`Add ${a.querySelector('h3').textContent} ${pack.name} to cart`);});}
+
+/* builder */
+const counts=FLAVORS.map(()=>0), slots=$('slots'), chips=$('chips');
+slots.innerHTML='<i></i>'.repeat(12);
+FLAVORS.forEach((f,i)=>{
+  const c=document.createElement('div');c.className='chip';c.style.setProperty('--c',f.c);
+  c.innerHTML=`<i></i><span>${f.name}</span><div class="step"><button type="button" aria-label="Remove one ${f.name}">−</button><b>0</b><button type="button" aria-label="Add one ${f.name}">+</button></div>`;
+  const [minus,plus]=c.querySelectorAll('button');
+  minus.onclick=()=>{if(counts[i]>0){counts[i]--;renderBuilder();}};
+  plus.onclick=()=>{if(total()<12){counts[i]++;renderBuilder();}};
+  chips.appendChild(c);
+});
+const total=()=>counts.reduce((a,b)=>a+b,0);
+function renderBuilder(){
+  const t=total();let k=0;
+  [...slots.children].forEach(s=>{s.className='';s.style.removeProperty('--s');});
+  counts.forEach((n,i)=>{for(let j=0;j<n;j++){const s=slots.children[k++];s.className='f';s.style.setProperty('--s',FLAVORS[i].c);}});
+  [...chips.children].forEach((c,i)=>{const [m,p]=c.querySelectorAll('button');c.querySelector('b').textContent=counts[i];m.disabled=counts[i]===0;p.disabled=t>=12;});
+  $('filled').textContent=`${t} of 12`;$('left').textContent=t<12?`Add ${12-t} more`:'Case is full';
+  $('addCase').disabled=t<12;
 }
+$('fill').onclick=()=>{while(total()<12)counts[Math.floor(Math.random()*FLAVORS.length)]++;renderBuilder();};
+$('addCase').onclick=()=>{
+  const desc=counts.map((n,i)=>n?`${n} ${FLAVORS[i].name}`:'').filter(Boolean).join(', ');
+  addLine('mix:'+counts.join('-'),'Build your 12',desc,TWELVE.price,{dots:counts.slice(),c:'#d0703a'});
+  counts.fill(0);renderBuilder();
+};
+renderBuilder();
+
+/* bundles */
+const bwrap=$('bundles');
+BUNDLES.forEach(b=>{
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<div><h4>${b.name}</h4><p>${b.desc}</p><div class="mini">${b.counts.map((n,i)=>n?`<i style="--c:${FLAVORS[i].c}"></i>`:'').join('')}</div></div>
+    <div><b>${money(b.price)}</b><button class="add" type="button" style="--c:#c6ef3a;margin-top:6px">Add</button></div>`;
+  r.querySelector('.add').onclick=e=>{addLine('bundle:'+b.id,b.name,b.desc,b.price,{dots:b.counts,c:'#c6ef3a'});const btn=e.currentTarget;btn.textContent='Added ✓';btn.classList.add('done');setTimeout(()=>{btn.textContent='Add';btn.classList.remove('done');},1300);};
+  bwrap.appendChild(r);
+});
+
+/* cart */
+function addLine(key,label,detail,price,vis){
+  const ex=cart.find(l=>l.key===key);
+  if(ex)ex.qty++;else cart.push({key,label,detail,price,qty:1,...vis});
+  renderCart();const c=$('count');c.classList.add('bump');setTimeout(()=>c.classList.remove('bump'),200);
+  $('live').textContent=`${label} added to cart`;
+}
+function renderCart(){
+  const lines=$('lines');
+  $('count').textContent=cart.reduce((a,l)=>a+l.qty,0);
+  $('subtotal').textContent=money(cart.reduce((a,l)=>a+l.qty*l.price,0));
+  if(!cart.length){lines.innerHTML='<p class="empty">Your bar is empty. Add a pack to get started.</p>';return;}
+  lines.innerHTML='';
+  cart.forEach((l,idx)=>{
+    const d=document.createElement('div');d.className='line';d.style.setProperty('--c',l.c);
+    const th=l.thumb?`<div class="th"><img src="waitlist/img/${l.thumb}.png" alt=""></div>`:`<div class="th mixdot">${l.dots.map((n,i)=>`<i style="--s:${FLAVORS[i].c}"></i>`.repeat(Math.min(n,3))).join('')}</div>`;
+    d.innerHTML=`${th}<div><h4>${l.label}</h4><p>${l.detail}</p></div><div class="right"><b>${money(l.price*l.qty)}</b><div class="step"><button type="button" aria-label="Remove one">−</button><b>${l.qty}</b><button type="button" aria-label="Add one">+</button></div></div>`;
+    const [m,p]=d.querySelectorAll('.step button');
+    m.onclick=()=>{l.qty--;if(!l.qty)cart.splice(idx,1);renderCart();};
+    p.onclick=()=>{l.qty++;renderCart();};
+    lines.appendChild(d);
+  });
+}
+const drawer=$('drawer'),scrim=$('scrim');
+function openCart(on){drawer.classList.toggle('on',on);scrim.classList.toggle('on',on);drawer.setAttribute('aria-hidden',on?'false':'true');document.body.classList.toggle('locked',on);if(on)$('closeCart').focus();}
+$('cartBtn').onclick=()=>openCart(true);$('closeCart').onclick=()=>openCart(false);scrim.onclick=()=>openCart(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')openCart(false);});
+
+renderPacks();renderShelf();renderCart();
+
+/* Local preview only: reload automatically when this file changes on disk. Does nothing on the live site. */
+if(['localhost','127.0.0.1'].includes(location.hostname)){let last=null;setInterval(async()=>{try{const r=await fetch(location.pathname,{method:'HEAD',cache:'no-store'});const m=r.headers.get('Last-Modified');if(last&&m&&m!==last)location.reload();last=m;}catch(e){}},1000);}
 })();
 </script>
 </body>
