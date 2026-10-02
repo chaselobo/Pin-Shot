@@ -14,7 +14,24 @@ Every prompt starts with the same three blocks so the image tool can't drift:
 
 The cap never explodes or bursts. The excitement comes from how fast the ring gets yanked, the music, and the vodka pouring down.
 
-## 1. Video ad: Pull, Mix, Shoot! (8 seconds, for Veo or Gemini video)
+## 1. Video ad: Pull, Mix, Shoot! (loose version, recommended first try)
+
+The bottle and pin are locked down. The scene, camera, cuts and timing are left to the video tool. Make a few versions and keep the best.
+
+```text
+BOTTLE: Use the uploaded PIN SHOT VSL bottle exactly as it is. Do not redesign, restyle or simplify it. Keep: the clear, squat, rounded bottle with horizontal grip ribs around the base; the pale lime-green liquid with small bubbles; the label printed straight on the glass, with a small "PULL · SWIRL · SIP" on the shoulder, huge black stacked "PIN SHOT" with a small ™, "VSL" underneath, and "ALCOHOLIC COCKTAIL • 21+" at the bottom; the lime halves and green splash artwork on the left and right edges; the smoked grey translucent cap in three sections: a rounded lid on top, a ribbed see-through window in the middle showing a clear inner shot cup filled with clear vodka, and a dark lower band at the bottom; the small hinge block on the left side of the lid; the black latch tab running down the right side of the cap from the lid to just below the dark lower band, ending in a rounded foot; and the short, straight, horizontal copper-orange stem coming out of that foot and joining the left edge of an open copper-orange finger ring. The ring and stem are the only orange on the sealed bottle. No orange inside the cap. Same proportions, colors and text in every shot.
+
+SIZE: about 15 cm tall and 8 cm wide, about the height of a smartphone and a little wider than a soda can, a single-serve drink one adult hand holds easily. The ring is finger-sized, about 3 cm across. The bottle is always shorter than the hand holding it.
+
+PIN: the ring, the stem and a thin flat paddle are one solid copper-orange plastic piece. Before the pull, the paddle is hidden inside the cap behind the dark lower band, lying flat under the shot cup and blocking a small round hole in the cup's bottom. The stem runs straight out from the cap through the foot of the black latch tab to the ring, and it holds the tab down so the lid can't open. To open, a finger hooks the ring and pulls it straight out to the right, in line with the stem, about 5 cm. Almost at once the paddle slides off the hole and the vodka in the shot cup starts pouring down through the hole into the lime drink. The stem slides out of the tab foot, then the flat paddle (about 3 cm square and as thin as two stacked credit cards) slides out of a slit in the side of the cap just behind the tab foot. When the paddle is all the way out, the whole pin comes free in the finger, the latch tab is released, and the lid pops up and back on its left hinge. The cap stays whole. Nothing bursts or breaks.
+
+AD: A realistic, high-energy party commercial for PIN SHOT VSL, built around the catchphrase "PULL, MIX, SHOOT!". Grown-up friends in their late twenties and thirties at a great night out, with loud, upbeat party music. The pin pull is the hero moment: someone rips the ring out hard and fast, the pin comes out exactly as described above, the shot drops and the party kicks off. Then the bottle gets a quick swirl, and friends clink their open bottles and drink. The crowd shouts "PULL!", "MIX!" and "SHOOT!" as each one happens. You choose the setting, camera moves, pacing and cuts; make it feel like a real, polished drinks commercial. End on the pulled pin next to a sealed VSL bottle. No on-screen text.
+```
+
+## 1b. Video ad: shot-by-shot version (if the loose version misses the pin)
+
+Use this one when you need a specific beat, like a slow-motion pull, or when the loose version gets the pin wrong.
+
 ```text
 BOTTLE: Use the uploaded PIN SHOT VSL bottle exactly as it is. Do not redesign, restyle or simplify it. Keep: the clear, squat, rounded bottle with horizontal grip ribs around the base; the pale lime-green liquid with small bubbles; the label printed straight on the glass, with a small "PULL · SWIRL · SIP" on the shoulder, huge black stacked "PIN SHOT" with a small ™, "VSL" underneath, and "ALCOHOLIC COCKTAIL • 21+" at the bottom; the lime halves and green splash artwork on the left and right edges; the smoked grey translucent cap in three sections: a rounded lid on top, a ribbed see-through window in the middle showing a clear inner shot cup filled with clear vodka, and a dark lower band at the bottom; the small hinge block on the left side of the lid; the black latch tab running down the right side of the cap from the lid to just below the dark lower band, ending in a rounded foot; and the short, straight, horizontal copper-orange stem coming out of that foot and joining the left edge of an open copper-orange finger ring. The ring and stem are the only orange on the sealed bottle. No orange inside the cap. Same proportions, colors and text in every shot.
 
