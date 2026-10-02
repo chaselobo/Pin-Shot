@@ -1,0 +1,7 @@
+{
+  "tool": "Built-in image_gen",
+  "prompt": "Edit the supplied full-length orange pin asset ONLY to fix its canvas aspect ratio. Output a 3:2 landscape canvas (width / height = 1.5), with extra EMPTY TRANSPARENT padding above and below. Preserve the exact complete pin with the long shaft pointing left and circular ring at right, exact original geometry, relative proportions, burnt orange color, molded plastic surface, lighting and orientation. Do not stretch, shorten, redraw, crop, rotate or redesign the object. Center it on the larger canvas and keep the full pin visible with clear margins. Background and ring hole must remain genuinely transparent. No extra objects, text, shadows or glow. The previous 2.5006:1 canvas was rejected by an uploader, so the final image canvas MUST be substantially less wide, ideally 3:2, achieved solely by adding transparent space.",
+  "file": "pin-shot-vsl-full-pin.png",
+  "width": 1536,
+  "height": 1024
+}
