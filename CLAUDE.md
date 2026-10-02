@@ -17,7 +17,7 @@ Explain Git steps to the user in plain language. They don't need the commands, j
 
 ## Where things are
 
-- `docs/` is the live website, served by GitHub Pages from the `main` branch's `/docs` folder: https://chaselobo.github.io/Pin-Shot/
+- `docs/` is the live website, served by GitHub Pages from the `main` branch's `/docs` folder at https://thepinshot.com (custom domain set by `docs/CNAME`; DNS is at GoDaddy; the old https://chaselobo.github.io/Pin-Shot/ link redirects there)
   - `docs/index.html` is the whole site (one file: HTML, CSS and JS). Images are in `docs/img/` (web-sized copies).
   - Changes go live about a minute after pushing.
 - `docs/waitlist/index.html` is the one-screen waitlist page (no scrolling). Bottles there are transparent PNG cutouts in `docs/waitlist/img/`. Signups only save once `WAITLIST_ENDPOINT` at the top of its script is set to a form service URL (for example Formspree).

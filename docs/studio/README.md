@@ -1,6 +1,6 @@
 # Pin Shot 3D Studio
 
-Static GitHub Pages route: `/Pin-Shot/studio/`. No backend or build step.
+Static GitHub Pages route: `/studio/` (https://thepinshot.com/studio/). No backend or build step.
 
 The bottle is rendered in Three.js with separate layers: clear glass, fixed printed artwork, translucent lime soda, rising carbonation, and a clear lid containing a separate shot cup. The original `assets/pin-shot-vsl.jpeg` remains untouched and is copied byte-for-byte as `vsl-source.jpeg`.
 

@@ -1,6 +1,6 @@
 # Standalone Pin Shot demo
 
-Endpoint: `/Pin-Shot/demo/`. The existing `/Pin-Shot/studio/` stays unchanged.
+Endpoint: `/demo/` (https://thepinshot.com/demo/). The existing `/studio/` stays unchanged.
 
 A minimal full-viewport viewer. It opens on the sealed A2 pin cutaway and offers Bottle / Inside cap modes, pull/pause/replay/reset, sequence scrubbing, orbit/pinch zoom, and soda swirl/pause. A small link returns to the full studio. The mechanism remains a concept illustration, with blue tint identifying clear spirit.
 
