@@ -18,7 +18,7 @@ Explain Git steps to the user in plain language. They don't need the commands, j
 ## Where things are
 
 - `docs/` is the live website, served by GitHub Pages from the `main` branch's `/docs` folder at https://thepinshot.com (custom domain set by `docs/CNAME`; DNS is at GoDaddy; the old https://chaselobo.github.io/Pin-Shot/ link redirects there)
-  - `docs/index.html` is the homepage, which is the store preview: pack sizes, mockup prices (single $3.99, six $19.99, twelve $35.99, case of 24 $64.99, sampler 8 $25.99), mix-your-own twelve, cart drawer and a 21+ gate. Prices live in the `PACKS` and `BUNDLES` lists in its script; savings badges, the mix-your-own price and the "from $x a bottle" line are worked out from them. It reuses the bottle cutouts and logo from `docs/waitlist/img/`. Checkout links to the waitlist; nothing is actually sold.
+  - `docs/index.html` is the homepage, which is the store preview: pack sizes, mockup prices set to sit beside hard seltzers since the bottles are plastic (single $2.99, six $14.99, twelve $26.99, case of 24 $44.99, sampler 8 $19.99), mix-your-own twelve, cart drawer and a 21+ gate. Prices live in the `PACKS` and `BUNDLES` lists in its script; savings badges, the mix-your-own price and the six-pack and "from $x a bottle" line under the hero are worked out from them. It reuses the bottle cutouts and logo from `docs/waitlist/img/`. Checkout links to the waitlist; nothing is actually sold.
   - `docs/about/index.html` is the concept page (the pull demo, lineup, gallery, FAQ), one file with HTML, CSS and JS. Images are in `docs/img/` (web-sized copies).
   - `docs/shop/index.html` only redirects old `/shop/` links to the homepage.
   - Changes go live about a minute after pushing.

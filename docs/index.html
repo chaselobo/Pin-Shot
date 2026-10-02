@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Pin Shot: a real shot sealed in the cap. Singles, six-packs, twelves and cases, from $2.71 a bottle. Store preview, prices are mockups. 21+.">
+<meta name="description" content="Pin Shot: a real shot sealed in the cap. Singles, six-packs, twelves and cases, under $2 a bottle on a case of 24. Store preview, prices are mockups. 21+.">
 <meta name="theme-color" content="#1c100a">
 <title>Pin Shot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,7 +228,7 @@ footer small{color:var(--faint);font-size:13px;max-width:56ch}
         <div class="eyebrow">The back bar</div>
         <h1>Stock<br>the <em>bar.</em></h1>
         <p class="lede">Singles, six-packs, twelves and full cases. Mix and match any flavor, and every bottle has the shot sealed in the cap.</p>
-        <p class="from">Six-packs under $20. Cases from <b id="fromEach">$2.71</b> a bottle.</p>
+        <p class="from">Six-packs for <b id="sixPrice">$14.99</b>. Cases of 24 from <b id="fromEach">$1.87</b> a bottle.</p>
         <div class="ctas"><a class="btn main" href="#packs">Shop packs ↓</a><a class="btn ghost" href="#mix">Build a mixed case</a></div>
       </div>
       <div class="herobar" aria-hidden="true">
@@ -265,7 +265,7 @@ footer small{color:var(--faint);font-size:13px;max-width:56ch}
             <div><div class="case"><div class="slots" id="slots" aria-hidden="true"></div></div><div class="prog"><span id="filled">0 of 12</span><span id="left">Add 12 more</span></div></div>
             <div class="chips" id="chips"></div>
           </div>
-          <div class="bfoot"><b id="mixPrice">$35.99</b><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="fill" type="button">Fill randomly</button><button class="btn main" id="addCase" type="button" disabled>Add case to cart</button></div></div>
+          <div class="bfoot"><b id="mixPrice">$26.99</b><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="fill" type="button">Fill randomly</button><button class="btn main" id="addCase" type="button" disabled>Add case to cart</button></div></div>
         </div>
         <div class="bundle">
           <div><h3>Ready-made</h3><p style="color:var(--soft);margin-top:6px">Picked for you. Every flavor in the box.</p></div>
@@ -313,22 +313,22 @@ const FLAVORS=[
   {id:'vodka-cran',name:'Vodka Cran',mix:'Vodka · cranberry · lime',c:'#ff4058'},
   {id:'whiskey-cola',name:'Whiskey Cola',mix:'Whiskey · cola',c:'#e8955a'}
 ];
-/* Mockup prices. Base single = $3.99; bigger packs drop the per-bottle price. */
+/* Mockup prices. Base single = $2.99 (priced beside hard seltzers and canned cocktails); bigger packs drop the per-bottle price. */
 const PACKS=[
-  {id:'single',name:'Single',n:1,price:3.99,cols:1},
-  {id:'six',name:'Six-pack',n:6,price:19.99,cols:3},
-  {id:'twelve',name:'Twelve',n:12,price:35.99,cols:6},
-  {id:'case',name:'Case of 24',n:24,price:64.99,cols:8}
+  {id:'single',name:'Single',n:1,price:2.99,cols:1},
+  {id:'six',name:'Six-pack',n:6,price:14.99,cols:3},
+  {id:'twelve',name:'Twelve',n:12,price:26.99,cols:6},
+  {id:'case',name:'Case of 24',n:24,price:44.99,cols:8}
 ];
 const BUNDLES=[
-  {id:'sampler',name:'The Sampler',desc:'One of each flavor · 8 bottles',n:8,price:25.99,counts:FLAVORS.map(()=>1)},
-  {id:'party',name:'The Party Case',desc:'Three of each flavor · 24 bottles',n:24,price:64.99,counts:FLAVORS.map(()=>3)},
-  {id:'sparkling',name:'The Fizz Six',desc:'VSL, Gin & Tonic, Paloma · two each',n:6,price:19.99,counts:[2,2,0,0,2,0,0,0]}
+  {id:'sampler',name:'The Sampler',desc:'One of each flavor · 8 bottles',n:8,price:19.99,counts:FLAVORS.map(()=>1)},
+  {id:'party',name:'The Party Case',desc:'Three of each flavor · 24 bottles',n:24,price:44.99,counts:FLAVORS.map(()=>3)},
+  {id:'sparkling',name:'The Fizz Six',desc:'VSL, Gin & Tonic, Paloma · two each',n:6,price:14.99,counts:[2,2,0,0,2,0,0,0]}
 ];
 const money=v=>'$'+v.toFixed(2);
-const TWELVE=PACKS.find(p=>p.n===12), BIGGEST=PACKS[PACKS.length-1];
+const SIX=PACKS.find(p=>p.n===6), TWELVE=PACKS.find(p=>p.n===12), BIGGEST=PACKS[PACKS.length-1];
 const $=id=>document.getElementById(id);
-$('mixPrice').textContent=money(TWELVE.price);$('fromEach').textContent=money(BIGGEST.price/BIGGEST.n);
+$('mixPrice').textContent=money(TWELVE.price);$('sixPrice').textContent=money(SIX.price);$('fromEach').textContent=money(BIGGEST.price/BIGGEST.n);
 let pack=PACKS[1];
 const cart=[]; /* {key,label,detail,qty,price,thumb|dots,c} */
 
