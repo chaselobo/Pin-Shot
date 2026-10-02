@@ -1,6 +1,6 @@
 # PIN SHOT: Higgsfield "cooler" video ad (20 seconds)
 
-A loose prompt for Higgsfield. It sets the story, the bottle and the pin, and leaves camera, cuts and timing to the generator. Set the length to 20 seconds and make a few versions.
+A loose prompt for Higgsfield. It sets the story, the bottle and the pin, and leaves camera, cuts and pacing to the generator. Set the length to 20 seconds and make a few versions.
 
 **Upload to Higgsfield:**
 - The multi-angle PIN SHOT VSL product sheet (the bottle reference)
@@ -14,28 +14,34 @@ A loose prompt for Higgsfield. It sets the story, the bottle and the pin, and le
 - **"PIN SHOT" is two words**, the way it's printed on the bottle.
 - **End-card text:** video models often misspell words. If the "PIN SHOT / PULL, MIX, SHOOT" card comes out garbled, cut it off and add the text in CapCut or Canva, with "21+ only. Please drink responsibly." underneath.
 
+**Fixes after the first Higgsfield run:**
+- The pull invented a second pin instead of pulling the ring that's on the bottle. The prompt now says the ring already sticking out of the cap is the pin, it's the only pin, and the same ring is what comes out.
+- The lid came off with the shot cup still attached. Now only the small top lid flips back on its hinge. The shot cup and the rest of the cap stay on the bottle, and the shot cuts away as soon as the lid pops.
+- The last drinking shot was a sip. It's now a real chug for about two seconds, then a hard cut to the end card.
+
 ## Prompt
 
 ```text
 A realistic, high-energy drinks commercial for PIN SHOT, a single-serve cocktail with a vodka shot sealed inside its cap. Loud, upbeat party music.
 
-PRODUCT: Match the uploaded PIN SHOT product sheet exactly in every shot: a clear, squat bottle with grip ribs at the base and a pale lime-green drink; a label with huge black stacked "PIN SHOT" and "VSL" underneath; a smoked grey cap with a ribbed see-through window showing the clear vodka shot inside; a black latch tab down the right side of the cap; and a copper-orange finger ring on a short stem. The bottle is about the size of a smartphone and fits in one hand.
+PRODUCT: Match the uploaded PIN SHOT product sheet exactly in every shot: a clear, squat bottle with grip ribs at the base and a pale lime-green drink; a label with huge black stacked "PIN SHOT" and "VSL" underneath; a smoked grey cap with a small rounded lid on top, a ribbed see-through window showing a clear shot cup of vodka inside, and a dark band at the bottom; a black latch tab down the right side of the cap; and one copper-orange finger ring sticking out to the right from the bottom of that latch tab. The bottle is about the size of a smartphone and fits in one hand.
 
-THE PIN: Pulling the ring slides the whole pin out of the side of the cap in one piece. As it comes out, the vodka shot drops from the cap down into the lime drink in a swirl of bubbles, and once the pin is free the lid flips up and back on its hinge so you drink from the open cap. The cap stays whole; nothing bursts or breaks.
+THE PIN: The copper-orange ring already on the bottle is the pin. It is the only pin. Its long, straight copper-orange stem is hidden inside the cap. To open, a finger hooks through that exact ring and yanks it straight out to the right; the long stem slides out of the cap after it, and the whole pin comes free in one piece. No new or extra pin ever appears. As the stem slides out, the vodka drops from the shot cup down into the lime drink in a swirl of bubbles. Once the pin is out, only the small top lid snaps up and flips back on its hinge on the left side. The shot cup, the ribbed window, the dark band and the latch tab all stay on the bottle; nothing lifts off with the lid, nothing bursts or breaks. The drink comes out through the open top of the cap.
 
 SETTING AND PEOPLE: The uploaded house party room at night, full of friends. Everyone is a grown adult in their late twenties or older. Character 1 and Character 2 are the people in the uploaded photos; keep their faces recognizable.
 
-STORY: Character 1 reaches into an ice-filled cooler and pulls out a PIN SHOT, ice water dripping off it. He hooks a finger through the copper-orange ring and rips the pin out hard and fast. The shot drops into the drink, the lid pops open, and he holds the pulled pin up for a second, then tips his head back and chugs straight from the open cap. His friends, led by Character 2, notice and light up. They crowd the cooler and grab their own PIN SHOTs, then gather together, rip their pins out at the same time, and the lids pop open all down the line. They clink bottles, tip their heads back and chug them together, then come up laughing and cheering with empty bottles raised.
+STORY: Character 1 reaches into an ice-filled cooler and pulls out a PIN SHOT, ice water dripping off it. Close on the cap: he hooks a finger through the copper-orange ring and rips the pin out hard and fast, the shot drops into the drink, and the lid snaps open. Cut right as the lid pops. Next shot: he raises the bottle and drinks, and his friends, led by Character 2, notice and light up. They crowd the cooler and grab their own PIN SHOTs, then gather together and rip their pins out at the same time, each one the ring already on their bottle, lids snapping open down the line. They clink bottles, tip their heads all the way back with the bottles upside down, and chug hard for about two seconds, a real chug, not a sip. Hard cut straight from the chug to the ending.
 
-ENDING: The party fades to a clean dark end card with "PIN SHOT" in big bold letters and "PULL, MIX, SHOOT" underneath.
+ENDING: A clean dark end card with "PIN SHOT" in big bold letters and "PULL, MIX, SHOOT" underneath.
 
-You choose the camera angles, cuts, pacing and moments of slow motion. Make it feel like a real, polished drinks ad, and make the pin rip the hero shot.
+You choose the camera angles, cuts and moments of slow motion. Make it feel like a real, polished drinks ad, and make the pin rip the hero shot.
 ```
 
 ## If something goes wrong
 
+- **It still invents a pin:** add "Keep the camera on the ring that is already on the bottle the whole time the finger hooks and pulls it." If that doesn't work, start the clip already close on the cap, with the finger through the ring.
+- **The lid still takes the shot cup with it:** add "The open bottle looks exactly like the open view on the product sheet: lid flipped back on the left, clear shot cup still sitting in the cap."
 - **Bottle drifts** (label changes, ring turns gold, the cap looks different): add "The bottle never changes; it matches the uploaded product sheet exactly."
-- **The pin goes wrong** (cap explodes, lid flies off, pin breaks): add "The pin comes out in one piece and the lid only flips back on its hinge."
 - **The crowd looks young:** add "everyone visibly in their late twenties and thirties".
 - **They sip instead of chugging:** add "heads tipped all the way back, bottles upside down, chugging the whole thing in one go".
-- **Too much happens and it feels rushed:** cut the line about the lids popping "all down the line" and let the group pull just happen.
+- **Too much happens and it feels rushed:** cut "lids snapping open down the line" and let the group pull just happen.
